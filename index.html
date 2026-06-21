@@ -1,44 +1,81 @@
-<!DOCTYPE html><html lang="it"><head>
+<!DOCTYPE html>
+<html lang="it"><head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#0f172a">
+<title>MoneyFlow Pro</title>
 <link rel="manifest" href="manifest.json">
-<title>MoneyFlow</title>
 <style>
-body{font-family:-apple-system,sans-serif;background:#0f172a;color:white;max-width:700px;margin:auto;padding:16px}
-.card{background:#1e293b;border-radius:18px;padding:16px;margin:12px 0}
-input,select,button{width:100%;padding:12px;border-radius:12px;border:none;margin:6px 0}
-button{background:#38bdf8;font-weight:bold}
-</style></head><body>
-<h1>💰 MoneyFlow</h1>
+:root{--bg:#0b1020;--card:#151c33;--accent:#7c5cff;--text:#fff;--muted:#a9b0c7;}
+*{box-sizing:border-box} body{margin:0;font-family:-apple-system;background:var(--bg);color:var(--text);padding-bottom:90px}
+.header{padding:20px}.title{font-size:28px;font-weight:700}
+.card{background:var(--card);margin:14px;border-radius:24px;padding:18px;box-shadow:0 10px 25px rgba(0,0,0,.25)}
+.ring{width:140px;height:140px;border-radius:50%;background:conic-gradient(var(--accent) 0deg,#2a335a 0deg);display:flex;align-items:center;justify-content:center;margin:auto}
+.ring div{width:105px;height:105px;border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;font-weight:700}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{background:#0f1530;padding:12px;border-radius:16px}
+input,select,button{width:100%;padding:14px;border-radius:14px;border:none;margin:6px 0}
+input,select{background:#0f1530;color:white}
+button{background:var(--accent);color:white;font-weight:700}
+.tx{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #28304f}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#10172d;display:flex;justify-content:space-around;padding:14px}
+.nav button{width:auto;background:none}
+.page{display:none}.page.active{display:block}
+</style></head>
+<body>
+<div id="home" class="page active">
+<div class="header"><div class="title">💰 MoneyFlow</div></div>
 <div class="card">
 <h3>Budget Mensile</h3>
-<input id="budget" type="number">
-<button onclick="saveBudget()">Salva</button>
+<input id="budget" type="number" placeholder="Budget €">
+<button onclick="saveBudget()">Salva Budget</button>
 </div>
 <div class="card">
-<h3>Nuova Spesa</h3>
-<input id="amount" type="number" placeholder="Importo">
-<select id="cat"><option>🍔 Alimentari</option><option>🚗 Trasporti</option><option>🏠 Casa</option><option>🎮 Svago</option><option>📦 Altro</option></select>
-<button onclick="addExpense()">Aggiungi</button>
+<div class="ring" id="ring"><div><span id="perc">0%</span></div></div>
+<p>Speso: €<span id="spent">0</span></p>
+<p>Residuo: €<span id="remaining">0</span></p>
 </div>
-<div class="card" id="summary"></div>
+<div class="card">
+<h3>Ultime Spese</h3>
+<div id="history"></div>
+</div>
+</div>
+
+<div id="add" class="page">
+<div class="header"><div class="title">➕ Aggiunta Rapida</div></div>
+<div class="card">
+<input id="amount" type="number" placeholder="Importo €">
+<select id="cat">
+<option>🍔 Alimentari</option><option>🚗 Trasporti</option>
+<option>🏠 Casa</option><option>🎮 Svago</option><option>📦 Altro</option>
+</select>
+<button onclick="addExpense()">Salva Spesa</button>
+</div>
+</div>
+
+<div class="nav">
+<button onclick="show('home')">🏠</button>
+<button onclick="show('add')">➕</button>
+</div>
+
 <script>
 const k=new Date().getFullYear()+"-"+(new Date().getMonth()+1);
+function show(id){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');}
 function load(){
-let e=JSON.parse(localStorage.getItem("e_"+k)||"[]");
-let b=+localStorage.getItem("b_"+k)||0;
+let e=JSON.parse(localStorage.getItem('e_'+k)||'[]');
+let b=+localStorage.getItem('b_'+k)||0;
 let t=e.reduce((a,x)=>a+x.amount,0);
-summary.innerHTML=`Budget €${b.toFixed(2)}<br>Speso €${t.toFixed(2)}<br>Residuo €${(b-t).toFixed(2)}`;
+let p=b?Math.min(100,(t/b)*100):0;
+spent.textContent=t.toFixed(2); remaining.textContent=(b-t).toFixed(2); perc.textContent=p.toFixed(0)+'%';
+ring.style.background='conic-gradient(var(--accent) '+(p*3.6)+'deg,#2a335a 0deg)';
+history.innerHTML=e.slice().reverse().map(x=>'<div class=tx><span>'+x.cat+'</span><b>€'+x.amount.toFixed(2)+'</b></div>').join('');
 }
-function saveBudget(){localStorage.setItem("b_"+k,budget.value);load();}
+function saveBudget(){localStorage.setItem('b_'+k,budget.value);load();}
 function addExpense(){
-let e=JSON.parse(localStorage.getItem("e_"+k)||"[]");
-e.push({amount:+amount.value,cat:cat.value});
-localStorage.setItem("e_"+k,JSON.stringify(e));
-amount.value='';load();
+let e=JSON.parse(localStorage.getItem('e_'+k)||'[]');
+e.push({amount:+amount.value,cat:cat.value,date:Date.now()});
+localStorage.setItem('e_'+k,JSON.stringify(e));
+amount.value='';show('home');load();
 }
-if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js');}
 load();
 </script></body></html>
