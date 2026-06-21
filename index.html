@@ -1,142 +1,480 @@
 <!DOCTYPE html>
-<html lang="it"><head>
+<html lang="it">
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>MoneyFlow Pro</title>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>MoneyFlow</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link rel="manifest" href="manifest.json">
 <style>
-:root{--bg:#0b1020;--card:#151c33;--accent:#7c5cff;--text:#fff;}
-*{box-sizing:border-box}
-body{margin:0;font-family:-apple-system;background:var(--bg);color:var(--text);padding-bottom:90px}
-.card{background:var(--card);margin:14px;border-radius:24px;padding:18px}
-.header{padding:20px}.title{font-size:28px;font-weight:700}
-.ring{width:140px;height:140px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:auto;background:conic-gradient(var(--accent) 0deg,#2a335a 0deg)}
-.ring div{width:105px;height:105px;border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center}
-.tx{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #28304f}
-input,select,button{width:100%;padding:14px;border:none;border-radius:14px;margin:6px 0}
-input,select{background:#0f1530;color:white}
-button{background:var(--accent);color:white;font-weight:bold}
-.nav{position:fixed;bottom:0;left:0;right:0;background:#10172d;display:flex;justify-content:space-around;padding:12px}
-.nav button{width:auto;background:none;color:white}
-.page{display:none}.active{display:block}
-</style></head>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --glass:rgba(255,255,255,0.08);
+  --glass-strong:rgba(255,255,255,0.13);
+  --glass-border:rgba(255,255,255,0.18);
+  --glass-inner:rgba(255,255,255,0.06);
+  --accent:#0A84FF;
+  --accent2:#30D158;
+  --danger:#FF453A;
+  --warn:#FF9F0A;
+  --text:#fff;
+  --muted:rgba(255,255,255,0.55);
+  --muted2:rgba(255,255,255,0.35);
+}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif;
+  background:#0a0e1a;
+  min-height:100vh;
+  color:var(--text);
+  padding-bottom:100px;
+  overflow-x:hidden;
+}
+body::before{
+  content:'';
+  position:fixed;
+  top:-200px;left:-100px;right:-100px;bottom:-200px;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 20%, rgba(10,132,255,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 35% at 80% 70%, rgba(48,209,88,0.10) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 30% at 60% 10%, rgba(191,90,242,0.12) 0%, transparent 50%);
+  z-index:0;pointer-events:none;
+}
+.page{display:none;position:relative;z-index:1}
+.page.active{display:block}
+
+.glass-card{
+  margin:10px 14px;
+  background:var(--glass);
+  border:0.5px solid var(--glass-border);
+  border-radius:28px;
+  padding:20px;
+  position:relative;
+  overflow:hidden;
+  -webkit-backdrop-filter:blur(20px);
+  backdrop-filter:blur(20px);
+}
+.glass-card::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent);
+}
+
+.header{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:60px 20px 10px;
+}
+.logo{font-size:30px;font-weight:700;letter-spacing:-0.5px}
+.logo span{color:var(--accent)}
+.btn-reset{
+  width:42px;height:42px;border-radius:50%;
+  background:rgba(255,69,58,0.18);
+  border:0.5px solid rgba(255,69,58,0.35);
+  color:#FF453A;font-size:15px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+}
+
+.ring-wrap{
+  display:flex;flex-direction:column;align-items:center;
+  padding:10px 0 16px;
+}
+.ring-outer{
+  width:160px;height:160px;border-radius:50%;
+  position:relative;
+  display:flex;align-items:center;justify-content:center;
+}
+.ring-svg{position:absolute;top:0;left:0}
+.ring-inner{
+  width:118px;height:118px;border-radius:50%;
+  background:rgba(10,14,26,0.7);
+  border:0.5px solid var(--glass-border);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  position:relative;z-index:2;
+}
+.ring-perc{font-size:26px;font-weight:700;letter-spacing:-1px}
+.ring-label{font-size:11px;color:var(--muted);margin-top:1px;letter-spacing:0.3px}
+.ring-stats{display:flex;gap:28px;margin-top:16px}
+.stat-item{text-align:center}
+.stat-val{font-size:18px;font-weight:600;letter-spacing:-0.3px}
+.stat-key{font-size:11px;color:var(--muted);margin-top:1px}
+
+.chip{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:4px 10px;border-radius:20px;
+  font-size:12px;font-weight:500;
+}
+.chip.ok{background:rgba(48,209,88,0.15);color:#30D158;border:0.5px solid rgba(48,209,88,0.3)}
+.chip.warn{background:rgba(255,159,10,0.15);color:#FF9F0A;border:0.5px solid rgba(255,159,10,0.3)}
+.chip.danger{background:rgba(255,69,58,0.15);color:#FF453A;border:0.5px solid rgba(255,69,58,0.3)}
+
+.tx-row{
+  display:flex;align-items:center;gap:12px;
+  padding:11px 0;
+  border-bottom:0.5px solid rgba(255,255,255,0.07);
+}
+.tx-row:last-child{border-bottom:none}
+.tx-icon{
+  width:36px;height:36px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;flex-shrink:0;
+}
+.tx-info{flex:1;min-width:0}
+.tx-cat{font-size:14px;font-weight:500}
+.tx-date{font-size:11px;color:var(--muted);margin-top:1px}
+.tx-amount{font-size:15px;font-weight:600}
+.section-title{
+  font-size:13px;font-weight:600;
+  color:var(--muted);text-transform:uppercase;letter-spacing:0.8px;
+  margin-bottom:12px;
+}
+
+.field-label{font-size:12px;color:var(--muted);font-weight:500;letter-spacing:0.3px;margin-bottom:6px}
+.glass-input{
+  width:100%;padding:14px 16px;
+  background:rgba(255,255,255,0.06);
+  border:0.5px solid rgba(255,255,255,0.14);
+  border-radius:16px;color:#fff;font-size:16px;
+  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+  outline:none;margin-bottom:14px;
+  transition:border-color .2s,background .2s;
+  -webkit-appearance:none;
+}
+.glass-input:focus{
+  background:rgba(255,255,255,0.10);
+  border-color:rgba(10,132,255,0.5);
+}
+.glass-input::placeholder{color:var(--muted2)}
+
+.cat-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;
+  margin-bottom:14px;
+}
+.cat-btn{
+  padding:10px 6px;border-radius:14px;
+  background:rgba(255,255,255,0.06);
+  border:0.5px solid rgba(255,255,255,0.12);
+  color:var(--muted);font-size:12px;font-weight:500;
+  text-align:center;cursor:pointer;
+  transition:all .15s;
+}
+.cat-btn:active{transform:scale(0.96)}
+.cat-btn.selected{
+  background:rgba(10,132,255,0.2);
+  border-color:rgba(10,132,255,0.5);
+  color:#fff;
+}
+.cat-btn .cat-icon{display:block;font-size:20px;margin-bottom:4px}
+
+.btn-primary{
+  width:100%;padding:16px;border-radius:20px;
+  background:var(--accent);
+  border:none;color:#fff;font-size:16px;font-weight:600;
+  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+  cursor:pointer;letter-spacing:0.2px;
+  transition:opacity .15s,transform .1s;
+  -webkit-appearance:none;
+}
+.btn-primary:active{opacity:.85;transform:scale(0.98)}
+
+.budget-row{display:flex;gap:10px;align-items:center}
+.budget-row .glass-input{margin-bottom:0;flex:1}
+.btn-small{
+  padding:14px 18px;border-radius:16px;
+  background:var(--accent);border:none;color:#fff;
+  font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;
+  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+}
+
+.filter-wrap{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.filter-chip{
+  padding:6px 14px;border-radius:20px;
+  background:rgba(255,255,255,0.06);
+  border:0.5px solid rgba(255,255,255,0.12);
+  color:var(--muted);font-size:13px;font-weight:500;cursor:pointer;
+}
+.filter-chip.active{
+  background:rgba(10,132,255,0.2);
+  border-color:rgba(10,132,255,0.4);color:#fff;
+}
+.total-banner{
+  text-align:center;padding:14px;
+  background:rgba(10,132,255,0.08);
+  border:0.5px solid rgba(10,132,255,0.2);
+  border-radius:18px;margin-bottom:14px;
+}
+.total-banner .big{font-size:28px;font-weight:700;letter-spacing:-1px}
+.total-banner .sub{font-size:12px;color:var(--muted);margin-top:2px}
+
+.nav-bar{
+  position:fixed;bottom:16px;left:16px;right:16px;
+  height:68px;
+  background:rgba(20,24,40,0.82);
+  -webkit-backdrop-filter:blur(24px);
+  backdrop-filter:blur(24px);
+  border:0.5px solid rgba(255,255,255,0.15);
+  border-radius:28px;
+  display:flex;align-items:center;justify-content:space-around;
+  z-index:100;
+}
+.nav-bar::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);
+  border-radius:28px 28px 0 0;
+}
+.nav-item{
+  display:flex;flex-direction:column;align-items:center;
+  gap:3px;padding:8px 20px;cursor:pointer;
+  color:var(--muted2);font-size:10px;font-weight:500;
+  transition:color .15s;
+  background:none;border:none;
+}
+.nav-item.active,.nav-item:hover{color:#fff}
+.nav-item i{font-size:20px}
+.nav-item.nav-add{
+  width:50px;height:50px;border-radius:50%;
+  background:var(--accent);
+  color:#fff;font-size:22px;
+  box-shadow:0 4px 20px rgba(10,132,255,0.45);
+  flex-direction:row;gap:0;padding:0;
+  display:flex;align-items:center;justify-content:center;
+  border:none;cursor:pointer;
+}
+
+.cat-food{background:rgba(255,159,10,0.18);color:#FF9F0A}
+.cat-transport{background:rgba(10,132,255,0.18);color:#5AC8FA}
+.cat-house{background:rgba(48,209,88,0.18);color:#30D158}
+.cat-fun{background:rgba(191,90,242,0.18);color:#BF5AF2}
+.cat-other{background:rgba(255,255,255,0.10);color:rgba(255,255,255,0.7)}
+
+.empty{color:var(--muted);font-size:14px;text-align:center;padding:16px 0}
+</style>
+</head>
 <body>
 
+<!-- HOME -->
 <div id="home" class="page active">
-<div class="header" style="display:flex;justify-content:space-between;align-items:center">
-<div class="title">MoneyFlow</div>
-<button id="resetBtn" onclick="resetData()" style="width:44px;background:#ff4d4d"><i class="fas fa-trash"></i></button>
+  <div class="header">
+    <div class="logo">Money<span>Flow</span></div>
+    <button class="btn-reset" onclick="resetData()"><i class="fas fa-trash-can"></i></button>
+  </div>
+
+  <div class="glass-card">
+    <div class="section-title">Budget mensile</div>
+    <div class="budget-row">
+      <input id="budget" type="number" class="glass-input" placeholder="€ 0,00" inputmode="decimal">
+      <button class="btn-small" onclick="saveBudget()">Salva</button>
+    </div>
+  </div>
+
+  <div class="glass-card">
+    <div class="ring-wrap">
+      <div class="ring-outer">
+        <svg class="ring-svg" width="160" height="160" viewBox="0 0 160 160">
+          <circle cx="80" cy="80" r="68" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="14"/>
+          <circle id="ringArc" cx="80" cy="80" r="68" fill="none" stroke="#0A84FF"
+            stroke-width="14" stroke-linecap="round"
+            stroke-dasharray="0 427" stroke-dashoffset="107"
+            transform="rotate(-90 80 80)"
+            style="transition:stroke-dasharray .6s cubic-bezier(.4,0,.2,1),stroke .4s"/>
+        </svg>
+        <div class="ring-inner">
+          <div class="ring-perc" id="perc">0%</div>
+          <div class="ring-label">USATO</div>
+        </div>
+      </div>
+      <div class="ring-stats">
+        <div class="stat-item">
+          <div class="stat-val" id="spent">€ 0</div>
+          <div class="stat-key">Speso</div>
+        </div>
+        <div class="stat-item" style="border-left:0.5px solid rgba(255,255,255,0.1);padding-left:28px">
+          <div class="stat-val" id="remaining">€ 0</div>
+          <div class="stat-key">Residuo</div>
+        </div>
+      </div>
+      <div style="margin-top:10px" id="statusChip"></div>
+    </div>
+  </div>
+
+  <div class="glass-card">
+    <div class="section-title">Ultime spese</div>
+    <div id="last3"><div class="empty">Nessuna spesa ancora</div></div>
+  </div>
 </div>
 
-<div class="card">
-<h3>Budget Mensile</h3>
-<input id="budget" type="number" placeholder="Budget €">
-<button onclick="saveBudget()">Salva Budget</button>
-</div>
-
-<div class="card">
-<div class="ring" id="ring"><div><span id="perc">0%</span></div></div>
-<p>Speso: €<span id="spent">0</span></p>
-<p id="remainingBox">Residuo: <span id="warning" style="display:none;color:#ff4d4d">🔺</span> €<span id="remaining">0</span></p>
-</div>
-
-<div class="card">
-<h3>Ultime 3 Spese</h3>
-<div id="last3"></div>
-</div>
-</div>
-
+<!-- ADD -->
 <div id="add" class="page">
-<div class="header"><div class="title">➕ Aggiunta Rapida</div></div>
-<div class="card">
-<input id="amount" type="number" placeholder="Importo €">
-<select id="cat">
-<option>🍔 Alimentari</option>
-<option>🚗 Trasporti</option>
-<option>🏠 Casa</option>
-<option>🎮 Svago</option>
-<option>📦 Altro</option>
-</select>
-<button onclick="addExpense()">Salva Spesa</button>
-</div>
+  <div class="header">
+    <div class="logo">Nuova <span>Spesa</span></div>
+  </div>
+  <div class="glass-card">
+    <div class="field-label">Importo</div>
+    <input id="amount" type="number" class="glass-input" placeholder="€ 0,00" inputmode="decimal">
+    <div class="field-label">Categoria</div>
+    <div class="cat-grid" id="catGrid">
+      <div class="cat-btn selected" data-cat="Alimentari" onclick="selectCat(this)"><span class="cat-icon">🛒</span>Alimentari</div>
+      <div class="cat-btn" data-cat="Trasporti" onclick="selectCat(this)"><span class="cat-icon">🚌</span>Trasporti</div>
+      <div class="cat-btn" data-cat="Casa" onclick="selectCat(this)"><span class="cat-icon">🏠</span>Casa</div>
+      <div class="cat-btn" data-cat="Svago" onclick="selectCat(this)"><span class="cat-icon">🎮</span>Svago</div>
+      <div class="cat-btn" data-cat="Altro" onclick="selectCat(this)"><span class="cat-icon">📦</span>Altro</div>
+    </div>
+    <button class="btn-primary" onclick="addExpense()">Aggiungi Spesa</button>
+  </div>
 </div>
 
+<!-- HISTORY -->
 <div id="historyPage" class="page">
-<div class="header"><div class="title">📋 Cronologia</div></div>
-<div class="card">
-<div id="historyList"></div>
-</div>
+  <div class="header">
+    <div class="logo">Crono<span>logia</span></div>
+  </div>
+  <div class="glass-card">
+    <div class="total-banner">
+      <div class="big" id="categoryTotal">€ 0,00</div>
+      <div class="sub" id="categoryLabel">Tutte le categorie</div>
+    </div>
+    <div class="filter-wrap" id="filterChips">
+      <div class="filter-chip active" data-cat="all" onclick="filterExp(this)">Tutte</div>
+      <div class="filter-chip" data-cat="Alimentari" onclick="filterExp(this)">🛒 Alimentari</div>
+      <div class="filter-chip" data-cat="Trasporti" onclick="filterExp(this)">🚌 Trasporti</div>
+      <div class="filter-chip" data-cat="Casa" onclick="filterExp(this)">🏠 Casa</div>
+      <div class="filter-chip" data-cat="Svago" onclick="filterExp(this)">🎮 Svago</div>
+      <div class="filter-chip" data-cat="Altro" onclick="filterExp(this)">📦 Altro</div>
+    </div>
+  </div>
+  <div class="glass-card">
+    <div id="historyList"><div class="empty">Nessuna spesa ancora</div></div>
+  </div>
 </div>
 
-<div class="nav">
-<button onclick="show('home')"><i class="fas fa-house"></i></button>
-<button onclick="show('add')"><i class="fas fa-plus"></i></button>
-<button onclick="show('historyPage')"><i class="fas fa-clock-rotate-left"></i></button>
+<!-- NAV -->
+<div class="nav-bar">
+  <button class="nav-item active" id="nav-home" onclick="show('home','nav-home')">
+    <i class="fas fa-house"></i>Home
+  </button>
+  <button class="nav-item nav-add" id="nav-add" onclick="show('add','nav-add')">
+    <i class="fas fa-plus"></i>
+  </button>
+  <button class="nav-item" id="nav-hist" onclick="show('historyPage','nav-hist')">
+    <i class="fas fa-chart-pie"></i>Storico
+  </button>
 </div>
 
 <script>
 const k=new Date().getFullYear()+"-"+(new Date().getMonth()+1);
+const catIcons={Alimentari:'🛒',Trasporti:'🚌',Casa:'🏠',Svago:'🎮',Altro:'📦'};
+const catClass={Alimentari:'cat-food',Trasporti:'cat-transport',Casa:'cat-house',Svago:'cat-fun',Altro:'cat-other'};
+let selectedCat='Alimentari';
+let currentFilter='all';
 
-function show(id){
-document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-document.getElementById(id).classList.add('active');
+function show(id,navId){
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));
+  if(navId) document.getElementById(navId).classList.add('active');
+  if(id==='historyPage') renderHistory();
+}
+
+function getExp(){return JSON.parse(localStorage.getItem('e_'+k)||'[]')}
+function getBudget(){return +localStorage.getItem('b_'+k)||0}
+function fmtMoney(n){return '€\u00a0'+n.toFixed(2).replace('.',',')}
+
+function selectCat(el){
+  document.querySelectorAll('.cat-btn').forEach(x=>x.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedCat=el.dataset.cat;
 }
 
 function load(){
-let e=JSON.parse(localStorage.getItem('e_'+k)||'[]');
-let b=+localStorage.getItem('b_'+k)||0;
-let t=e.reduce((a,x)=>a+x.amount,0);
-let residuo=b-t;
-let p=b?Math.min(100,(t/b)*100):0;
+  const e=getExp();
+  const b=getBudget();
+  const t=e.reduce((a,x)=>a+x.amount,0);
+  const residuo=b-t;
+  const pct=b?Math.min(100,t/b*100):0;
+  const circ=2*Math.PI*68;
+  const arc=circ*pct/100;
 
-spent.textContent=t.toFixed(2);
-remaining.textContent=residuo.toFixed(2);
-perc.textContent=p.toFixed(0)+'%';
+  document.getElementById('perc').textContent=pct.toFixed(0)+'%';
+  document.getElementById('spent').textContent=fmtMoney(t);
+  document.getElementById('remaining').textContent=fmtMoney(residuo);
 
-if(residuo<=100 && residuo>0){
-warning.innerHTML='🔴'; warning.style.display='inline';
-}else if(residuo<=300 && residuo>0){
-warning.innerHTML='🔺'; warning.style.display='inline';
-}else{
-warning.style.display='none';
+  const ring=document.getElementById('ringArc');
+  ring.setAttribute('stroke-dasharray',arc+' '+circ);
+  ring.setAttribute('stroke',pct>=90?'#FF453A':pct>=70?'#FF9F0A':'#0A84FF');
+
+  const chip=document.getElementById('statusChip');
+  if(!b){chip.innerHTML='';}
+  else if(residuo<=0){chip.innerHTML='<span class="chip danger"><i class="fas fa-circle-exclamation"></i> Budget esaurito</span>';}
+  else if(residuo<=100){chip.innerHTML='<span class="chip danger"><i class="fas fa-triangle-exclamation"></i> Quasi al limite</span>';}
+  else if(residuo<=300){chip.innerHTML='<span class="chip warn"><i class="fas fa-triangle-exclamation"></i> Attenzione</span>';}
+  else{chip.innerHTML='<span class="chip ok"><i class="fas fa-circle-check"></i> Nei limiti</span>';}
+
+  const l3=document.getElementById('last3');
+  const last=e.slice().reverse().slice(0,3);
+  if(!last.length){l3.innerHTML='<div class="empty">Nessuna spesa ancora</div>';return;}
+  l3.innerHTML=last.map(x=>{
+    const d=new Date(x.date);
+    const ds=d.getDate().toString().padStart(2,'0')+'/'+(d.getMonth()+1).toString().padStart(2,'0');
+    return `<div class="tx-row">
+      <div class="tx-icon ${catClass[x.cat]||'cat-other'}">${catIcons[x.cat]||'📦'}</div>
+      <div class="tx-info"><div class="tx-cat">${x.cat}</div><div class="tx-date">${ds}</div></div>
+      <div class="tx-amount">${fmtMoney(x.amount)}</div>
+    </div>`;
+  }).join('');
 }
 
-ring.style.background='conic-gradient(var(--accent) '+(p*3.6)+'deg,#2a335a 0deg)';
-
-last3.innerHTML=e.slice().reverse().slice(0,3)
-.map(x=>'<div class="tx"><span>'+x.cat+'</span><b>€'+x.amount.toFixed(2)+'</b></div>').join('');
-
-document.getElementById('historyList').innerHTML=e.slice().reverse()
-.map(x=>'<div class="tx"><span>'+x.cat+'</span><b>€'+x.amount.toFixed(2)+'</b></div>').join('');
+function renderHistory(){
+  const all=getExp();
+  const e=currentFilter==='all'?all:all.filter(x=>x.cat===currentFilter);
+  const total=e.reduce((s,x)=>s+x.amount,0);
+  document.getElementById('categoryTotal').textContent=fmtMoney(total);
+  document.getElementById('categoryLabel').textContent=currentFilter==='all'?'Tutte le categorie':currentFilter;
+  const hl=document.getElementById('historyList');
+  if(!e.length){hl.innerHTML='<div class="empty">Nessuna spesa</div>';return;}
+  hl.innerHTML=e.slice().reverse().map(x=>{
+    const d=new Date(x.date);
+    const ds=d.getDate().toString().padStart(2,'0')+'/'+(d.getMonth()+1).toString().padStart(2,'0');
+    return `<div class="tx-row">
+      <div class="tx-icon ${catClass[x.cat]||'cat-other'}">${catIcons[x.cat]||'📦'}</div>
+      <div class="tx-info"><div class="tx-cat">${x.cat}</div><div class="tx-date">${ds}</div></div>
+      <div class="tx-amount">${fmtMoney(x.amount)}</div>
+    </div>`;
+  }).join('');
 }
 
-function saveBudget(){
-localStorage.setItem('b_'+k,budget.value);
-load();
+function filterExp(el){
+  document.querySelectorAll('.filter-chip').forEach(x=>x.classList.remove('active'));
+  el.classList.add('active');
+  currentFilter=el.dataset.cat;
+  renderHistory();
 }
 
 function addExpense(){
-let amountValue=parseFloat(document.getElementById('amount').value);
-if(isNaN(amountValue)) return;
-
-let e=JSON.parse(localStorage.getItem('e_'+k)||'[]');
-e.push({amount:amountValue,cat:cat.value,date:Date.now()});
-localStorage.setItem('e_'+k,JSON.stringify(e));
-
-amount.value='';
-show('home');
-load();
+  const v=parseFloat(document.getElementById('amount').value);
+  if(isNaN(v)||v<=0) return;
+  const e=getExp();
+  e.push({amount:v,cat:selectedCat,date:Date.now()});
+  localStorage.setItem('e_'+k,JSON.stringify(e));
+  document.getElementById('amount').value='';
+  show('home','nav-home');
+  load();
 }
 
+function saveBudget(){
+  const v=parseFloat(document.getElementById('budget').value);
+  if(!isNaN(v)) localStorage.setItem('b_'+k,v);
+  load();
+}
 
 function resetData(){
- if(confirm('Eliminare tutte le spese del mese?')){
-   localStorage.removeItem('e_'+k);
-   load();
- }
+  if(confirm('Eliminare tutte le spese del mese?')){
+    localStorage.removeItem('e_'+k);
+    load();
+  }
 }
+
 load();
 </script>
-</body></html>
+</body>
+</html>
