@@ -96,7 +96,7 @@ body::before{
 /* TX ROW con swipe */
 .tx-wrap{position:relative;overflow:hidden;border-radius:16px;margin:0 -4px}
 .tx-delete-bg{
-  position:absolute;right:0;top:0;bottom:0;width:80px;
+  position:absolute;right:0;top:0;bottom:0;width:40px;
   background:rgba(255,69,58,.85);display:flex;align-items:center;justify-content:center;
   color:#fff;font-size:18px;border-radius:16px;
 }
@@ -114,9 +114,18 @@ body::before{
 .tx-sub{font-size:11px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tx-amount{font-size:15px;font-weight:600;flex-shrink:0}
 .tx-edit-btn{
-  width:30px;height:30px;border-radius:10px;flex-shrink:0;
-  background:rgba(10,132,255,.15);border:0.5px solid rgba(10,132,255,.3);
-  color:#0A84FF;font-size:13px;display:flex;align-items:center;justify-content:center;cursor:pointer;
+  width:38px;
+  height:38px;
+  border-radius:12px;
+  flex-shrink:0;
+  background:rgba(10,132,255,.15);
+  border:1px solid rgba(10,132,255,.3);
+  color:#0A84FF;
+  font-size:15px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
 }
 .section-title{font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px}
 
@@ -331,7 +340,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
     <div class="logo">Money<span>Flow</span></div>
     <div class="header-actions">
       <button class="btn-icon blue" onclick="exportCSV()" title="Esporta CSV"><i class="fas fa-download"></i></button>
-      <!-- <button class="btn-icon red" onclick="resetData()" title="Reset"><i class="fas fa-trash-can"></i></button> -->
+     <!-- <button class="btn-icon red" onclick="resetData()" title="Reset"><i class="fas fa-trash-can"></i></button> -->
     </div>
   </div>
 
@@ -681,27 +690,46 @@ function renderCatChart(expenses,containerId){
 }
 
 /* ═══════════ TX ROW ═══════════ */
-function txRow(x,editable){
-  const d=new Date(x.date);
-  const ds=d.getDate().toString().padStart(2,'0')+'/'+(d.getMonth()+1).toString().padStart(2,'0');
-  const sub=x.desc?x.desc:ds;
-  const recBadge=x.recurring?'<span class="recurring-badge">↻ ricorrente</span>':'';
-  const editBtn=editable
-    ?`<div class="tx-edit-btn" onclick="openSheet(${x.date})"><i class="fas fa-pencil"></i></div>`:'';
-  return `<div class="tx-wrap">
-    <div class="tx-delete-bg"><i class="fas fa-trash-can"></i></div>
-    <div class="tx-row" data-date="${x.date}" ontouchstart="swipeStart(event,this)" ontouchmove="swipeMove(event,this)" ontouchend="swipeEnd(event,this,${editable})">
-      <div class="tx-icon ${catClass[x.cat]||'cat-other'}">${catIcons[x.cat]||'📦'}</div>
-      <div class="tx-info">
-        <div class="tx-cat">${x.cat}${recBadge}</div>
-        <div class="tx-sub">${sub}</div>
+function txRow(x, editable){
+  const d = new Date(x.date);
+  const ds = d.getDate().toString().padStart(2,'0') + '/' +
+             (d.getMonth()+1).toString().padStart(2,'0');
+
+  const sub = x.desc ? x.desc : ds;
+
+  const recBadge = x.recurring
+    ? '<span class="recurring-badge">↻ ricorrente</span>'
+    : '';
+
+  const editBtn = editable
+    ? `<div class="tx-edit-btn" onclick="openSheet(${x.date})">
+         <i class="fas fa-pencil"></i>
+       </div>`
+    : '';
+
+  return `
+    <div class="tx-row" data-date="${x.date}">
+      <div class="tx-icon ${catClass[x.cat] || 'cat-other'}">
+        ${catIcons[x.cat] || '📦'}
       </div>
-      <div class="tx-amount">${fmtMoney(x.amount)}</div>
+
+      <div class="tx-info">
+        <div class="tx-cat">
+          ${x.cat}${recBadge}
+        </div>
+        <div class="tx-sub">
+          ${sub}
+        </div>
+      </div>
+
+      <div class="tx-amount">
+        ${fmtMoney(x.amount)}
+      </div>
+
       ${editBtn}
     </div>
-  </div>`;
+  `;
 }
-
 /* ═══════════ SWIPE TO DELETE ═══════════ */
 let swipeStartX=0;
 function swipeStart(e,el){swipeStartX=e.touches[0].clientX}
