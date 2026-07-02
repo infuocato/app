@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<link rel="icon" type="image/png" href="favicon.png">
-<link rel="apple-touch-icon" href="favicon.png">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0a0e1a">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="/favicon.png">
 <link rel="apple-touch-icon" href="https://via.placeholder.com/180x180/0A84FF/fff?text=MF">
 <title>MoneyFlow</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -254,6 +254,52 @@ body::before{
 input[type=range]{-webkit-appearance:none;width:100%;height:4px;border-radius:2px;background:rgba(255,255,255,.15);outline:none;margin:10px 0}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--warn);cursor:pointer;box-shadow:0 2px 8px rgba(255,159,10,.4)}
 
+/* ── TUTORIAL ── */
+.tut-tabs{display:flex;gap:8px;margin-bottom:16px}
+.tut-tab{
+  flex:1;padding:10px 6px;border-radius:14px;text-align:center;font-size:13px;font-weight:600;cursor:pointer;
+  background:rgba(255,255,255,.06);border:0.5px solid rgba(255,255,255,.12);color:var(--muted);transition:all .2s;
+}
+.tut-tab.active{background:rgba(10,132,255,.2);border-color:rgba(10,132,255,.45);color:#fff}
+.tut-tab .tut-tab-icon{display:block;font-size:20px;margin-bottom:3px}
+
+.tut-panel{display:none}.tut-panel.active{display:block}
+
+.tut-steps{display:flex;flex-direction:column;gap:0}
+.tut-step{
+  display:flex;gap:14px;align-items:flex-start;
+  padding:16px 0;border-bottom:0.5px solid rgba(255,255,255,.07);
+  opacity:0;transform:translateY(12px);
+  transition:opacity .4s ease,transform .4s ease;
+}
+.tut-step:last-child{border-bottom:none}
+.tut-step.visible{opacity:1;transform:translateY(0)}
+.tut-step-num{
+  width:28px;height:28px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;margin-top:2px;
+}
+.tut-step-num.safari{background:rgba(10,132,255,.2);border:0.5px solid rgba(10,132,255,.4);color:#0A84FF}
+.tut-step-num.chrome{background:rgba(48,209,88,.2);border:0.5px solid rgba(48,209,88,.4);color:#30D158}
+.tut-step-body{flex:1;min-width:0}
+.tut-step-title{font-size:14px;font-weight:600;margin-bottom:3px}
+.tut-step-desc{font-size:12px;color:var(--muted);line-height:1.5}
+
+.tut-mockup{
+  margin:14px 0 6px;border-radius:16px;
+  background:rgba(255,255,255,.04);border:0.5px solid rgba(255,255,255,.10);
+  overflow:hidden;
+}
+.tut-mockup svg{display:block;width:100%}
+
+.tut-tip{
+  display:flex;align-items:flex-start;gap:8px;
+  margin-top:14px;padding:12px 14px;
+  background:rgba(10,132,255,.08);border:0.5px solid rgba(10,132,255,.2);border-radius:14px;
+  font-size:12px;color:var(--muted);line-height:1.5;
+}
+.tut-tip i{color:#0A84FF;margin-top:1px;flex-shrink:0}
+
 /* NAV */
 .nav-bar{
   position:fixed;bottom:16px;left:16px;right:16px;height:68px;
@@ -498,10 +544,198 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
     <div class="section-title">Spese ricorrenti</div>
     <div id="recurringList"><div class="empty">Nessuna spesa ricorrente</div></div>
   </div>
+  <!-- TUTORIAL -->
   <div class="glass-card">
-    <div class="settings-row">
-      <div>
-        <div class="settings-label">Elimina tutti i dati</div>
+    <div class="section-title">📲 Aggiungi alla schermata Home</div>
+    <div class="tut-tabs">
+      <div class="tut-tab active" onclick="switchTutTab('safari',this)">
+        <span class="tut-tab-icon">🧭</span>Safari
+      </div>
+      <div class="tut-tab" onclick="switchTutTab('chrome',this)">
+        <span class="tut-tab-icon">🌐</span>Chrome
+      </div>
+    </div>
+
+    <!-- SAFARI -->
+    <div class="tut-panel active" id="tut-safari">
+      <div class="tut-steps" id="tut-safari-steps">
+
+        <div class="tut-step">
+          <div class="tut-step-num safari">1</div>
+          <div class="tut-step-body">
+            <div class="tut-step-title">Apri MoneyFlow in Safari</div>
+            <div class="tut-step-desc">Assicurati di usare Safari come browser. Chrome e altri browser non supportano l'installazione come app su iPhone.</div>
+          </div>
+        </div>
+
+        <div class="tut-step">
+          <div class="tut-step-num safari">2</div>
+          <div class="tut-step-body">
+            <div class="tut-step-title">Tocca il pulsante Condividi</div>
+            <div class="tut-step-desc">In basso al centro trovi l'icona con la freccia verso l'alto. Toccala per aprire il menu di condivisione.</div>
+            <div class="tut-mockup">
+              <svg viewBox="0 0 320 90" xmlns="http://www.w3.org/2000/svg">
+                <rect width="320" height="90" fill="#1a1f35"/>
+                <!-- Barra Safari bottom -->
+                <rect x="10" y="12" width="300" height="36" rx="12" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.12)" stroke-width="0.5"/>
+                <text x="160" y="35" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="11" font-family="-apple-system,sans-serif">moneyflow.app</text>
+                <!-- icons bottom bar -->
+                <text x="30" y="72" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="18" font-family="-apple-system,sans-serif">‹</text>
+                <text x="80" y="72" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="18" font-family="-apple-system,sans-serif">›</text>
+                <!-- Share button highlighted -->
+                <rect x="140" y="56" width="40" height="30" rx="8" fill="rgba(10,132,255,0.25)" stroke="rgba(10,132,255,0.6)" stroke-width="1"/>
+                <text x="160" y="76" text-anchor="middle" fill="#0A84FF" font-size="16" font-family="-apple-system,sans-serif">⬆</text>
+                <text x="230" y="72" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="16" font-family="-apple-system,sans-serif">⧉</text>
+                <text x="280" y="72" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="16" font-family="-apple-system,sans-serif">≡</text>
+                <!-- label -->
+                <text x="160" y="50" text-anchor="middle" fill="#0A84FF" font-size="9" font-family="-apple-system,sans-serif" font-weight="600">TOCCA QUI</text>
+                <line x1="160" y1="52" x2="160" y2="56" stroke="#0A84FF" stroke-width="1" stroke-dasharray="2,1"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="tut-step">
+          <div class="tut-step-num safari">3</div>
+          <div class="tut-step-body">
+            <div class="tut-step-title">Scorri e tocca "Aggiungi a schermata Home"</div>
+            <div class="tut-step-desc">Nel menu che appare dal basso, scorri le opzioni fino a trovare questa voce con l'icona del quadrato con il "+". Toccala.</div>
+            <div class="tut-mockup">
+              <svg viewBox="0 0 320 130" xmlns="http://www.w3.org/2000/svg">
+                <rect width="320" height="130" fill="#1a1f35"/>
+                <!-- Sheet -->
+                <rect x="0" y="20" width="320" height="110" rx="0" fill="#252d45"/>
+                <rect x="125" y="26" width="70" height="4" rx="2" fill="rgba(255,255,255,0.2)"/>
+                <!-- options -->
+                <rect x="14" y="42" width="292" height="40" rx="13" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+                <text x="42" y="57" fill="rgba(255,255,255,0.5)" font-size="11" font-family="-apple-system,sans-serif">✈️</text>
+                <text x="62" y="57" fill="rgba(255,255,255,0.5)" font-size="11" font-family="-apple-system,sans-serif">AirDrop</text>
+                <text x="42" y="73" fill="rgba(255,255,255,0.5)" font-size="11" font-family="-apple-system,sans-serif">💬</text>
+                <text x="62" y="73" fill="rgba(255,255,255,0.5)" font-size="11" font-family="-apple-system,sans-serif">Messaggi</text>
+                <!-- highlighted row -->
+                <rect x="14" y="88" width="292" height="36" rx="13" fill="rgba(10,132,255,0.18)" stroke="rgba(10,132,255,0.5)" stroke-width="0.8"/>
+                <rect x="26" y="96" width="20" height="20" rx="6" fill="rgba(10,132,255,0.3)" stroke="rgba(10,132,255,0.5)" stroke-width="0.5"/>
+                <text x="36" y="110" text-anchor="middle" fill="#0A84FF" font-size="13" font-family="-apple-system,sans-serif">+</text>
+                <text x="56" y="110" fill="#fff" font-size="12" font-weight="600" font-family="-apple-system,sans-serif">Aggiungi a schermata Home</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="tut-step">
+          <div class="tut-step-num safari">4</div>
+          <div class="tut-step-body">
+            <div class="tut-step-title">Conferma con "Aggiungi"</div>
+            <div class="tut-step-desc">Apparirà un'anteprima con il nome dell'app. Tocca "Aggiungi" in alto a destra per completare l'installazione.</div>
+            <div class="tut-mockup">
+              <svg viewBox="0 0 320 100" xmlns="http://www.w3.org/2000/svg">
+                <rect width="320" height="100" fill="#1a1f35"/>
+                <rect x="0" y="0" width="320" height="100" fill="#252d45"/>
+                <text x="20" y="28" fill="rgba(255,255,255,0.45)" font-size="13" font-family="-apple-system,sans-serif">Annulla</text>
+                <text x="160" y="28" text-anchor="middle" fill="#fff" font-size="14" font-weight="600" font-family="-apple-system,sans-serif">Aggiungi a Home</text>
+                <rect x="254" y="12" width="56" height="24" rx="12" fill="rgba(10,132,255,0.25)" stroke="rgba(10,132,255,0.5)" stroke-width="0.8"/>
+                <text x="282" y="28" text-anchor="middle" fill="#0A84FF" font-size="13" font-weight="700" font-family="-apple-system,sans-serif">Aggiungi</text>
+                <!-- app preview -->
+                <rect x="120" y="44" width="48" height="48" rx="14" fill="#0A84FF"/>
+                <text x="144" y="74" text-anchor="middle" fill="#fff" font-size="22" font-family="-apple-system,sans-serif">💰</text>
+                <text x="144" y="100" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="10" font-family="-apple-system,sans-serif">MoneyFlow</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="tut-tip"><i class="fas fa-circle-info"></i>Su iOS, le app aggiunte via Safari funzionano a schermo intero senza la barra di Safari, esattamente come un'app nativa.</div>
+    </div>
+
+    <!-- CHROME -->
+    <div class="tut-panel" id="tut-chrome">
+      <div class="tut-steps" id="tut-chrome-steps">
+
+        <div class="tut-step">
+          <div class="tut-step-num chrome">1</div>
+          <div class="tut-step-body">
+            <div class="tut-step-title">Apri MoneyFlow in Chrome</div>
+            <div class="tut-step-desc">Su Android usa Chrome per la migliore esperienza. Su iPhone preferisci Safari, ma Chrome funziona comunque.</div>
+          </div>
+        </div>
+
+        <div class="tut-step">
+          <div class="tut-step-num chrome">2</div>
+          <div class="tut-step-body">
+            <div class="tut-step-title">Tocca i tre puntini in alto a destra</div>
+            <div class="tut-step-desc">Il menu principale di Chrome si apre toccando "⋮" nell'angolo in alto a destra della schermata.</div>
+            <div class="tut-mockup">
+              <svg viewBox="0 0 320 80" xmlns="http://www.w3.org/2000/svg">
+                <rect width="320" height="80" fill="#1a1f35"/>
+                <!-- Chrome top bar -->
+                <rect x="10" y="18" width="260" height="34" rx="10" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+                <text x="140" y="40" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="11" font-family="-apple-system,sans-serif">moneyflow.app</text>
+                <!-- 3 dots highlighted -->
+                <rect x="278" y="18" width="34" height="34" rx="10" fill="rgba(48,209,88,0.2)" stroke="rgba(48,209,88,0.5)" stroke-width="0.8"/>
+                <text x="295" y="38" text-anchor="middle" fill="#30D158" font-size="16" font-family="-apple-system,sans-serif" letter-spacing="0">⋮</text>
+                <text x="295" y="14" text-anchor="middle" fill="#30D158" font-size="9" font-weight="600" font-family="-apple-system,sans-serif">TOCCA QUI</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="tut-step">
+          <div class="tut-step-num chrome">3</div>
+          <div class="tut-step-body">
+            <div class="tut-step-title">Seleziona "Aggiungi a schermata Home"</div>
+            <div class="tut-step-desc">Nel menu a tendina cerca la voce "Aggiungi a schermata Home" oppure "Installa app". Su Android potrebbe apparire anche un banner automatico in basso.</div>
+            <div class="tut-mockup">
+              <svg viewBox="0 0 320 150" xmlns="http://www.w3.org/2000/svg">
+                <rect width="320" height="150" fill="#1a1f35"/>
+                <!-- dropdown -->
+                <rect x="160" y="10" width="148" height="140" rx="14" fill="#2a3350" stroke="rgba(255,255,255,0.12)" stroke-width="0.5"/>
+                <!-- items -->
+                <text x="178" y="38" fill="rgba(255,255,255,0.5)" font-size="11" font-family="-apple-system,sans-serif">🔖  Nuova scheda</text>
+                <line x1="170" y1="48" x2="300" y2="48" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+                <text x="178" y="66" fill="rgba(255,255,255,0.5)" font-size="11" font-family="-apple-system,sans-serif">⭐  Aggiungi preferiti</text>
+                <line x1="170" y1="76" x2="300" y2="76" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+                <!-- highlighted -->
+                <rect x="162" y="82" width="144" height="30" rx="8" fill="rgba(48,209,88,0.15)" stroke="rgba(48,209,88,0.4)" stroke-width="0.7"/>
+                <text x="178" y="101" fill="#30D158" font-size="11" font-weight="600" font-family="-apple-system,sans-serif">📲  Aggiungi a Home</text>
+                <line x1="170" y1="118" x2="300" y2="118" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+                <text x="178" y="136" fill="rgba(255,255,255,0.5)" font-size="11" font-family="-apple-system,sans-serif">🖨️  Stampa</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="tut-step">
+          <div class="tut-step-num chrome">4</div>
+          <div class="tut-step-body">
+            <div class="tut-step-title">Tocca "Aggiungi" per confermare</div>
+            <div class="tut-step-desc">Apparirà un popup di conferma. Tocca "Aggiungi" e l'icona di MoneyFlow apparirà nella tua schermata Home.</div>
+            <div class="tut-mockup">
+              <svg viewBox="0 0 320 100" xmlns="http://www.w3.org/2000/svg">
+                <rect width="320" height="100" fill="#1a1f35"/>
+                <rect x="30" y="10" width="260" height="80" rx="16" fill="#2a3350" stroke="rgba(255,255,255,0.12)" stroke-width="0.5"/>
+                <!-- app icon -->
+                <rect x="46" y="24" width="42" height="42" rx="12" fill="#0A84FF"/>
+                <text x="67" y="51" text-anchor="middle" fill="#fff" font-size="20" font-family="-apple-system,sans-serif">💰</text>
+                <!-- text -->
+                <text x="100" y="38" fill="#fff" font-size="13" font-weight="600" font-family="-apple-system,sans-serif">MoneyFlow</text>
+                <text x="100" y="54" fill="rgba(255,255,255,0.45)" font-size="10" font-family="-apple-system,sans-serif">moneyflow.app</text>
+                <!-- buttons -->
+                <rect x="46" y="74" width="100" height="26" rx="13" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.15)" stroke-width="0.5"/>
+                <text x="96" y="91" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="12" font-family="-apple-system,sans-serif">Annulla</text>
+                <rect x="158" y="74" width="116" height="26" rx="13" fill="rgba(48,209,88,0.2)" stroke="rgba(48,209,88,0.5)" stroke-width="0.8"/>
+                <text x="216" y="91" text-anchor="middle" fill="#30D158" font-size="12" font-weight="700" font-family="-apple-system,sans-serif">Aggiungi</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="tut-tip"><i class="fas fa-circle-info"></i>Su Android con Chrome, l'app viene installata come PWA e appare nella lista delle app, con tanto di icona e splash screen.</div>
+    </div>
+  </div>
+
+  <div class="glass-card">
         <div class="settings-sub">Cancella spese e budget di tutti i mesi</div>
       </div>
     </div>
@@ -921,14 +1155,16 @@ function renderSettings(){
   if(b) document.getElementById('budget').value=b;
   const recs=JSON.parse(localStorage.getItem('recurring')||'[]');
   const rl=document.getElementById('recurringList');
-  if(!recs.length){rl.innerHTML='<div class="empty">Nessuna spesa ricorrente</div>';return;}
-  rl.innerHTML=recs.map((r,i)=>`
+  if(!recs.length){rl.innerHTML='<div class="empty">Nessuna spesa ricorrente</div>';}
+  else{rl.innerHTML=recs.map((r,i)=>`
     <div class="tx-row">
       <div class="tx-icon ${catClass[r.cat]||'cat-other'}">${catIcons[r.cat]||'📦'}</div>
       <div class="tx-info"><div class="tx-cat">${r.cat}</div><div class="tx-sub">${r.desc||'Ricorrente'}</div></div>
       <div class="tx-amount">${fmtMoney(r.amount)}</div>
       <div class="tx-edit-btn" style="background:rgba(255,69,58,.15);border-color:rgba(255,69,58,.3);color:#FF453A" onclick="deleteRecurring(${i})"><i class="fas fa-xmark"></i></div>
-    </div>`).join('');
+    </div>`).join('');}
+  // anima gli step safari al primo caricamento
+  setTimeout(()=>animateTutSteps('tut-safari-steps'),100);
 }
 
 function updateThreshold(v){
@@ -1002,6 +1238,20 @@ function exportCSV(){
   a.href=url;a.download='moneyflow_export.csv';a.click();
   URL.revokeObjectURL(url);
   haptic(15);
+}
+
+/* ═══════════ TUTORIAL ═══════════ */
+function switchTutTab(tab,el){
+  document.querySelectorAll('.tut-tab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.tut-panel').forEach(x=>x.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tut-'+tab).classList.add('active');
+  animateTutSteps('tut-'+tab+'-steps');
+}
+function animateTutSteps(containerId){
+  const steps=document.querySelectorAll('#'+containerId+' .tut-step');
+  steps.forEach(s=>s.classList.remove('visible'));
+  steps.forEach((s,i)=>setTimeout(()=>s.classList.add('visible'),i*130));
 }
 
 /* ═══════════ INIT ═══════════ */
