@@ -1,16 +1,14 @@
 # 💰 MoneyFlow
 
-> A beautiful, iOS 26-inspired personal budget tracker — no accounts, no servers, no tracking. Just you and your money.
+> A beautiful, personal budget tracker — no accounts, no servers, no tracking. Just you and your money.
 
-🌐 **Live App → [https://infuocato.github.io/app/](https://infuocato.github.io/app/)**
+🌐 **Live App → [https://infuocato.github.io/app/](https://infuocato.github.io/app/)** (ONLY SMARTPHONE)
 
 ---
 
 ## What is MoneyFlow?
 
 MoneyFlow is a lightweight progressive web app (PWA) built with pure HTML, CSS, and JavaScript. It runs entirely in your browser — all data is stored locally on your device using `localStorage`. Nothing is ever sent to a server.
-
-The design is inspired by **iOS 26 Liquid Glass** — deep blur, translucent cards, soft gradients, and fluid animations.
 
 ---
 
