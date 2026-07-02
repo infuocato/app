@@ -87,6 +87,7 @@ MoneyFlow works best when installed as an app on your device — no App Store re
 | Storage | `localStorage` |
 | Icons | [Font Awesome 6](https://fontawesome.com/) |
 | Hosting | GitHub Pages |
+| Languages | IT - more soon |
 
 No frameworks. No dependencies. No build step.
 
