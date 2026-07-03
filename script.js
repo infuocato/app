@@ -61,7 +61,7 @@ const TRANSLATIONS = {
     projection:'Proiezione fine mese',
     catChart:'Spese per categoria',lastExpenses:'Ultime spese',
     noExpenses:'Nessuna spesa ancora',noData:'Nessun dato',
-    shoppingList:'Lista della spesa',noShopping:'Nessun articolo in lista',
+    shoppingList:'Acquisti Futuri',noShopping:'Nessun articolo in lista',
     shopDescPlaceholder:'Es. Scarpe nuove…',addItem:'Aggiungi articolo',
     addTitle:['Nuova ','Spesa'],
     amount:'Importo',category:'Categoria',description:'Descrizione',
