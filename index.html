@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
@@ -8,799 +8,713 @@
 <meta name="theme-color" content="#0a0e1a">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="/favicon.png">
-<link rel="apple-touch-icon" href="https://via.placeholder.com/180x180/0A84FF/fff?text=MF">
 <title>MoneyFlow</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
-  --glass:rgba(255,255,255,0.08);
-  --glass-border:rgba(255,255,255,0.18);
-  --accent:#0A84FF;
-  --danger:#FF453A;
-  --warn:#FF9F0A;
-  --ok:#30D158;
-  --purple:#BF5AF2;
-  --cyan:#5AC8FA;
-  --text:#fff;
-  --muted:rgba(255,255,255,0.55);
-  --muted2:rgba(255,255,255,0.30);
+  --glass:rgba(255,255,255,0.08);--glass-border:rgba(255,255,255,0.18);
+  --accent:#0A84FF;--danger:#FF453A;--warn:#FF9F0A;--ok:#30D158;
+  --purple:#BF5AF2;--cyan:#5AC8FA;--text:#fff;
+  --muted:rgba(255,255,255,0.55);--muted2:rgba(255,255,255,0.30);
 }
-body{
-  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif;
-  background:#0a0e1a;min-height:100vh;color:var(--text);
-  padding-bottom:110px;overflow-x:hidden;
-}
-body::before{
-  content:'';position:fixed;
-  top:-200px;left:-100px;right:-100px;bottom:-200px;
-  background:
-    radial-gradient(ellipse 60% 40% at 20% 20%,rgba(10,132,255,.18) 0%,transparent 60%),
-    radial-gradient(ellipse 50% 35% at 80% 70%,rgba(48,209,88,.10) 0%,transparent 55%),
-    radial-gradient(ellipse 40% 30% at 60% 10%,rgba(191,90,242,.12) 0%,transparent 50%);
-  z-index:0;pointer-events:none;
-}
-.page{display:none;position:relative;z-index:1}
-.page.active{display:block}
-
-/* GLASS */
-.glass-card{
-  margin:10px 14px;background:var(--glass);
-  border:0.5px solid var(--glass-border);border-radius:28px;padding:20px;
-  position:relative;overflow:hidden;
-  -webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);
-}
-.glass-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);
-}
-
-/* HEADER */
+body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif;background:#0a0e1a;min-height:100vh;color:var(--text);padding-bottom:110px;overflow-x:hidden;   -webkit-user-select: none; /* Safari */
+    -moz-user-select: none;    /* Firefox */
+    -ms-user-select: none;     /* IE/Edge */
+    user-select: none;         /* Standard */}
+body::before{content:'';position:fixed;top:-200px;left:-100px;right:-100px;bottom:-200px;background:radial-gradient(ellipse 60% 40% at 20% 20%,rgba(10,132,255,.18) 0%,transparent 60%),radial-gradient(ellipse 50% 35% at 80% 70%,rgba(48,209,88,.10) 0%,transparent 55%),radial-gradient(ellipse 40% 30% at 60% 10%,rgba(191,90,242,.12) 0%,transparent 50%);z-index:0;pointer-events:none}
+.page{display:none;position:relative;z-index:1}.page.active{display:block}
+.glass-card{margin:10px 14px;background:var(--glass);border:0.5px solid var(--glass-border);border-radius:28px;padding:20px;position:relative;overflow:hidden;-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px)}
+.glass-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent)}
 .header{display:flex;justify-content:space-between;align-items:center;padding:60px 20px 10px}
-.logo{font-size:30px;font-weight:700;letter-spacing:-.5px}
-.logo span{color:var(--accent)}
+.logo{font-size:30px;font-weight:700;letter-spacing:-.5px}.logo span{color:var(--accent)}
 .header-actions{display:flex;gap:10px}
-.btn-icon{
-  width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-  font-size:15px;cursor:pointer;border:none;
-}
-.btn-icon.red{background:rgba(255,69,58,.18);border:0.5px solid rgba(255,69,58,.35);color:#FF453A}
+.btn-icon{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;border:none}
 .btn-icon.blue{background:rgba(10,132,255,.18);border:0.5px solid rgba(10,132,255,.35);color:#0A84FF}
-
-/* RING */
 .ring-wrap{display:flex;flex-direction:column;align-items:center;padding:10px 0 16px}
 .ring-outer{width:160px;height:160px;position:relative;display:flex;align-items:center;justify-content:center}
 .ring-svg{position:absolute;top:0;left:0}
-.ring-inner{
-  width:118px;height:118px;border-radius:50%;
-  background:rgba(10,14,26,.7);border:0.5px solid var(--glass-border);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;z-index:2;
-}
+.ring-inner{width:118px;height:118px;border-radius:50%;background:rgba(10,14,26,.7);border:0.5px solid var(--glass-border);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;z-index:2}
 .ring-perc{font-size:26px;font-weight:700;letter-spacing:-1px}
 .ring-label{font-size:11px;color:var(--muted);margin-top:1px;letter-spacing:.3px}
 .ring-stats{display:flex;gap:28px;margin-top:16px}
-.stat-item{text-align:center}
-.stat-val{font-size:18px;font-weight:600;letter-spacing:-.3px}
-.stat-key{font-size:11px;color:var(--muted);margin-top:1px}
-
-/* CHIP */
+.stat-item{text-align:center}.stat-val{font-size:18px;font-weight:600;letter-spacing:-.3px}.stat-key{font-size:11px;color:var(--muted);margin-top:1px}
 .chip{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:500}
 .chip.ok{background:rgba(48,209,88,.15);color:#30D158;border:0.5px solid rgba(48,209,88,.3)}
 .chip.warn{background:rgba(255,159,10,.15);color:#FF9F0A;border:0.5px solid rgba(255,159,10,.3)}
 .chip.danger{background:rgba(255,69,58,.15);color:#FF453A;border:0.5px solid rgba(255,69,58,.3)}
-.chip.info{background:rgba(10,132,255,.15);color:#0A84FF;border:0.5px solid rgba(10,132,255,.3)}
-
-/* PROIEZIONE */
 .proj-row{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:0.5px solid rgba(255,255,255,.08)}
-.proj-label{font-size:12px;color:var(--muted)}
-.proj-val{font-size:14px;font-weight:600}
-
-/* TX ROW con swipe */
-.tx-wrap{position:relative;overflow:hidden;border-radius:16px;margin:0 -4px}
-.tx-delete-bg{
-  position:absolute;right:0;top:0;bottom:0;width:40px;
-  background:rgba(255,69,58,.85);display:flex;align-items:center;justify-content:center;
-  color:#fff;font-size:18px;border-radius:16px;
-}
-.tx-row{
-  display:flex;align-items:center;gap:12px;padding:11px 4px;
-  border-bottom:0.5px solid rgba(255,255,255,.07);
-  background:transparent;
-  transition:transform .25s cubic-bezier(.4,0,.2,1);
-  position:relative;z-index:1;
-}
+.proj-label{font-size:12px;color:var(--muted)}.proj-val{font-size:14px;font-weight:600}
+.tx-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:0.5px solid rgba(255,255,255,.07)}
 .tx-row:last-child{border-bottom:none}
 .tx-icon{width:36px;height:36px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-.tx-info{flex:1;min-width:0}
-.tx-cat{font-size:14px;font-weight:500}
+.tx-info{flex:1;min-width:0}.tx-cat{font-size:14px;font-weight:500}
 .tx-sub{font-size:11px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tx-amount{font-size:15px;font-weight:600;flex-shrink:0}
-.tx-edit-btn{
-  width:38px;
-  height:38px;
-  border-radius:12px;
-  flex-shrink:0;
-  background:rgba(10,132,255,.15);
-  border:1px solid rgba(10,132,255,.3);
-  color:#0A84FF;
-  font-size:15px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-}
+.tx-edit-btn{width:28px;height:28px;border-radius:9px;flex-shrink:0;background:rgba(10,132,255,.15);border:0.5px solid rgba(10,132,255,.3);color:#0A84FF;font-size:12px;display:flex;align-items:center;justify-content:center;cursor:pointer}
 .section-title{font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px}
-
-/* INPUTS */
 .field-label{font-size:12px;color:var(--muted);font-weight:500;letter-spacing:.3px;margin-bottom:6px}
-.glass-input{
-  width:100%;padding:14px 16px;
-  background:rgba(255,255,255,.06);border:0.5px solid rgba(255,255,255,.14);
-  border-radius:16px;color:#fff;font-size:16px;
-  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
-  outline:none;margin-bottom:14px;transition:border-color .2s,background .2s;-webkit-appearance:none;
-}
+.glass-input{width:100%;padding:14px 16px;background:rgba(255,255,255,.06);border:0.5px solid rgba(255,255,255,.14);border-radius:16px;color:#fff;font-size:16px;font-family:-apple-system,BlinkMacSystemFont,sans-serif;outline:none;margin-bottom:14px;transition:border-color .2s,background .2s;-webkit-appearance:none}
 .glass-input:focus{background:rgba(255,255,255,.10);border-color:rgba(10,132,255,.5)}
 .glass-input::placeholder{color:var(--muted2)}
-
-/* DESC FIELD */
 .desc-wrap{overflow:hidden;max-height:0;opacity:0;transition:max-height .3s cubic-bezier(.4,0,.2,1),opacity .25s ease,margin .3s;margin-bottom:0}
 .desc-wrap.open{max-height:90px;opacity:1;margin-bottom:0}
-
-/* RICORRENTE toggle */
 .toggle-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding:12px 16px;background:rgba(255,255,255,.05);border-radius:14px;border:0.5px solid rgba(255,255,255,.10)}
-.toggle-label{font-size:14px;font-weight:500}
-.toggle-sub{font-size:11px;color:var(--muted);margin-top:2px}
-.toggle{position:relative;width:44px;height:26px;flex-shrink:0}
-.toggle input{opacity:0;width:0;height:0}
-.toggle-slider{
-  position:absolute;inset:0;background:rgba(255,255,255,.15);border-radius:13px;cursor:pointer;transition:.3s;
-}
-.toggle-slider::before{
-  content:'';position:absolute;width:20px;height:20px;left:3px;top:3px;
-  background:#fff;border-radius:50%;transition:.3s;box-shadow:0 1px 4px rgba(0,0,0,.4);
-}
-.toggle input:checked+.toggle-slider{background:#30D158}
-.toggle input:checked+.toggle-slider::before{transform:translateX(18px)}
-
-/* CAT GRID */
+.toggle-label{font-size:14px;font-weight:500}.toggle-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.toggle{position:relative;width:44px;height:26px;flex-shrink:0}.toggle input{opacity:0;width:0;height:0}
+.toggle-slider{position:absolute;inset:0;background:rgba(255,255,255,.15);border-radius:13px;cursor:pointer;transition:.3s}
+.toggle-slider::before{content:'';position:absolute;width:20px;height:20px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.3s;box-shadow:0 1px 4px rgba(0,0,0,.4)}
+.toggle input:checked+.toggle-slider{background:#30D158}.toggle input:checked+.toggle-slider::before{transform:translateX(18px)}
 .cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
-.cat-btn{
-  padding:10px 6px;border-radius:14px;
-  background:rgba(255,255,255,.06);border:0.5px solid rgba(255,255,255,.12);
-  color:var(--muted);font-size:12px;font-weight:500;text-align:center;cursor:pointer;transition:all .15s;
-}
-.cat-btn:active{transform:scale(.96)}
-.cat-btn.selected{background:rgba(10,132,255,.2);border-color:rgba(10,132,255,.5);color:#fff}
+.cat-btn{padding:10px 6px;border-radius:14px;background:rgba(255,255,255,.06);border:0.5px solid rgba(255,255,255,.12);color:var(--muted);font-size:12px;font-weight:500;text-align:center;cursor:pointer;transition:all .15s}
+.cat-btn:active{transform:scale(.96)}.cat-btn.selected{background:rgba(10,132,255,.2);border-color:rgba(10,132,255,.5);color:#fff}
 .cat-btn .cat-icon{display:block;font-size:20px;margin-bottom:4px}
-
-/* BUTTONS */
-.btn-primary{
-  width:100%;padding:16px;border-radius:20px;background:var(--accent);
-  border:none;color:#fff;font-size:16px;font-weight:600;
-  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
-  cursor:pointer;letter-spacing:.2px;transition:opacity .15s,transform .1s;-webkit-appearance:none;
-  position:relative;overflow:hidden;
-}
+.btn-primary{width:100%;padding:16px;border-radius:20px;background:var(--accent);border:none;color:#fff;font-size:16px;font-weight:600;font-family:-apple-system,BlinkMacSystemFont,sans-serif;cursor:pointer;letter-spacing:.2px;transition:opacity .15s,transform .1s;-webkit-appearance:none}
 .btn-primary:active{opacity:.85;transform:scale(.98)}
-.budget-row{display:flex;gap:10px;align-items:center}
-.budget-row .glass-input{margin-bottom:0;flex:1}
-.btn-small{
-  padding:14px 18px;border-radius:16px;background:var(--accent);border:none;color:#fff;
-  font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;
-  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
-}
-
-/* FILTER */
-.filter-wrap{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;overflow-x:auto;padding-bottom:4px}
-.filter-wrap::-webkit-scrollbar{display:none}
-.filter-chip{
-  padding:6px 14px;border-radius:20px;white-space:nowrap;
-  background:rgba(255,255,255,.06);border:0.5px solid rgba(255,255,255,.12);
-  color:var(--muted);font-size:13px;font-weight:500;cursor:pointer;flex-shrink:0;
-}
+.budget-row{display:flex;gap:10px;align-items:center}.budget-row .glass-input{margin-bottom:0;flex:1}
+.btn-small{padding:14px 18px;border-radius:16px;background:var(--accent);border:none;color:#fff;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:-apple-system,BlinkMacSystemFont,sans-serif}
+.filter-wrap{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;overflow-x:auto;padding-bottom:4px}.filter-wrap::-webkit-scrollbar{display:none}
+.filter-chip{padding:6px 14px;border-radius:20px;white-space:nowrap;background:rgba(255,255,255,.06);border:0.5px solid rgba(255,255,255,.12);color:var(--muted);font-size:13px;font-weight:500;cursor:pointer;flex-shrink:0}
 .filter-chip.active{background:rgba(10,132,255,.2);border-color:rgba(10,132,255,.4);color:#fff}
-.total-banner{
-  text-align:center;padding:14px;
-  background:rgba(10,132,255,.08);border:0.5px solid rgba(10,132,255,.2);
-  border-radius:18px;margin-bottom:14px;
-}
-.total-banner .big{font-size:28px;font-weight:700;letter-spacing:-1px}
-.total-banner .sub{font-size:12px;color:var(--muted);margin-top:2px}
-
-/* MONTH SELECTOR */
-.month-row{display:flex;align-items:center;gap:8px;margin-bottom:14px}
-.month-btn{
-  width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.07);
-  border:0.5px solid rgba(255,255,255,.15);color:#fff;font-size:16px;
-  display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;
-}
-.month-label{flex:1;text-align:center;font-size:15px;font-weight:600}
-
-/* CHART */
+.total-banner{text-align:center;padding:14px;background:rgba(10,132,255,.08);border:0.5px solid rgba(10,132,255,.2);border-radius:18px;margin-bottom:14px}
+.total-banner .big{font-size:28px;font-weight:700;letter-spacing:-1px}.total-banner .sub{font-size:12px;color:var(--muted);margin-top:2px}
+.months-scroll{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px}.months-scroll::-webkit-scrollbar{display:none}
+.month-tab{padding:6px 16px;border-radius:20px;white-space:nowrap;background:rgba(255,255,255,.06);border:0.5px solid rgba(255,255,255,.12);color:var(--muted);font-size:13px;font-weight:500;cursor:pointer;flex-shrink:0}
+.month-tab.active{background:rgba(10,132,255,.2);border-color:rgba(10,132,255,.4);color:#fff}
 .chart-wrap{margin-top:4px}
 .bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
 .bar-cat{font-size:12px;color:var(--muted);width:76px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .bar-track{flex:1;height:8px;background:rgba(255,255,255,.08);border-radius:4px;overflow:hidden}
 .bar-fill{height:100%;border-radius:4px;transition:width .6s cubic-bezier(.4,0,.2,1)}
 .bar-val{font-size:12px;font-weight:600;width:52px;text-align:right;flex-shrink:0}
-
-/* STATS PAGE donut */
 .donut-wrap{display:flex;flex-direction:column;align-items:center;padding:8px 0 4px}
 .legend-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px;width:100%}
 .legend-item{display:flex;align-items:center;gap:8px;padding:8px 10px;background:rgba(255,255,255,.05);border-radius:12px}
-.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-.legend-info{flex:1;min-width:0}
-.legend-name{font-size:12px;font-weight:500}
-.legend-pct{font-size:11px;color:var(--muted)}
-.legend-amount{font-size:13px;font-weight:600;flex-shrink:0}
-
-/* MESI TABS */
-.months-scroll{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px}
-.months-scroll::-webkit-scrollbar{display:none}
-.month-tab{
-  padding:6px 16px;border-radius:20px;white-space:nowrap;
-  background:rgba(255,255,255,.06);border:0.5px solid rgba(255,255,255,.12);
-  color:var(--muted);font-size:13px;font-weight:500;cursor:pointer;flex-shrink:0;
-}
-.month-tab.active{background:rgba(10,132,255,.2);border-color:rgba(10,132,255,.4);color:#fff}
-
-/* SETTINGS */
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}.legend-info{flex:1;min-width:0}
+.legend-name{font-size:12px;font-weight:500}.legend-pct{font-size:11px;color:var(--muted)}.legend-amount{font-size:13px;font-weight:600;flex-shrink:0}
 .settings-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:0.5px solid rgba(255,255,255,.07)}
-.settings-row:last-child{border-bottom:none}
-.settings-label{font-size:14px;font-weight:500}
-.settings-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.settings-row:last-child{border-bottom:none}.settings-label{font-size:14px;font-weight:500}.settings-sub{font-size:11px;color:var(--muted);margin-top:2px}
 .threshold-val{font-size:18px;font-weight:700;color:var(--warn);min-width:40px;text-align:right}
 input[type=range]{-webkit-appearance:none;width:100%;height:4px;border-radius:2px;background:rgba(255,255,255,.15);outline:none;margin:10px 0}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--warn);cursor:pointer;box-shadow:0 2px 8px rgba(255,159,10,.4)}
 
-/* ── TUTORIAL ── */
+/* LANGUAGE SELECTOR */
+.lang-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:4px}
+.lang-btn{padding:10px 6px;border-radius:14px;background:rgba(255,255,255,.06);border:0.5px solid rgba(255,255,255,.12);color:var(--muted);font-size:13px;font-weight:500;text-align:center;cursor:pointer;transition:all .15s}
+.lang-btn.active{background:rgba(10,132,255,.2);border-color:rgba(10,132,255,.5);color:#fff}
+.lang-flag{display:block;font-size:22px;margin-bottom:4px}
+
+/* TUTORIAL */
 .tut-tabs{display:flex;gap:8px;margin-bottom:16px}
-.tut-tab{
-  flex:1;padding:10px 6px;border-radius:14px;text-align:center;font-size:13px;font-weight:600;cursor:pointer;
-  background:rgba(255,255,255,.06);border:0.5px solid rgba(255,255,255,.12);color:var(--muted);transition:all .2s;
-}
+.tut-tab{flex:1;padding:10px 6px;border-radius:14px;text-align:center;font-size:13px;font-weight:600;cursor:pointer;background:rgba(255,255,255,.06);border:0.5px solid rgba(255,255,255,.12);color:var(--muted);transition:all .2s}
 .tut-tab.active{background:rgba(10,132,255,.2);border-color:rgba(10,132,255,.45);color:#fff}
 .tut-tab .tut-tab-icon{display:block;font-size:20px;margin-bottom:3px}
-
 .tut-panel{display:none}.tut-panel.active{display:block}
-
 .tut-steps{display:flex;flex-direction:column;gap:0}
-.tut-step{
-  display:flex;gap:14px;align-items:flex-start;
-  padding:16px 0;border-bottom:0.5px solid rgba(255,255,255,.07);
-  opacity:0;transform:translateY(12px);
-  transition:opacity .4s ease,transform .4s ease;
-}
-.tut-step:last-child{border-bottom:none}
-.tut-step.visible{opacity:1;transform:translateY(0)}
-.tut-step-num{
-  width:28px;height:28px;border-radius:50%;flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
-  font-size:12px;font-weight:700;margin-top:2px;
-}
+.tut-step{display:flex;gap:14px;align-items:flex-start;padding:16px 0;border-bottom:0.5px solid rgba(255,255,255,.07);opacity:0;transform:translateY(12px);transition:opacity .4s ease,transform .4s ease}
+.tut-step:last-child{border-bottom:none}.tut-step.visible{opacity:1;transform:translateY(0)}
+.tut-step-num{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;margin-top:2px}
 .tut-step-num.safari{background:rgba(10,132,255,.2);border:0.5px solid rgba(10,132,255,.4);color:#0A84FF}
 .tut-step-num.chrome{background:rgba(48,209,88,.2);border:0.5px solid rgba(48,209,88,.4);color:#30D158}
-.tut-step-body{flex:1;min-width:0}
-.tut-step-title{font-size:14px;font-weight:600;margin-bottom:3px}
+.tut-step-body{flex:1;min-width:0}.tut-step-title{font-size:14px;font-weight:600;margin-bottom:3px}
 .tut-step-desc{font-size:12px;color:var(--muted);line-height:1.5}
-
-.tut-mockup{
-  margin:14px 0 6px;border-radius:16px;
-  background:rgba(255,255,255,.04);border:0.5px solid rgba(255,255,255,.10);
-  overflow:hidden;
-}
+.tut-mockup{margin:14px 0 6px;border-radius:16px;background:rgba(255,255,255,.04);border:0.5px solid rgba(255,255,255,.10);overflow:hidden}
 .tut-mockup svg{display:block;width:100%}
-
-.tut-tip{
-  display:flex;align-items:flex-start;gap:8px;
-  margin-top:14px;padding:12px 14px;
-  background:rgba(10,132,255,.08);border:0.5px solid rgba(10,132,255,.2);border-radius:14px;
-  font-size:12px;color:var(--muted);line-height:1.5;
-}
+.tut-tip{display:flex;align-items:flex-start;gap:8px;margin-top:14px;padding:12px 14px;background:rgba(10,132,255,.08);border:0.5px solid rgba(10,132,255,.2);border-radius:14px;font-size:12px;color:var(--muted);line-height:1.5}
 .tut-tip i{color:#0A84FF;margin-top:1px;flex-shrink:0}
 
 /* NAV */
-.nav-bar{
-  position:fixed;bottom:16px;left:16px;right:16px;height:68px;
-  background:rgba(20,24,40,.85);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);
-  border:0.5px solid rgba(255,255,255,.15);border-radius:28px;
-  display:flex;align-items:center;justify-content:space-around;z-index:100;
-}
-.nav-bar::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);border-radius:28px 28px 0 0;
-}
-.nav-item{
-  display:flex;flex-direction:column;align-items:center;gap:3px;
-  padding:8px 14px;cursor:pointer;color:var(--muted2);font-size:10px;font-weight:500;
-  transition:color .15s;background:none;border:none;
-}
-.nav-item.active{color:#fff}
-.nav-item i{font-size:20px}
-.nav-item.nav-add{
-  width:50px;height:50px;border-radius:50%;background:var(--accent);
-  color:#fff;font-size:22px;box-shadow:0 4px 20px rgba(10,132,255,.45);
-  flex-direction:row;gap:0;padding:0;
-  display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;
-}
-
-/* CAT COLORS */
-.cat-food{background:rgba(255,159,10,.18);color:#FF9F0A}
-.cat-transport{background:rgba(10,132,255,.18);color:#5AC8FA}
-.cat-house{background:rgba(48,209,88,.18);color:#30D158}
-.cat-fun{background:rgba(191,90,242,.18);color:#BF5AF2}
+.nav-bar{position:fixed;bottom:16px;left:16px;right:16px;height:68px;background:rgba(20,24,40,.85);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);border:0.5px solid rgba(255,255,255,.15);border-radius:28px;display:flex;align-items:center;justify-content:space-around;z-index:100}
+.nav-bar::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);border-radius:28px 28px 0 0}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 14px;cursor:pointer;color:var(--muted2);font-size:10px;font-weight:500;transition:color .15s;background:none;border:none}
+.nav-item.active{color:#fff}.nav-item i{font-size:20px}
+.nav-item.nav-add{width:50px;height:50px;border-radius:50%;background:var(--accent);color:#fff;font-size:22px;box-shadow:0 4px 20px rgba(10,132,255,.45);flex-direction:row;gap:0;padding:0;display:flex;align-items:center;justify-content:center;border:none;cursor:pointer}
+.cat-food{background:rgba(255,159,10,.18);color:#FF9F0A}.cat-transport{background:rgba(10,132,255,.18);color:#5AC8FA}
+.cat-house{background:rgba(48,209,88,.18);color:#30D158}.cat-fun{background:rgba(191,90,242,.18);color:#BF5AF2}
 .cat-other{background:rgba(255,255,255,.10);color:rgba(255,255,255,.7)}
-.cat-recurring{background:rgba(48,209,88,.12);color:#30D158}
-
 .empty{color:var(--muted);font-size:14px;text-align:center;padding:16px 0}
 .recurring-badge{font-size:10px;background:rgba(48,209,88,.15);color:#30D158;border:0.5px solid rgba(48,209,88,.3);padding:1px 6px;border-radius:8px;margin-left:6px;vertical-align:middle}
-
-/* BOTTOM SHEET */
 .sheet-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;opacity:0;pointer-events:none;transition:opacity .3s}
 .sheet-overlay.open{opacity:1;pointer-events:all}
-.sheet{
-  position:fixed;left:0;right:0;bottom:0;
-  background:#161c2e;border:0.5px solid rgba(255,255,255,.15);
-  border-radius:28px 28px 0 0;padding:20px 20px 44px;z-index:201;
-  transform:translateY(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);
-}
-.sheet.open{transform:translateY(0)}
-.sheet-handle{width:36px;height:4px;border-radius:2px;background:rgba(255,255,255,.2);margin:0 auto 20px}
-.sheet-title{font-size:18px;font-weight:700;margin-bottom:18px}
-.sheet-row{display:flex;gap:10px;margin-top:6px}
-.btn-danger{
-  flex:1;padding:15px;border-radius:18px;
-  background:rgba(255,69,58,.18);border:0.5px solid rgba(255,69,58,.35);
-  color:#FF453A;font-size:15px;font-weight:600;cursor:pointer;
-  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
-}
-.btn-save{
-  flex:2;padding:15px;border-radius:18px;background:var(--accent);border:none;
-  color:#fff;font-size:15px;font-weight:600;cursor:pointer;
-  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
-}
-
-/* CONFIRM ANIMATION */
-@keyframes pop-confirm{
-  0%{transform:scale(0);opacity:0}
-  60%{transform:scale(1.2)}
-  100%{transform:scale(1);opacity:1}
-}
-.confirm-overlay{
-  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
-  z-index:300;pointer-events:none;
-}
-.confirm-bubble{
-  width:90px;height:90px;border-radius:50%;
-  background:rgba(48,209,88,.25);border:2px solid #30D158;
-  display:flex;align-items:center;justify-content:center;
-  font-size:38px;animation:pop-confirm .4s cubic-bezier(.4,0,.2,1) forwards;
-  opacity:0;
-}
+.sheet{position:fixed;left:0;right:0;bottom:0;background:#161c2e;border:0.5px solid rgba(255,255,255,.15);border-radius:28px 28px 0 0;padding:20px 20px 44px;z-index:201;transform:translateY(100%);transition:transform .35s cubic-bezier(.4,0,.2,1)}
+.sheet.open{transform:translateY(0)}.sheet-handle{width:36px;height:4px;border-radius:2px;background:rgba(255,255,255,.2);margin:0 auto 20px}
+.sheet-title{font-size:18px;font-weight:700;margin-bottom:18px}.sheet-row{display:flex;gap:10px;margin-top:6px}
+.btn-danger{flex:1;padding:15px;border-radius:18px;background:rgba(255,69,58,.18);border:0.5px solid rgba(255,69,58,.35);color:#FF453A;font-size:15px;font-weight:600;cursor:pointer;font-family:-apple-system,BlinkMacSystemFont,sans-serif}
+.btn-save{flex:2;padding:15px;border-radius:18px;background:var(--accent);border:none;color:#fff;font-size:15px;font-weight:600;cursor:pointer;font-family:-apple-system,BlinkMacSystemFont,sans-serif}
+@keyframes pop-confirm{0%{transform:scale(0);opacity:0}60%{transform:scale(1.2)}100%{transform:scale(1);opacity:1}}
+.confirm-overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:300;pointer-events:none}
+.confirm-bubble{width:90px;height:90px;border-radius:50%;background:rgba(48,209,88,.25);border:2px solid #30D158;display:flex;align-items:center;justify-content:center;font-size:38px;animation:pop-confirm .4s cubic-bezier(.4,0,.2,1) forwards;opacity:0}
 </style>
 </head>
 <body>
 
-<!-- ══════════ HOME ══════════ -->
+<!-- HOME -->
 <div id="home" class="page active">
   <div class="header">
     <div class="logo">Money<span>Flow</span></div>
     <div class="header-actions">
-      <button class="btn-icon blue" onclick="exportCSV()" title="Esporta CSV"><i class="fas fa-download"></i></button>
-     <!-- <button class="btn-icon red" onclick="resetData()" title="Reset"><i class="fas fa-trash-can"></i></button> -->
+      <button class="btn-icon blue" onclick="exportCSV()" id="btn-export-title" title="Export CSV"><i class="fas fa-download"></i></button>
     </div>
   </div>
-
   <div class="glass-card">
     <div class="ring-wrap">
       <div class="ring-outer">
         <svg class="ring-svg" width="160" height="160" viewBox="0 0 160 160">
           <circle cx="80" cy="80" r="68" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="14"/>
-          <circle id="ringArc" cx="80" cy="80" r="68" fill="none" stroke="#30D158"
-            stroke-width="14" stroke-linecap="round"
-            stroke-dasharray="0 427" stroke-dashoffset="107"
-            transform="rotate(-90 80 80)"
-            style="transition:stroke-dasharray .6s cubic-bezier(.4,0,.2,1),stroke .4s"/>
+          <circle id="ringArc" cx="80" cy="80" r="68" fill="none" stroke="#30D158" stroke-width="14" stroke-linecap="round" stroke-dasharray="0 427" stroke-dashoffset="107" transform="rotate(-90 80 80)" style="transition:stroke-dasharray .6s cubic-bezier(.4,0,.2,1),stroke .4s"/>
         </svg>
         <div class="ring-inner">
           <div class="ring-perc" id="perc">0%</div>
-          <div class="ring-label">USATO</div>
+          <div class="ring-label" id="lbl-used">USED</div>
         </div>
       </div>
       <div class="ring-stats">
-        <div class="stat-item">
-          <div class="stat-val" id="spent">€ 0</div>
-          <div class="stat-key">Speso</div>
-        </div>
+        <div class="stat-item"><div class="stat-val" id="spent">€ 0</div><div class="stat-key" id="lbl-spent">Spent</div></div>
         <div class="stat-item" style="border-left:0.5px solid rgba(255,255,255,0.1);padding-left:28px">
-          <div class="stat-val" id="remaining">€ 0</div>
-          <div class="stat-key">Residuo</div>
+          <div class="stat-val" id="remaining">€ 0</div><div class="stat-key" id="lbl-remaining">Remaining</div>
         </div>
       </div>
       <div style="margin-top:10px" id="statusChip"></div>
     </div>
     <div class="proj-row" id="projRow" style="display:none">
-      <span class="proj-label"><i class="fas fa-chart-line" style="margin-right:4px"></i>Proiezione fine mese</span>
+      <span class="proj-label"><i class="fas fa-chart-line" style="margin-right:4px"></i><span id="lbl-projection">End-of-month projection</span></span>
       <span class="proj-val" id="projVal">—</span>
     </div>
   </div>
-
-  <!-- GRAFICO CATEGORIE -->
   <div class="glass-card">
-    <div class="section-title">Spese per categoria</div>
-    <div class="chart-wrap" id="catChart"><div class="empty">Nessuna spesa ancora</div></div>
+    <div class="section-title" id="lbl-cat-chart">Expenses by category</div>
+    <div class="chart-wrap" id="catChart"><div class="empty" id="lbl-no-expenses">No expenses yet</div></div>
   </div>
-
   <div class="glass-card">
-    <div class="section-title">Ultime spese</div>
-    <div id="last3"><div class="empty">Nessuna spesa ancora</div></div>
+    <div class="section-title" id="lbl-last-expenses">Latest expenses</div>
+    <div id="last3"><div class="empty">No expenses yet</div></div>
   </div>
 </div>
 
-<!-- ══════════ ADD ══════════ -->
+<!-- ADD -->
 <div id="add" class="page">
-  <div class="header"><div class="logo">Nuova <span>Spesa</span></div></div>
+  <div class="header"><div class="logo" id="lbl-add-title">New <span>Expense</span></div></div>
   <div class="glass-card">
-    <div class="field-label">Importo</div>
-    <input id="amount" type="number" class="glass-input" placeholder="€ 0,00" inputmode="decimal">
-    <div class="field-label">Categoria</div>
+    <div class="field-label" id="lbl-amount">Amount</div>
+    <input id="amount" type="number" class="glass-input" placeholder="€ 0.00" inputmode="decimal">
+    <div class="field-label" id="lbl-category">Category</div>
     <div class="cat-grid" id="catGrid">
-      <div class="cat-btn selected" data-cat="Alimentari" onclick="selectCat(this)"><span class="cat-icon">🛒</span>Alimentari</div>
-      <div class="cat-btn" data-cat="Trasporti" onclick="selectCat(this)"><span class="cat-icon">🚌</span>Trasporti</div>
-      <div class="cat-btn" data-cat="Casa" onclick="selectCat(this)"><span class="cat-icon">🏠</span>Casa</div>
-      <div class="cat-btn" data-cat="Svago" onclick="selectCat(this)"><span class="cat-icon">🎮</span>Svago</div>
-      <div class="cat-btn" data-cat="Altro" onclick="selectCat(this)"><span class="cat-icon">📦</span>Altro</div>
+      <div class="cat-btn selected" data-cat="Groceries" onclick="selectCat(this)"><span class="cat-icon">🛒</span><span class="cat-lbl">Groceries</span></div>
+      <div class="cat-btn" data-cat="Transport" onclick="selectCat(this)"><span class="cat-icon">🚌</span><span class="cat-lbl">Transport</span></div>
+      <div class="cat-btn" data-cat="Home" onclick="selectCat(this)"><span class="cat-icon">🏠</span><span class="cat-lbl">Home</span></div>
+      <div class="cat-btn" data-cat="Fun" onclick="selectCat(this)"><span class="cat-icon">🎮</span><span class="cat-lbl">Fun</span></div>
+      <div class="cat-btn" data-cat="Other" onclick="selectCat(this)"><span class="cat-icon">📦</span><span class="cat-lbl">Other</span></div>
     </div>
     <div class="desc-wrap" id="descWrap">
-      <div class="field-label">Descrizione</div>
-      <input id="desc" type="text" class="glass-input" placeholder="Es. Regalo compleanno…" maxlength="40">
+      <div class="field-label" id="lbl-description">Description</div>
+      <input id="desc" type="text" class="glass-input" id="inp-desc-placeholder" placeholder="e.g. Birthday gift…" maxlength="40">
     </div>
     <div class="toggle-row">
-      <div>
-        <div class="toggle-label">Spesa ricorrente</div>
-        <div class="toggle-sub">Si ripete ogni mese</div>
-      </div>
-      <label class="toggle">
-        <input type="checkbox" id="recurring">
-        <span class="toggle-slider"></span>
-      </label>
+      <div><div class="toggle-label" id="lbl-recurring">Recurring expense</div><div class="toggle-sub" id="lbl-recurring-sub">Repeats every month</div></div>
+      <label class="toggle"><input type="checkbox" id="recurring"><span class="toggle-slider"></span></label>
     </div>
-    <button class="btn-primary" onclick="addExpense()">Aggiungi Spesa</button>
+    <button class="btn-primary" onclick="addExpense()" id="btn-add-expense">Add Expense</button>
   </div>
 </div>
 
-<!-- ══════════ HISTORY ══════════ -->
+<!-- HISTORY -->
 <div id="historyPage" class="page">
   <div class="header">
-    <div class="logo">Crono<span>logia</span></div>
+    <div class="logo" id="lbl-history-title">Histo<span>ry</span></div>
     <button class="btn-icon blue" onclick="exportCSV()"><i class="fas fa-download"></i></button>
   </div>
-
-  <!-- selettore mese -->
   <div class="glass-card" style="padding:14px 20px">
     <div class="months-scroll" id="monthsTabs"></div>
     <div class="total-banner">
-      <div class="big" id="categoryTotal">€ 0,00</div>
-      <div class="sub" id="categoryLabel">Tutte le categorie</div>
+      <div class="big" id="categoryTotal">€ 0.00</div>
+      <div class="sub" id="categoryLabel">All categories</div>
     </div>
-    <div class="filter-wrap" id="filterChips">
-      <div class="filter-chip active" data-cat="all" onclick="filterExp(this)">Tutte</div>
-      <div class="filter-chip" data-cat="Alimentari" onclick="filterExp(this)">🛒 Alimentari</div>
-      <div class="filter-chip" data-cat="Trasporti" onclick="filterExp(this)">🚌 Trasporti</div>
-      <div class="filter-chip" data-cat="Casa" onclick="filterExp(this)">🏠 Casa</div>
-      <div class="filter-chip" data-cat="Svago" onclick="filterExp(this)">🎮 Svago</div>
-      <div class="filter-chip" data-cat="Altro" onclick="filterExp(this)">📦 Altro</div>
-    </div>
+    <div class="filter-wrap" id="filterChips"></div>
   </div>
-
   <div class="glass-card">
-    <div id="historyList"><div class="empty">Nessuna spesa ancora</div></div>
+    <div id="historyList"><div class="empty">No expenses yet</div></div>
   </div>
 </div>
 
-<!-- ══════════ STATS ══════════ -->
+<!-- STATS -->
 <div id="statsPage" class="page">
-  <div class="header"><div class="logo">Statisti<span>che</span></div></div>
+  <div class="header"><div class="logo" id="lbl-stats-title">Statis<span>tics</span></div></div>
   <div class="glass-card">
-    <div class="section-title">Distribuzione categorie</div>
+    <div class="section-title" id="lbl-cat-dist">Category distribution</div>
     <div class="donut-wrap">
       <svg id="donutSvg" width="160" height="160" viewBox="0 0 160 160"></svg>
       <div class="legend-grid" id="donutLegend"></div>
     </div>
   </div>
   <div class="glass-card">
-    <div class="section-title">Andamento mensile</div>
-    <div id="monthlyBars"><div class="empty">Dati insufficienti</div></div>
+    <div class="section-title" id="lbl-monthly-trend">Monthly trend</div>
+    <div id="monthlyBars"><div class="empty" id="lbl-insufficient-data">Insufficient data</div></div>
   </div>
 </div>
 
-<!-- ══════════ SETTINGS ══════════ -->
+<!-- SETTINGS -->
 <div id="settingsPage" class="page">
-  <div class="header"><div class="logo">Impo<span>stazioni</span></div></div>
+  <div class="header"><div class="logo" id="lbl-settings-title">Sett<span>ings</span></div></div>
+
+  <!-- LANGUAGE -->
   <div class="glass-card">
-    <div class="section-title">Budget mensile</div>
-    <div class="budget-row">
-      <input id="budget" type="number" class="glass-input" placeholder="€ 0,00" inputmode="decimal">
-      <button class="btn-small" onclick="saveBudget()">Salva</button>
+    <div class="section-title" id="lbl-language">Language</div>
+    <div class="lang-grid">
+      <div class="lang-btn active" data-lang="en" onclick="setLang('en',this)"><span class="lang-flag">🇬🇧</span>English</div>
+      <div class="lang-btn" data-lang="it" onclick="setLang('it',this)"><span class="lang-flag">🇮🇹</span>Italiano</div>
+      <div class="lang-btn" data-lang="es" onclick="setLang('es',this)"><span class="lang-flag">🇪🇸</span>Español</div>
+      <div class="lang-btn" data-lang="fr" onclick="setLang('fr',this)"><span class="lang-flag">🇫🇷</span>Français</div>
+      <div class="lang-btn" data-lang="de" onclick="setLang('de',this)"><span class="lang-flag">🇩🇪</span>Deutsch</div>
+      <div class="lang-btn" data-lang="pt" onclick="setLang('pt',this)"><span class="lang-flag">🇧🇷</span>Português</div>
     </div>
-    <div id="budgetSaved" style="display:none;font-size:12px;color:#30D158;margin-top:-8px"><i class="fas fa-circle-check"></i> Budget salvato</div>
   </div>
 
+  <!-- BUDGET -->
+  <div class="glass-card">
+    <div class="section-title" id="lbl-monthly-budget">Monthly budget</div>
+    <div class="budget-row">
+      <input id="budget" type="number" class="glass-input" placeholder="€ 0.00" inputmode="decimal">
+      <button class="btn-small" onclick="saveBudget()" id="btn-save-budget">Save</button>
+    </div>
+    <div id="budgetSaved" style="display:none;font-size:12px;color:#30D158;margin-top:-8px"><i class="fas fa-circle-check"></i> <span id="lbl-budget-saved">Budget saved</span></div>
+  </div>
+
+  <!-- THRESHOLD -->
   <div class="glass-card">
     <div class="settings-row">
-      <div>
-        <div class="settings-label">Soglia avviso arancione</div>
-        <div class="settings-sub">Avviso quando superi questa % del budget</div>
-      </div>
+      <div><div class="settings-label" id="lbl-warn-threshold">Orange warning threshold</div><div class="settings-sub" id="lbl-warn-sub">Alert when you exceed this % of budget</div></div>
       <div class="threshold-val" id="thresholdDisplay">70%</div>
     </div>
     <input type="range" id="thresholdSlider" min="40" max="95" step="5" value="70" oninput="updateThreshold(this.value)">
-    <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted2);margin-top:-4px">
-      <span>40%</span><span>95%</span>
-    </div>
+    <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted2);margin-top:-4px"><span>40%</span><span>95%</span></div>
   </div>
+
+  <!-- RECURRING -->
   <div class="glass-card">
-    <div class="section-title">Spese ricorrenti</div>
-    <div id="recurringList"><div class="empty">Nessuna spesa ricorrente</div></div>
+    <div class="section-title" id="lbl-recurring-expenses">Recurring expenses</div>
+    <div id="recurringList"><div class="empty" id="lbl-no-recurring">No recurring expenses</div></div>
   </div>
+
   <!-- TUTORIAL -->
   <div class="glass-card">
-    <div class="section-title">📲 Aggiungi alla schermata Home</div>
+    <div class="section-title" id="lbl-tutorial-title">📲 Add to Home Screen</div>
     <div class="tut-tabs">
-      <div class="tut-tab active" onclick="switchTutTab('safari',this)">
-        <span class="tut-tab-icon">🧭</span>Safari
-      </div>
-      <div class="tut-tab" onclick="switchTutTab('chrome',this)">
-        <span class="tut-tab-icon">🌐</span>Chrome
-      </div>
+      <div class="tut-tab active" onclick="switchTutTab('safari',this)"><span class="tut-tab-icon">🧭</span>Safari</div>
+      <div class="tut-tab" onclick="switchTutTab('chrome',this)"><span class="tut-tab-icon">🌐</span>Chrome</div>
     </div>
-
-    <!-- SAFARI -->
     <div class="tut-panel active" id="tut-safari">
       <div class="tut-steps" id="tut-safari-steps">
-
-        <div class="tut-step">
-          <div class="tut-step-num safari">1</div>
-          <div class="tut-step-body">
-            <div class="tut-step-title">Apri MoneyFlow in Safari</div>
-            <div class="tut-step-desc">Assicurati di usare Safari come browser. Chrome e altri browser non supportano l'installazione come app su iPhone.</div>
-          </div>
-        </div>
-
-        <div class="tut-step">
-          <div class="tut-step-num safari">2</div>
-          <div class="tut-step-body">
-            <div class="tut-step-title">Tocca il pulsante Condividi</div>
-            <div class="tut-step-desc">In basso al centro trovi l'icona con la freccia verso l'alto. Toccala per aprire il menu di condivisione.</div>
-            <div class="tut-mockup">
-              <svg viewBox="0 0 320 90" xmlns="http://www.w3.org/2000/svg">
-                <rect width="320" height="90" fill="#1a1f35"/>
-                <!-- Barra Safari bottom -->
-                <rect x="10" y="12" width="300" height="36" rx="12" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.12)" stroke-width="0.5"/>
-                <text x="160" y="35" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="11" font-family="-apple-system,sans-serif">moneyflow.app</text>
-                <!-- icons bottom bar -->
-                <text x="30" y="72" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="18" font-family="-apple-system,sans-serif">‹</text>
-                <text x="80" y="72" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="18" font-family="-apple-system,sans-serif">›</text>
-                <!-- Share button highlighted -->
-                <rect x="140" y="56" width="40" height="30" rx="8" fill="rgba(10,132,255,0.25)" stroke="rgba(10,132,255,0.6)" stroke-width="1"/>
-                <text x="160" y="76" text-anchor="middle" fill="#0A84FF" font-size="16" font-family="-apple-system,sans-serif">⬆</text>
-                <text x="230" y="72" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="16" font-family="-apple-system,sans-serif">⧉</text>
-                <text x="280" y="72" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="16" font-family="-apple-system,sans-serif">≡</text>
-                <!-- label -->
-                <text x="160" y="50" text-anchor="middle" fill="#0A84FF" font-size="9" font-family="-apple-system,sans-serif" font-weight="600">TOCCA QUI</text>
-                <line x1="160" y1="52" x2="160" y2="56" stroke="#0A84FF" stroke-width="1" stroke-dasharray="2,1"/>
-              </svg>
-            </div>
-          </div>
-        </div>
-
-        <div class="tut-step">
-          <div class="tut-step-num safari">3</div>
-          <div class="tut-step-body">
-            <div class="tut-step-title">Scorri e tocca "Aggiungi a schermata Home"</div>
-            <div class="tut-step-desc">Nel menu che appare dal basso, scorri le opzioni fino a trovare questa voce con l'icona del quadrato con il "+". Toccala.</div>
-            <div class="tut-mockup">
-              <svg viewBox="0 0 320 130" xmlns="http://www.w3.org/2000/svg">
-                <rect width="320" height="130" fill="#1a1f35"/>
-                <!-- Sheet -->
-                <rect x="0" y="20" width="320" height="110" rx="0" fill="#252d45"/>
-                <rect x="125" y="26" width="70" height="4" rx="2" fill="rgba(255,255,255,0.2)"/>
-                <!-- options -->
-                <rect x="14" y="42" width="292" height="40" rx="13" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
-                <text x="42" y="57" fill="rgba(255,255,255,0.5)" font-size="11" font-family="-apple-system,sans-serif">✈️</text>
-                <text x="62" y="57" fill="rgba(255,255,255,0.5)" font-size="11" font-family="-apple-system,sans-serif">AirDrop</text>
-                <text x="42" y="73" fill="rgba(255,255,255,0.5)" font-size="11" font-family="-apple-system,sans-serif">💬</text>
-                <text x="62" y="73" fill="rgba(255,255,255,0.5)" font-size="11" font-family="-apple-system,sans-serif">Messaggi</text>
-                <!-- highlighted row -->
-                <rect x="14" y="88" width="292" height="36" rx="13" fill="rgba(10,132,255,0.18)" stroke="rgba(10,132,255,0.5)" stroke-width="0.8"/>
-                <rect x="26" y="96" width="20" height="20" rx="6" fill="rgba(10,132,255,0.3)" stroke="rgba(10,132,255,0.5)" stroke-width="0.5"/>
-                <text x="36" y="110" text-anchor="middle" fill="#0A84FF" font-size="13" font-family="-apple-system,sans-serif">+</text>
-                <text x="56" y="110" fill="#fff" font-size="12" font-weight="600" font-family="-apple-system,sans-serif">Aggiungi a schermata Home</text>
-              </svg>
-            </div>
-          </div>
-        </div>
-
-        <div class="tut-step">
-          <div class="tut-step-num safari">4</div>
-          <div class="tut-step-body">
-            <div class="tut-step-title">Conferma con "Aggiungi"</div>
-            <div class="tut-step-desc">Apparirà un'anteprima con il nome dell'app. Tocca "Aggiungi" in alto a destra per completare l'installazione.</div>
-            <div class="tut-mockup">
-              <svg viewBox="0 0 320 100" xmlns="http://www.w3.org/2000/svg">
-                <rect width="320" height="100" fill="#1a1f35"/>
-                <rect x="0" y="0" width="320" height="100" fill="#252d45"/>
-                <text x="20" y="28" fill="rgba(255,255,255,0.45)" font-size="13" font-family="-apple-system,sans-serif">Annulla</text>
-                <text x="160" y="28" text-anchor="middle" fill="#fff" font-size="14" font-weight="600" font-family="-apple-system,sans-serif">Aggiungi a Home</text>
-                <rect x="254" y="12" width="56" height="24" rx="12" fill="rgba(10,132,255,0.25)" stroke="rgba(10,132,255,0.5)" stroke-width="0.8"/>
-                <text x="282" y="28" text-anchor="middle" fill="#0A84FF" font-size="13" font-weight="700" font-family="-apple-system,sans-serif">Aggiungi</text>
-                <!-- app preview -->
-                <rect x="120" y="44" width="48" height="48" rx="14" fill="#0A84FF"/>
-                <text x="144" y="74" text-anchor="middle" fill="#fff" font-size="22" font-family="-apple-system,sans-serif">💰</text>
-                <text x="144" y="100" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="10" font-family="-apple-system,sans-serif">MoneyFlow</text>
-              </svg>
-            </div>
-          </div>
-        </div>
-
+        <div class="tut-step"><div class="tut-step-num safari">1</div><div class="tut-step-body"><div class="tut-step-title" id="tut-s1-title">Open MoneyFlow in Safari</div><div class="tut-step-desc" id="tut-s1-desc">Make sure you are using Safari. Chrome and other browsers do not support installation as an app on iPhone.</div></div></div>
+        <div class="tut-step"><div class="tut-step-num safari">2</div><div class="tut-step-body"><div class="tut-step-title" id="tut-s2-title">Tap the Share button</div><div class="tut-step-desc" id="tut-s2-desc">At the bottom center you'll find the icon with an arrow pointing up. Tap it to open the share menu.</div>
+          <div class="tut-mockup"><svg viewBox="0 0 320 90" xmlns="http://www.w3.org/2000/svg"><rect width="320" height="90" fill="#1a1f35"/><rect x="10" y="12" width="300" height="36" rx="12" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.12)" stroke-width="0.5"/><text x="160" y="35" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="11" font-family="-apple-system,sans-serif">moneyflow.app</text><text x="30" y="72" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="18">‹</text><text x="80" y="72" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="18">›</text><rect x="140" y="56" width="40" height="30" rx="8" fill="rgba(10,132,255,0.25)" stroke="rgba(10,132,255,0.6)" stroke-width="1"/><text x="160" y="76" text-anchor="middle" fill="#0A84FF" font-size="16">⬆</text><text x="230" y="72" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="16">⧉</text><text x="280" y="72" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="16">≡</text><text x="160" y="50" text-anchor="middle" fill="#0A84FF" font-size="9" font-weight="600" id="svg-tap-here-1">TAP HERE</text><line x1="160" y1="52" x2="160" y2="56" stroke="#0A84FF" stroke-width="1" stroke-dasharray="2,1"/></svg></div>
+        </div></div>
+        <div class="tut-step"><div class="tut-step-num safari">3</div><div class="tut-step-body"><div class="tut-step-title" id="tut-s3-title">Scroll and tap "Add to Home Screen"</div><div class="tut-step-desc" id="tut-s3-desc">In the menu that appears from the bottom, scroll the options to find this item with the square "+" icon. Tap it.</div>
+          <div class="tut-mockup"><svg viewBox="0 0 320 130" xmlns="http://www.w3.org/2000/svg"><rect width="320" height="130" fill="#1a1f35"/><rect x="0" y="20" width="320" height="110" fill="#252d45"/><rect x="125" y="26" width="70" height="4" rx="2" fill="rgba(255,255,255,0.2)"/><rect x="14" y="42" width="292" height="40" rx="13" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/><text x="42" y="57" fill="rgba(255,255,255,0.5)" font-size="11">✈️</text><text x="62" y="57" fill="rgba(255,255,255,0.5)" font-size="11">AirDrop</text><text x="42" y="73" fill="rgba(255,255,255,0.5)" font-size="11">💬</text><text x="62" y="73" fill="rgba(255,255,255,0.5)" font-size="11" id="svg-messages">Messages</text><rect x="14" y="88" width="292" height="36" rx="13" fill="rgba(10,132,255,0.18)" stroke="rgba(10,132,255,0.5)" stroke-width="0.8"/><rect x="26" y="96" width="20" height="20" rx="6" fill="rgba(10,132,255,0.3)"/><text x="36" y="110" text-anchor="middle" fill="#0A84FF" font-size="13">+</text><text x="56" y="110" fill="#fff" font-size="12" font-weight="600" id="svg-add-home">Add to Home Screen</text></svg></div>
+        </div></div>
+        <div class="tut-step"><div class="tut-step-num safari">4</div><div class="tut-step-body"><div class="tut-step-title" id="tut-s4-title">Confirm with "Add"</div><div class="tut-step-desc" id="tut-s4-desc">A preview will appear with the app name. Tap "Add" in the top right corner to complete the installation.</div>
+          <div class="tut-mockup"><svg viewBox="0 0 320 100" xmlns="http://www.w3.org/2000/svg"><rect width="320" height="100" fill="#252d45"/><text x="20" y="28" fill="rgba(255,255,255,0.45)" font-size="13" id="svg-cancel-1">Cancel</text><text x="160" y="28" text-anchor="middle" fill="#fff" font-size="14" font-weight="600" id="svg-add-to-home">Add to Home</text><rect x="254" y="12" width="56" height="24" rx="12" fill="rgba(10,132,255,0.25)" stroke="rgba(10,132,255,0.5)" stroke-width="0.8"/><text x="282" y="28" text-anchor="middle" fill="#0A84FF" font-size="13" font-weight="700" id="svg-add-btn-1">Add</text><rect x="120" y="44" width="48" height="48" rx="14" fill="#0A84FF"/><text x="144" y="74" text-anchor="middle" fill="#fff" font-size="22">💰</text><text x="144" y="96" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="10">MoneyFlow</text></svg></div>
+        </div></div>
       </div>
-      <div class="tut-tip"><i class="fas fa-circle-info"></i>Su iOS, le app aggiunte via Safari funzionano a schermo intero senza la barra di Safari, esattamente come un'app nativa.</div>
+      <div class="tut-tip"><i class="fas fa-circle-info"></i><span id="tut-safari-tip">On iOS, apps added via Safari run full screen without the browser bar, just like a native app.</span></div>
     </div>
-
-    <!-- CHROME -->
     <div class="tut-panel" id="tut-chrome">
       <div class="tut-steps" id="tut-chrome-steps">
-
-        <div class="tut-step">
-          <div class="tut-step-num chrome">1</div>
-          <div class="tut-step-body">
-            <div class="tut-step-title">Apri MoneyFlow in Chrome</div>
-            <div class="tut-step-desc">Su Android usa Chrome per la migliore esperienza. Su iPhone preferisci Safari, ma Chrome funziona comunque.</div>
-          </div>
-        </div>
-
-        <div class="tut-step">
-          <div class="tut-step-num chrome">2</div>
-          <div class="tut-step-body">
-            <div class="tut-step-title">Tocca i tre puntini in alto a destra</div>
-            <div class="tut-step-desc">Il menu principale di Chrome si apre toccando "⋮" nell'angolo in alto a destra della schermata.</div>
-            <div class="tut-mockup">
-              <svg viewBox="0 0 320 80" xmlns="http://www.w3.org/2000/svg">
-                <rect width="320" height="80" fill="#1a1f35"/>
-                <!-- Chrome top bar -->
-                <rect x="10" y="18" width="260" height="34" rx="10" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
-                <text x="140" y="40" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="11" font-family="-apple-system,sans-serif">moneyflow.app</text>
-                <!-- 3 dots highlighted -->
-                <rect x="278" y="18" width="34" height="34" rx="10" fill="rgba(48,209,88,0.2)" stroke="rgba(48,209,88,0.5)" stroke-width="0.8"/>
-                <text x="295" y="38" text-anchor="middle" fill="#30D158" font-size="16" font-family="-apple-system,sans-serif" letter-spacing="0">⋮</text>
-                <text x="295" y="14" text-anchor="middle" fill="#30D158" font-size="9" font-weight="600" font-family="-apple-system,sans-serif">TOCCA QUI</text>
-              </svg>
-            </div>
-          </div>
-        </div>
-
-        <div class="tut-step">
-          <div class="tut-step-num chrome">3</div>
-          <div class="tut-step-body">
-            <div class="tut-step-title">Seleziona "Aggiungi a schermata Home"</div>
-            <div class="tut-step-desc">Nel menu a tendina cerca la voce "Aggiungi a schermata Home" oppure "Installa app". Su Android potrebbe apparire anche un banner automatico in basso.</div>
-            <div class="tut-mockup">
-              <svg viewBox="0 0 320 150" xmlns="http://www.w3.org/2000/svg">
-                <rect width="320" height="150" fill="#1a1f35"/>
-                <!-- dropdown -->
-                <rect x="160" y="10" width="148" height="140" rx="14" fill="#2a3350" stroke="rgba(255,255,255,0.12)" stroke-width="0.5"/>
-                <!-- items -->
-                <text x="178" y="38" fill="rgba(255,255,255,0.5)" font-size="11" font-family="-apple-system,sans-serif">🔖  Nuova scheda</text>
-                <line x1="170" y1="48" x2="300" y2="48" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
-                <text x="178" y="66" fill="rgba(255,255,255,0.5)" font-size="11" font-family="-apple-system,sans-serif">⭐  Aggiungi preferiti</text>
-                <line x1="170" y1="76" x2="300" y2="76" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
-                <!-- highlighted -->
-                <rect x="162" y="82" width="144" height="30" rx="8" fill="rgba(48,209,88,0.15)" stroke="rgba(48,209,88,0.4)" stroke-width="0.7"/>
-                <text x="178" y="101" fill="#30D158" font-size="11" font-weight="600" font-family="-apple-system,sans-serif">📲  Aggiungi a Home</text>
-                <line x1="170" y1="118" x2="300" y2="118" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
-                <text x="178" y="136" fill="rgba(255,255,255,0.5)" font-size="11" font-family="-apple-system,sans-serif">🖨️  Stampa</text>
-              </svg>
-            </div>
-          </div>
-        </div>
-
-        <div class="tut-step">
-          <div class="tut-step-num chrome">4</div>
-          <div class="tut-step-body">
-            <div class="tut-step-title">Tocca "Aggiungi" per confermare</div>
-            <div class="tut-step-desc">Apparirà un popup di conferma. Tocca "Aggiungi" e l'icona di MoneyFlow apparirà nella tua schermata Home.</div>
-            <div class="tut-mockup">
-              <svg viewBox="0 0 320 100" xmlns="http://www.w3.org/2000/svg">
-                <rect width="320" height="100" fill="#1a1f35"/>
-                <rect x="30" y="10" width="260" height="80" rx="16" fill="#2a3350" stroke="rgba(255,255,255,0.12)" stroke-width="0.5"/>
-                <!-- app icon -->
-                <rect x="46" y="24" width="42" height="42" rx="12" fill="#0A84FF"/>
-                <text x="67" y="51" text-anchor="middle" fill="#fff" font-size="20" font-family="-apple-system,sans-serif">💰</text>
-                <!-- text -->
-                <text x="100" y="38" fill="#fff" font-size="13" font-weight="600" font-family="-apple-system,sans-serif">MoneyFlow</text>
-                <text x="100" y="54" fill="rgba(255,255,255,0.45)" font-size="10" font-family="-apple-system,sans-serif">moneyflow.app</text>
-                <!-- buttons -->
-                <rect x="46" y="74" width="100" height="26" rx="13" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.15)" stroke-width="0.5"/>
-                <text x="96" y="91" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="12" font-family="-apple-system,sans-serif">Annulla</text>
-                <rect x="158" y="74" width="116" height="26" rx="13" fill="rgba(48,209,88,0.2)" stroke="rgba(48,209,88,0.5)" stroke-width="0.8"/>
-                <text x="216" y="91" text-anchor="middle" fill="#30D158" font-size="12" font-weight="700" font-family="-apple-system,sans-serif">Aggiungi</text>
-              </svg>
-            </div>
-          </div>
-        </div>
-
+        <div class="tut-step"><div class="tut-step-num chrome">1</div><div class="tut-step-body"><div class="tut-step-title" id="tut-c1-title">Open MoneyFlow in Chrome</div><div class="tut-step-desc" id="tut-c1-desc">On Android, use Chrome for the best experience. On iPhone, Safari is preferred, but Chrome works too.</div></div></div>
+        <div class="tut-step"><div class="tut-step-num chrome">2</div><div class="tut-step-body"><div class="tut-step-title" id="tut-c2-title">Tap the three dots in the top right</div><div class="tut-step-desc" id="tut-c2-desc">Chrome's main menu opens by tapping "⋮" in the top right corner of the screen.</div>
+          <div class="tut-mockup"><svg viewBox="0 0 320 80" xmlns="http://www.w3.org/2000/svg"><rect width="320" height="80" fill="#1a1f35"/><rect x="10" y="18" width="260" height="34" rx="10" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/><text x="140" y="40" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="11">moneyflow.app</text><rect x="278" y="18" width="34" height="34" rx="10" fill="rgba(48,209,88,0.2)" stroke="rgba(48,209,88,0.5)" stroke-width="0.8"/><text x="295" y="38" text-anchor="middle" fill="#30D158" font-size="16">⋮</text><text x="295" y="14" text-anchor="middle" fill="#30D158" font-size="9" font-weight="600" id="svg-tap-here-2">TAP HERE</text></svg></div>
+        </div></div>
+        <div class="tut-step"><div class="tut-step-num chrome">3</div><div class="tut-step-body"><div class="tut-step-title" id="tut-c3-title">Select "Add to Home Screen"</div><div class="tut-step-desc" id="tut-c3-desc">In the dropdown menu, look for "Add to Home Screen" or "Install app". On Android a banner may also appear automatically at the bottom.</div>
+          <div class="tut-mockup"><svg viewBox="0 0 320 150" xmlns="http://www.w3.org/2000/svg"><rect width="320" height="150" fill="#1a1f35"/><rect x="160" y="10" width="148" height="140" rx="14" fill="#2a3350" stroke="rgba(255,255,255,0.12)" stroke-width="0.5"/><text x="178" y="38" fill="rgba(255,255,255,0.5)" font-size="11" id="svg-new-tab">🔖  New tab</text><line x1="170" y1="48" x2="300" y2="48" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/><text x="178" y="66" fill="rgba(255,255,255,0.5)" font-size="11" id="svg-bookmarks">⭐  Bookmarks</text><line x1="170" y1="76" x2="300" y2="76" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/><rect x="162" y="82" width="144" height="30" rx="8" fill="rgba(48,209,88,0.15)" stroke="rgba(48,209,88,0.4)" stroke-width="0.7"/><text x="178" y="101" fill="#30D158" font-size="11" font-weight="600" id="svg-add-home-2">📲  Add to Home</text><line x1="170" y1="118" x2="300" y2="118" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/><text x="178" y="136" fill="rgba(255,255,255,0.5)" font-size="11" id="svg-print">🖨️  Print</text></svg></div>
+        </div></div>
+        <div class="tut-step"><div class="tut-step-num chrome">4</div><div class="tut-step-body"><div class="tut-step-title" id="tut-c4-title">Tap "Add" to confirm</div><div class="tut-step-desc" id="tut-c4-desc">A confirmation popup will appear. Tap "Add" and the MoneyFlow icon will appear on your Home Screen.</div>
+          <div class="tut-mockup"><svg viewBox="0 0 320 100" xmlns="http://www.w3.org/2000/svg"><rect width="320" height="100" fill="#1a1f35"/><rect x="30" y="10" width="260" height="80" rx="16" fill="#2a3350" stroke="rgba(255,255,255,0.12)" stroke-width="0.5"/><rect x="46" y="24" width="42" height="42" rx="12" fill="#0A84FF"/><text x="67" y="51" text-anchor="middle" fill="#fff" font-size="20">💰</text><text x="100" y="38" fill="#fff" font-size="13" font-weight="600">MoneyFlow</text><text x="100" y="54" fill="rgba(255,255,255,0.45)" font-size="10">moneyflow.app</text><rect x="46" y="74" width="100" height="26" rx="13" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.15)" stroke-width="0.5"/><text x="96" y="91" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="12" id="svg-cancel-2">Cancel</text><rect x="158" y="74" width="116" height="26" rx="13" fill="rgba(48,209,88,0.2)" stroke="rgba(48,209,88,0.5)" stroke-width="0.8"/><text x="216" y="91" text-anchor="middle" fill="#30D158" font-size="12" font-weight="700" id="svg-add-btn-2">Add</text></svg></div>
+        </div></div>
       </div>
-      <div class="tut-tip"><i class="fas fa-circle-info"></i>Su Android con Chrome, l'app viene installata come PWA e appare nella lista delle app, con tanto di icona e splash screen.</div>
+      <div class="tut-tip"><i class="fas fa-circle-info"></i><span id="tut-chrome-tip">On Android with Chrome, the app is installed as a PWA and appears in your app list with its own icon and splash screen.</span></div>
     </div>
   </div>
 
+  <!-- DELETE ALL -->
   <div class="glass-card">
-        <div class="settings-sub">Cancella spese e budget di tutti i mesi</div>
-         <button class="btn-primary" style="background:rgba(255,69,58,.7);margin-top:8px" onclick="resetAll()">
-      <i class="fas fa-trash-can"></i> Elimina tutto
-    </button>
-      </div>
-    </div>
-   
+    <div class="settings-sub" id="lbl-delete-sub">Delete all expenses and budgets from every month</div>
+    <button class="btn-primary" style="background:rgba(255,69,58,.7);margin-top:8px" onclick="resetAll()" id="btn-delete-all"><i class="fas fa-trash-can"></i> Delete all data</button>
   </div>
 </div>
 
 <!-- NAV -->
 <div class="nav-bar">
-  <button class="nav-item active" id="nav-home" onclick="show('home','nav-home')">
-    <i class="fas fa-house"></i>Home
-  </button>
-  <button class="nav-item" id="nav-hist" onclick="show('historyPage','nav-hist')">
-    <i class="fas fa-clock-rotate-left"></i>Storico
-  </button>
-  <button class="nav-item nav-add" id="nav-add" onclick="show('add','nav-add')">
-    <i class="fas fa-plus"></i>
-  </button>
-  <button class="nav-item" id="nav-stats" onclick="show('statsPage','nav-stats')">
-    <i class="fas fa-chart-pie"></i>Stats
-  </button>
-  <button class="nav-item" id="nav-settings" onclick="show('settingsPage','nav-settings')">
-    <i class="fas fa-sliders"></i>Set
-  </button>
+  <button class="nav-item active" id="nav-home" onclick="show('home','nav-home')"><i class="fas fa-house"></i><span id="nav-lbl-home">Home</span></button>
+  <button class="nav-item" id="nav-hist" onclick="show('historyPage','nav-hist')"><i class="fas fa-clock-rotate-left"></i><span id="nav-lbl-hist">History</span></button>
+  <button class="nav-item nav-add" id="nav-add" onclick="show('add','nav-add')"><i class="fas fa-plus"></i></button>
+  <button class="nav-item" id="nav-stats" onclick="show('statsPage','nav-stats')"><i class="fas fa-chart-pie"></i><span id="nav-lbl-stats">Stats</span></button>
+  <button class="nav-item" id="nav-settings" onclick="show('settingsPage','nav-settings')"><i class="fas fa-sliders"></i><span id="nav-lbl-set">Settings</span></button>
 </div>
 
 <!-- BOTTOM SHEET EDIT -->
 <div class="sheet-overlay" id="sheetOverlay" onclick="closeSheet()"></div>
 <div class="sheet" id="sheet">
   <div class="sheet-handle"></div>
-  <div class="sheet-title">Modifica spesa</div>
-  <div class="field-label">Importo</div>
-  <input id="editAmount" type="number" class="glass-input" placeholder="€ 0,00" inputmode="decimal">
+  <div class="sheet-title" id="lbl-edit-expense">Edit expense</div>
+  <div class="field-label" id="lbl-edit-amount">Amount</div>
+  <input id="editAmount" type="number" class="glass-input" placeholder="€ 0.00" inputmode="decimal">
   <div id="editDescGroup" style="display:none">
-    <div class="field-label">Descrizione</div>
-    <input id="editDesc" type="text" class="glass-input" placeholder="Descrizione…" maxlength="40">
+    <div class="field-label" id="lbl-edit-desc">Description</div>
+    <input id="editDesc" type="text" class="glass-input" placeholder="Description…" maxlength="40">
   </div>
   <div class="sheet-row">
-    <button class="btn-danger" onclick="deleteExpense()"><i class="fas fa-trash-can"></i> Elimina</button>
-    <button class="btn-save" onclick="saveEdit()">Salva</button>
+    <button class="btn-danger" onclick="deleteExpense()" id="btn-delete"><i class="fas fa-trash-can"></i> <span id="lbl-delete">Delete</span></button>
+    <button class="btn-save" onclick="saveEdit()" id="btn-save-edit"><span id="lbl-save">Save</span></button>
   </div>
 </div>
 
-<!-- CONFIRM ANIM -->
 <div class="confirm-overlay" id="confirmOverlay" style="display:none">
   <div class="confirm-bubble" id="confirmBubble">✓</div>
 </div>
 
 <script>
-/* ═══════════ COSTANTI ═══════════ */
-const catIcons={Alimentari:'🛒',Trasporti:'🚌',Casa:'🏠',Svago:'🎮',Altro:'📦'};
-const catClass={Alimentari:'cat-food',Trasporti:'cat-transport',Casa:'cat-house',Svago:'cat-fun',Altro:'cat-other'};
-const catColors={Alimentari:'#FF9F0A',Trasporti:'#5AC8FA',Casa:'#30D158',Svago:'#BF5AF2',Altro:'rgba(255,255,255,.6)'};
-const MONTHS_IT=['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+/* ══════════════════════════════════════
+   TRANSLATIONS
+══════════════════════════════════════ */
+const TRANSLATIONS = {
+  en: {
+    months: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+    cats: {Groceries:'Groceries',Transport:'Transport',Home:'Home',Fun:'Fun',Other:'Other'},
+    catKeys: ['Groceries','Transport','Home','Fun','Other'],
+    used: 'USED', spent: 'Spent', remaining: 'Remaining',
+    projection: 'End-of-month projection',
+    catChart: 'Expenses by category', lastExpenses: 'Latest expenses',
+    noExpenses: 'No expenses yet', noData: 'No data',
+    addTitle: ['New ','Expense'],
+    amount: 'Amount', category: 'Category', description: 'Description',
+    descPlaceholder: 'e.g. Birthday gift…',
+    recurring: 'Recurring expense', recurringSub: 'Repeats every month',
+    addBtn: 'Add Expense',
+    historyTitle: ['Histo','ry'],
+    allCats: 'All categories', noExpensesHist: 'No expenses',
+    statsTitle: ['Statis','tics'],
+    catDist: 'Category distribution', monthlyTrend: 'Monthly trend', insufficientData: 'Insufficient data',
+    settingsTitle: ['Sett','ings'],
+    language: 'Language',
+    monthlyBudget: 'Monthly budget', budgetSaved: 'Budget saved', saveBudget: 'Save',
+    warnThreshold: 'Orange warning threshold', warnSub: 'Alert when you exceed this % of budget',
+    recurringExpenses: 'Recurring expenses', noRecurring: 'No recurring expenses',
+    tutorialTitle: '📲 Add to Home Screen',
+    deleteSub: 'Delete all expenses and budgets from every month',
+    deleteAll: 'Delete all data',
+    navHome: 'Home', navHist: 'History', navStats: 'Stats', navSet: 'Settings',
+    editExpense: 'Edit expense', editAmount: 'Amount', editDesc: 'Description',
+    deleteBtn: 'Delete', saveBtn: 'Save',
+    chipOk: 'Everything on track', chipWarn: 'You have used {pct}% of your budget',
+    chipDanger: 'Running out of budget!', chipEmpty: 'Budget exhausted',
+    confirmDeleteExp: 'Delete this expense?', confirmDeleteAll: 'Delete ALL data? This action is irreversible.',
+    noExportData: 'No expenses to export',
+    csvHeaders: 'Date,Category,Amount,Description,Recurring',
+    csvYes: 'Yes', csvNo: 'No',
+    recBadge: '↻ recurring',
+    tutS1Title:'Open MoneyFlow in Safari',tutS1Desc:'Make sure you are using Safari. Chrome and other browsers do not support installation as an app on iPhone.',
+    tutS2Title:'Tap the Share button',tutS2Desc:'At the bottom center you\'ll find the icon with an arrow pointing up. Tap it to open the share menu.',
+    tutS3Title:'Scroll and tap "Add to Home Screen"',tutS3Desc:'In the menu that appears from the bottom, scroll to find this item with the "+" icon. Tap it.',
+    tutS4Title:'Confirm with "Add"',tutS4Desc:'A preview will appear with the app name. Tap "Add" in the top right corner to complete the installation.',
+    tutSafariTip:'On iOS, apps added via Safari run full screen without the browser bar, just like a native app.',
+    tutC1Title:'Open MoneyFlow in Chrome',tutC1Desc:'On Android, use Chrome for the best experience. On iPhone, Safari is preferred, but Chrome works too.',
+    tutC2Title:'Tap the three dots in the top right',tutC2Desc:'Chrome\'s main menu opens by tapping "⋮" in the top right corner.',
+    tutC3Title:'Select "Add to Home Screen"',tutC3Desc:'In the dropdown menu, look for "Add to Home Screen" or "Install app". On Android a banner may also appear automatically.',
+    tutC4Title:'Tap "Add" to confirm',tutC4Desc:'A confirmation popup will appear. Tap "Add" and the MoneyFlow icon will appear on your Home Screen.',
+    tutChromeTip:'On Android with Chrome, the app is installed as a PWA and appears in your app list with its own icon and splash screen.',
+    tapHere:'TAP HERE', svgMessages:'Messages', svgAddHome:'Add to Home Screen',
+    svgCancel:'Cancel', svgAddToHome:'Add to Home', svgAdd:'Add',
+    svgNewTab:'🔖  New tab', svgBookmarks:'⭐  Bookmarks', svgAddHome2:'📲  Add to Home', svgPrint:'🖨️  Print',
+  },
+  it: {
+    months: ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'],
+    cats: {Groceries:'Alimentari',Transport:'Trasporti',Home:'Casa',Fun:'Svago',Other:'Altro'},
+    catKeys: ['Groceries','Transport','Home','Fun','Other'],
+    used:'USATO',spent:'Speso',remaining:'Residuo',
+    projection:'Proiezione fine mese',
+    catChart:'Spese per categoria',lastExpenses:'Ultime spese',
+    noExpenses:'Nessuna spesa ancora',noData:'Nessun dato',
+    addTitle:['Nuova ','Spesa'],
+    amount:'Importo',category:'Categoria',description:'Descrizione',
+    descPlaceholder:'Es. Regalo compleanno…',
+    recurring:'Spesa ricorrente',recurringSub:'Si ripete ogni mese',
+    addBtn:'Aggiungi Spesa',
+    historyTitle:['Crono','logia'],
+    allCats:'Tutte le categorie',noExpensesHist:'Nessuna spesa',
+    statsTitle:['Statisti','che'],
+    catDist:'Distribuzione categorie',monthlyTrend:'Andamento mensile',insufficientData:'Dati insufficienti',
+    settingsTitle:['Impo','stazioni'],
+    language:'Lingua',
+    monthlyBudget:'Budget mensile',budgetSaved:'Budget salvato',saveBudget:'Salva',
+    warnThreshold:'Soglia avviso arancione',warnSub:'Avviso quando superi questa % del budget',
+    recurringExpenses:'Spese ricorrenti',noRecurring:'Nessuna spesa ricorrente',
+    tutorialTitle:'📲 Aggiungi alla schermata Home',
+    deleteSub:'Cancella spese e budget di tutti i mesi',
+    deleteAll:'Elimina tutto',
+    navHome:'Home',navHist:'Storico',navStats:'Stats',navSet:'Set',
+    editExpense:'Modifica spesa',editAmount:'Importo',editDesc:'Descrizione',
+    deleteBtn:'Elimina',saveBtn:'Salva',
+    chipOk:'Tutto sotto controllo',chipWarn:'Hai usato il {pct}% del budget',
+    chipDanger:'Stai esaurendo il budget!',chipEmpty:'Budget esaurito',
+    confirmDeleteExp:'Eliminare questa spesa?',confirmDeleteAll:'Eliminare TUTTI i dati? Questa azione è irreversibile.',
+    noExportData:'Nessuna spesa da esportare',
+    csvHeaders:'Data,Categoria,Importo,Descrizione,Ricorrente',
+    csvYes:'Sì',csvNo:'No',
+    recBadge:'↻ ricorrente',
+    tutS1Title:'Apri MoneyFlow in Safari',tutS1Desc:'Assicurati di usare Safari. Chrome e altri browser non supportano l\'installazione come app su iPhone.',
+    tutS2Title:'Tocca il pulsante Condividi',tutS2Desc:'In basso al centro trovi l\'icona con la freccia verso l\'alto. Toccala per aprire il menu di condivisione.',
+    tutS3Title:'Scorri e tocca "Aggiungi a schermata Home"',tutS3Desc:'Nel menu dal basso, scorri le opzioni per trovare questa voce con l\'icona "+". Toccala.',
+    tutS4Title:'Conferma con "Aggiungi"',tutS4Desc:'Apparirà un\'anteprima con il nome dell\'app. Tocca "Aggiungi" in alto a destra per completare l\'installazione.',
+    tutSafariTip:'Su iOS, le app aggiunte via Safari funzionano a schermo intero senza la barra di Safari, esattamente come un\'app nativa.',
+    tutC1Title:'Apri MoneyFlow in Chrome',tutC1Desc:'Su Android usa Chrome per la migliore esperienza. Su iPhone preferisci Safari, ma Chrome funziona comunque.',
+    tutC2Title:'Tocca i tre puntini in alto a destra',tutC2Desc:'Il menu principale di Chrome si apre toccando "⋮" nell\'angolo in alto a destra.',
+    tutC3Title:'Seleziona "Aggiungi a schermata Home"',tutC3Desc:'Nel menu a tendina cerca "Aggiungi a schermata Home" o "Installa app". Su Android potrebbe apparire anche un banner automatico.',
+    tutC4Title:'Tocca "Aggiungi" per confermare',tutC4Desc:'Apparirà un popup di conferma. Tocca "Aggiungi" e l\'icona di MoneyFlow apparirà nella schermata Home.',
+    tutChromeTip:'Su Android con Chrome, l\'app viene installata come PWA e appare nella lista delle app con icona e splash screen.',
+    tapHere:'TOCCA QUI',svgMessages:'Messaggi',svgAddHome:'Aggiungi a schermata Home',
+    svgCancel:'Annulla',svgAddToHome:'Aggiungi a Home',svgAdd:'Aggiungi',
+    svgNewTab:'🔖  Nuova scheda',svgBookmarks:'⭐  Aggiungi preferiti',svgAddHome2:'📲  Aggiungi a Home',svgPrint:'🖨️  Stampa',
+  },
+  es: {
+    months:['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+    cats:{Groceries:'Compras',Transport:'Transporte',Home:'Hogar',Fun:'Ocio',Other:'Otro'},
+    catKeys:['Groceries','Transport','Home','Fun','Other'],
+    used:'USADO',spent:'Gastado',remaining:'Restante',
+    projection:'Proyección fin de mes',catChart:'Gastos por categoría',lastExpenses:'Últimos gastos',
+    noExpenses:'Sin gastos aún',noData:'Sin datos',addTitle:['Nuevo ','Gasto'],
+    amount:'Importe',category:'Categoría',description:'Descripción',descPlaceholder:'Ej. Regalo cumpleaños…',
+    recurring:'Gasto recurrente',recurringSub:'Se repite cada mes',addBtn:'Añadir Gasto',
+    historyTitle:['Histo','rial'],allCats:'Todas las categorías',noExpensesHist:'Sin gastos',
+    statsTitle:['Estadís','ticas'],catDist:'Distribución por categoría',monthlyTrend:'Tendencia mensual',insufficientData:'Datos insuficientes',
+    settingsTitle:['Ajus','tes'],language:'Idioma',
+    monthlyBudget:'Presupuesto mensual',budgetSaved:'Presupuesto guardado',saveBudget:'Guardar',
+    warnThreshold:'Umbral de aviso naranja',warnSub:'Aviso cuando superes este % del presupuesto',
+    recurringExpenses:'Gastos recurrentes',noRecurring:'Sin gastos recurrentes',
+    tutorialTitle:'📲 Añadir a pantalla de inicio',deleteSub:'Eliminar todos los gastos y presupuestos',deleteAll:'Eliminar todo',
+    navHome:'Inicio',navHist:'Historial',navStats:'Stats',navSet:'Ajustes',
+    editExpense:'Editar gasto',editAmount:'Importe',editDesc:'Descripción',deleteBtn:'Eliminar',saveBtn:'Guardar',
+    chipOk:'Todo bajo control',chipWarn:'Has usado el {pct}% del presupuesto',chipDanger:'¡Casi sin presupuesto!',chipEmpty:'Presupuesto agotado',
+    confirmDeleteExp:'¿Eliminar este gasto?',confirmDeleteAll:'¿Eliminar TODOS los datos? Esta acción es irreversible.',
+    noExportData:'Sin gastos para exportar',csvHeaders:'Fecha,Categoría,Importe,Descripción,Recurrente',csvYes:'Sí',csvNo:'No',recBadge:'↻ recurrente',
+    tutS1Title:'Abre MoneyFlow en Safari',tutS1Desc:'Asegúrate de usar Safari. Chrome y otros navegadores no soportan la instalación como app en iPhone.',
+    tutS2Title:'Toca el botón Compartir',tutS2Desc:'En la parte inferior central encontrarás el icono con una flecha hacia arriba. Tócalo para abrir el menú.',
+    tutS3Title:'Desplázate y toca "Añadir a inicio"',tutS3Desc:'En el menú que aparece desde abajo, desplázate para encontrar esta opción con el icono "+". Tócala.',
+    tutS4Title:'Confirma con "Añadir"',tutS4Desc:'Aparecerá una vista previa con el nombre de la app. Toca "Añadir" arriba a la derecha para completar la instalación.',
+    tutSafariTip:'En iOS, las apps añadidas con Safari funcionan a pantalla completa sin la barra del navegador.',
+    tutC1Title:'Abre MoneyFlow en Chrome',tutC1Desc:'En Android usa Chrome. En iPhone es mejor Safari, pero Chrome también funciona.',
+    tutC2Title:'Toca los tres puntos arriba a la derecha',tutC2Desc:'El menú principal de Chrome se abre tocando "⋮" en la esquina superior derecha.',
+    tutC3Title:'Selecciona "Añadir a pantalla de inicio"',tutC3Desc:'Busca "Añadir a pantalla de inicio" o "Instalar app". En Android también puede aparecer un banner automático.',
+    tutC4Title:'Toca "Añadir" para confirmar',tutC4Desc:'Aparecerá un popup de confirmación. Toca "Añadir" y el icono de MoneyFlow aparecerá en tu pantalla de inicio.',
+    tutChromeTip:'En Android con Chrome, la app se instala como PWA y aparece en la lista de apps con su propio icono.',
+    tapHere:'TOCA AQUÍ',svgMessages:'Mensajes',svgAddHome:'Añadir a inicio',svgCancel:'Cancelar',svgAddToHome:'Añadir a Inicio',svgAdd:'Añadir',
+    svgNewTab:'🔖  Nueva pestaña',svgBookmarks:'⭐  Favoritos',svgAddHome2:'📲  Añadir a Inicio',svgPrint:'🖨️  Imprimir',
+  },
+  fr: {
+    months:['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
+    cats:{Groceries:'Courses',Transport:'Transport',Home:'Maison',Fun:'Loisirs',Other:'Autre'},
+    catKeys:['Groceries','Transport','Home','Fun','Other'],
+    used:'UTILISÉ',spent:'Dépensé',remaining:'Restant',
+    projection:'Projection fin de mois',catChart:'Dépenses par catégorie',lastExpenses:'Dernières dépenses',
+    noExpenses:'Aucune dépense',noData:'Aucune donnée',addTitle:['Nouvelle ','Dépense'],
+    amount:'Montant',category:'Catégorie',description:'Description',descPlaceholder:'Ex. Cadeau anniversaire…',
+    recurring:'Dépense récurrente',recurringSub:'Se répète chaque mois',addBtn:'Ajouter la dépense',
+    historyTitle:['Histo','rique'],allCats:'Toutes les catégories',noExpensesHist:'Aucune dépense',
+    statsTitle:['Statis','tiques'],catDist:'Répartition par catégorie',monthlyTrend:'Tendance mensuelle',insufficientData:'Données insuffisantes',
+    settingsTitle:['Para','mètres'],language:'Langue',
+    monthlyBudget:'Budget mensuel',budgetSaved:'Budget enregistré',saveBudget:'Enregistrer',
+    warnThreshold:'Seuil d\'alerte orange',warnSub:'Alerte quand vous dépassez ce % du budget',
+    recurringExpenses:'Dépenses récurrentes',noRecurring:'Aucune dépense récurrente',
+    tutorialTitle:'📲 Ajouter à l\'écran d\'accueil',deleteSub:'Supprimer toutes les dépenses et budgets',deleteAll:'Tout supprimer',
+    navHome:'Accueil',navHist:'Historique',navStats:'Stats',navSet:'Réglages',
+    editExpense:'Modifier la dépense',editAmount:'Montant',editDesc:'Description',deleteBtn:'Supprimer',saveBtn:'Enregistrer',
+    chipOk:'Tout sous contrôle',chipWarn:'Vous avez utilisé {pct}% du budget',chipDanger:'Budget presque épuisé !',chipEmpty:'Budget épuisé',
+    confirmDeleteExp:'Supprimer cette dépense ?',confirmDeleteAll:'Supprimer TOUTES les données ? Cette action est irréversible.',
+    noExportData:'Aucune dépense à exporter',csvHeaders:'Date,Catégorie,Montant,Description,Récurrent',csvYes:'Oui',csvNo:'Non',recBadge:'↻ récurrent',
+    tutS1Title:'Ouvrez MoneyFlow dans Safari',tutS1Desc:'Assurez-vous d\'utiliser Safari. Chrome et autres navigateurs ne supportent pas l\'installation comme app sur iPhone.',
+    tutS2Title:'Appuyez sur le bouton Partager',tutS2Desc:'En bas au centre, trouvez l\'icône avec une flèche vers le haut. Appuyez dessus.',
+    tutS3Title:'Faites défiler et appuyez sur "Sur l\'écran d\'accueil"',tutS3Desc:'Dans le menu qui apparaît, faites défiler pour trouver cette option avec l\'icône "+". Appuyez dessus.',
+    tutS4Title:'Confirmez avec "Ajouter"',tutS4Desc:'Un aperçu apparaîtra. Appuyez sur "Ajouter" en haut à droite pour terminer l\'installation.',
+    tutSafariTip:'Sur iOS, les apps ajoutées via Safari fonctionnent en plein écran sans la barre du navigateur.',
+    tutC1Title:'Ouvrez MoneyFlow dans Chrome',tutC1Desc:'Sur Android, utilisez Chrome. Sur iPhone, Safari est préférable, mais Chrome fonctionne aussi.',
+    tutC2Title:'Appuyez sur les trois points en haut à droite',tutC2Desc:'Le menu Chrome s\'ouvre en appuyant sur "⋮" en haut à droite.',
+    tutC3Title:'Sélectionnez "Ajouter à l\'écran d\'accueil"',tutC3Desc:'Cherchez "Ajouter à l\'écran d\'accueil" ou "Installer l\'app".',
+    tutC4Title:'Appuyez sur "Ajouter" pour confirmer',tutC4Desc:'Une popup de confirmation apparaîtra. Appuyez sur "Ajouter" pour terminer.',
+    tutChromeTip:'Sur Android avec Chrome, l\'app est installée comme PWA avec sa propre icône.',
+    tapHere:'APPUYEZ ICI',svgMessages:'Messages',svgAddHome:'Sur l\'écran d\'accueil',svgCancel:'Annuler',svgAddToHome:'Ajouter à l\'accueil',svgAdd:'Ajouter',
+    svgNewTab:'🔖  Nouvel onglet',svgBookmarks:'⭐  Favoris',svgAddHome2:'📲  Ajouter à l\'accueil',svgPrint:'🖨️  Imprimer',
+  },
+  de: {
+    months:['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
+    cats:{Groceries:'Lebensmittel',Transport:'Transport',Home:'Zuhause',Fun:'Freizeit',Other:'Sonstiges'},
+    catKeys:['Groceries','Transport','Home','Fun','Other'],
+    used:'GENUTZT',spent:'Ausgegeben',remaining:'Verbleibend',
+    projection:'Prognose Monatsende',catChart:'Ausgaben nach Kategorie',lastExpenses:'Letzte Ausgaben',
+    noExpenses:'Noch keine Ausgaben',noData:'Keine Daten',addTitle:['Neue ','Ausgabe'],
+    amount:'Betrag',category:'Kategorie',description:'Beschreibung',descPlaceholder:'z.B. Geburtstagsgeschenk…',
+    recurring:'Wiederkehrende Ausgabe',recurringSub:'Wiederholt sich jeden Monat',addBtn:'Ausgabe hinzufügen',
+    historyTitle:['Verla','uf'],allCats:'Alle Kategorien',noExpensesHist:'Keine Ausgaben',
+    statsTitle:['Statis','tiken'],catDist:'Kategorieverteilung',monthlyTrend:'Monatlicher Verlauf',insufficientData:'Unzureichende Daten',
+    settingsTitle:['Einstel','lungen'],language:'Sprache',
+    monthlyBudget:'Monatsbudget',budgetSaved:'Budget gespeichert',saveBudget:'Speichern',
+    warnThreshold:'Orange Warnschwelle',warnSub:'Warnung wenn Sie diesen % des Budgets überschreiten',
+    recurringExpenses:'Wiederkehrende Ausgaben',noRecurring:'Keine wiederkehrenden Ausgaben',
+    tutorialTitle:'📲 Zum Startbildschirm hinzufügen',deleteSub:'Alle Ausgaben und Budgets löschen',deleteAll:'Alles löschen',
+    navHome:'Start',navHist:'Verlauf',navStats:'Stats',navSet:'Einst.',
+    editExpense:'Ausgabe bearbeiten',editAmount:'Betrag',editDesc:'Beschreibung',deleteBtn:'Löschen',saveBtn:'Speichern',
+    chipOk:'Alles im Rahmen',chipWarn:'Sie haben {pct}% des Budgets verwendet',chipDanger:'Budget fast aufgebraucht!',chipEmpty:'Budget aufgebraucht',
+    confirmDeleteExp:'Diese Ausgabe löschen?',confirmDeleteAll:'ALLE Daten löschen? Diese Aktion ist unwiderruflich.',
+    noExportData:'Keine Ausgaben zum Exportieren',csvHeaders:'Datum,Kategorie,Betrag,Beschreibung,Wiederkehrend',csvYes:'Ja',csvNo:'Nein',recBadge:'↻ wiederkehrend',
+    tutS1Title:'Öffne MoneyFlow in Safari',tutS1Desc:'Stelle sicher, dass du Safari verwendest. Chrome und andere Browser unterstützen keine App-Installation auf dem iPhone.',
+    tutS2Title:'Tippe auf den Teilen-Button',tutS2Desc:'Unten in der Mitte findest du das Symbol mit einem Pfeil nach oben. Tippe darauf.',
+    tutS3Title:'Scrolle zu "Zum Home-Bildschirm"',tutS3Desc:'Scrolle im Menü nach unten, um diese Option mit dem "+" Symbol zu finden.',
+    tutS4Title:'Bestätige mit "Hinzufügen"',tutS4Desc:'Eine Vorschau erscheint. Tippe oben rechts auf "Hinzufügen".',
+    tutSafariTip:'Auf iOS laufen Apps, die über Safari hinzugefügt wurden, vollbildschirmig ohne Browserleiste.',
+    tutC1Title:'Öffne MoneyFlow in Chrome',tutC1Desc:'Auf Android verwende Chrome. Auf iPhone ist Safari bevorzugt, aber Chrome funktioniert auch.',
+    tutC2Title:'Tippe auf die drei Punkte oben rechts',tutC2Desc:'Das Chrome-Menü öffnet sich durch Tippen auf "⋮" oben rechts.',
+    tutC3Title:'Wähle "Zum Startbildschirm hinzufügen"',tutC3Desc:'Suche nach "Zum Startbildschirm" oder "App installieren".',
+    tutC4Title:'Tippe auf "Hinzufügen" zum Bestätigen',tutC4Desc:'Ein Bestätigungs-Popup erscheint. Tippe auf "Hinzufügen".',
+    tutChromeTip:'Auf Android mit Chrome wird die App als PWA mit eigenem Symbol installiert.',
+    tapHere:'HIER TIPPEN',svgMessages:'Nachrichten',svgAddHome:'Zum Startbildschirm',svgCancel:'Abbrechen',svgAddToHome:'Zum Start hinzufügen',svgAdd:'Hinzufügen',
+    svgNewTab:'🔖  Neuer Tab',svgBookmarks:'⭐  Lesezeichen',svgAddHome2:'📲  Zum Start',svgPrint:'🖨️  Drucken',
+  },
+  pt: {
+    months:['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+    cats:{Groceries:'Compras',Transport:'Transporte',Home:'Casa',Fun:'Lazer',Other:'Outro'},
+    catKeys:['Groceries','Transport','Home','Fun','Other'],
+    used:'USADO',spent:'Gasto',remaining:'Restante',
+    projection:'Projeção fim do mês',catChart:'Gastos por categoria',lastExpenses:'Últimos gastos',
+    noExpenses:'Nenhum gasto ainda',noData:'Sem dados',addTitle:['Novo ','Gasto'],
+    amount:'Valor',category:'Categoria',description:'Descrição',descPlaceholder:'Ex. Presente aniversário…',
+    recurring:'Gasto recorrente',recurringSub:'Repete-se todo mês',addBtn:'Adicionar Gasto',
+    historyTitle:['Histó','rico'],allCats:'Todas as categorias',noExpensesHist:'Sem gastos',
+    statsTitle:['Estatís','ticas'],catDist:'Distribuição por categoria',monthlyTrend:'Tendência mensal',insufficientData:'Dados insuficientes',
+    settingsTitle:['Configu','rações'],language:'Idioma',
+    monthlyBudget:'Orçamento mensal',budgetSaved:'Orçamento salvo',saveBudget:'Salvar',
+    warnThreshold:'Limite de aviso laranja',warnSub:'Aviso quando ultrapassar esta % do orçamento',
+    recurringExpenses:'Gastos recorrentes',noRecurring:'Nenhum gasto recorrente',
+    tutorialTitle:'📲 Adicionar à tela inicial',deleteSub:'Excluir todos os gastos e orçamentos',deleteAll:'Excluir tudo',
+    navHome:'Início',navHist:'Histórico',navStats:'Stats',navSet:'Config.',
+    editExpense:'Editar gasto',editAmount:'Valor',editDesc:'Descrição',deleteBtn:'Excluir',saveBtn:'Salvar',
+    chipOk:'Tudo sob controle',chipWarn:'Você usou {pct}% do orçamento',chipDanger:'Orçamento quase esgotado!',chipEmpty:'Orçamento esgotado',
+    confirmDeleteExp:'Excluir este gasto?',confirmDeleteAll:'Excluir TODOS os dados? Esta ação é irreversível.',
+    noExportData:'Nenhum gasto para exportar',csvHeaders:'Data,Categoria,Valor,Descrição,Recorrente',csvYes:'Sim',csvNo:'Não',recBadge:'↻ recorrente',
+    tutS1Title:'Abra MoneyFlow no Safari',tutS1Desc:'Certifique-se de usar o Safari. O Chrome e outros navegadores não suportam instalação como app no iPhone.',
+    tutS2Title:'Toque no botão Compartilhar',tutS2Desc:'Na parte inferior central você encontrará o ícone com uma seta para cima. Toque para abrir o menu.',
+    tutS3Title:'Role e toque em "Adicionar à tela inicial"',tutS3Desc:'No menu que aparece, role as opções para encontrar este item com o ícone "+". Toque nele.',
+    tutS4Title:'Confirme com "Adicionar"',tutS4Desc:'Uma prévia aparecerá com o nome do app. Toque em "Adicionar" no canto superior direito.',
+    tutSafariTip:'No iOS, apps adicionados via Safari funcionam em tela cheia sem a barra do navegador.',
+    tutC1Title:'Abra MoneyFlow no Chrome',tutC1Desc:'No Android, use o Chrome. No iPhone, o Safari é preferido, mas o Chrome também funciona.',
+    tutC2Title:'Toque nos três pontos no canto superior direito',tutC2Desc:'O menu do Chrome se abre tocando em "⋮" no canto superior direito.',
+    tutC3Title:'Selecione "Adicionar à tela inicial"',tutC3Desc:'Procure por "Adicionar à tela inicial" ou "Instalar app".',
+    tutC4Title:'Toque em "Adicionar" para confirmar',tutC4Desc:'Um popup de confirmação aparecerá. Toque em "Adicionar".',
+    tutChromeTip:'No Android com Chrome, o app é instalado como PWA com seu próprio ícone.',
+    tapHere:'TOQUE AQUI',svgMessages:'Mensagens',svgAddHome:'Adicionar à tela inicial',svgCancel:'Cancelar',svgAddToHome:'Adicionar ao início',svgAdd:'Adicionar',
+    svgNewTab:'🔖  Nova aba',svgBookmarks:'⭐  Favoritos',svgAddHome2:'📲  Adicionar ao início',svgPrint:'🖨️  Imprimir',
+  }
+};
+
+/* ══════════════════════════════════════
+   STATE
+══════════════════════════════════════ */
+let currentLang = localStorage.getItem('lang') || 'en';
+let T = TRANSLATIONS[currentLang];
+
+const catIcons={Groceries:'🛒',Transport:'🚌',Home:'🏠',Fun:'🎮',Other:'📦'};
+const catClass={Groceries:'cat-food',Transport:'cat-transport',Home:'cat-house',Fun:'cat-fun',Other:'cat-other'};
+const catColors={Groceries:'#FF9F0A',Transport:'#5AC8FA',Home:'#30D158',Fun:'#BF5AF2',Other:'rgba(255,255,255,.6)'};
 
 function curKey(){const d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)}
 let currentFilter='all';
-let selectedCat='Alimentari';
+let selectedCat='Groceries';
 let editingDate=null;
 let viewingKey=curKey();
 
-/* ═══════════ STORAGE ═══════════ */
+/* ══════════════════════════════════════
+   LANGUAGE
+══════════════════════════════════════ */
+function setLang(lang, el){
+  currentLang=lang;
+  T=TRANSLATIONS[lang];
+  localStorage.setItem('lang',lang);
+  document.querySelectorAll('.lang-btn').forEach(x=>x.classList.remove('active'));
+  if(el) el.classList.add('active');
+  document.documentElement.lang=lang;
+  applyLang();
+  load();
+  renderSettings();
+}
+
+function applyLang(){
+  // static labels
+  const s=(id,txt)=>{const el=document.getElementById(id);if(el)el.textContent=txt};
+  const h=(id,html)=>{const el=document.getElementById(id);if(el)el.innerHTML=html};
+  // ring
+  s('lbl-used',T.used); s('lbl-spent',T.spent); s('lbl-remaining',T.remaining);
+  s('lbl-projection',T.projection);
+  s('lbl-cat-chart',T.catChart); s('lbl-last-expenses',T.lastExpenses);
+  // add
+  h('lbl-add-title',T.addTitle[0]+'<span>'+T.addTitle[1]+'</span>');
+  s('lbl-amount',T.amount); s('lbl-category',T.category); s('lbl-description',T.description);
+  document.getElementById('desc').placeholder=T.descPlaceholder;
+  s('lbl-recurring',T.recurring); s('lbl-recurring-sub',T.recurringSub);
+  s('btn-add-expense',T.addBtn);
+  // cat buttons
+  document.querySelectorAll('.cat-btn').forEach(btn=>{
+    const cat=btn.dataset.cat;
+    const lbl=btn.querySelector('.cat-lbl');
+    if(lbl&&T.cats[cat]) lbl.textContent=T.cats[cat];
+  });
+  // history
+  h('lbl-history-title',T.historyTitle[0]+'<span>'+T.historyTitle[1]+'</span>');
+  // stats
+  h('lbl-stats-title',T.statsTitle[0]+'<span>'+T.statsTitle[1]+'</span>');
+  s('lbl-cat-dist',T.catDist); s('lbl-monthly-trend',T.monthlyTrend);
+  // settings
+  h('lbl-settings-title',T.settingsTitle[0]+'<span>'+T.settingsTitle[1]+'</span>');
+  s('lbl-language',T.language);
+  s('lbl-monthly-budget',T.monthlyBudget); s('lbl-budget-saved',T.budgetSaved); s('btn-save-budget',T.saveBudget);
+  s('lbl-warn-threshold',T.warnThreshold); s('lbl-warn-sub',T.warnSub);
+  s('lbl-recurring-expenses',T.recurringExpenses);
+  s('lbl-tutorial-title',T.tutorialTitle);
+  s('lbl-delete-sub',T.deleteSub);
+  h('btn-delete-all','<i class="fas fa-trash-can"></i> '+T.deleteAll);
+  // nav
+  s('nav-lbl-home',T.navHome); s('nav-lbl-hist',T.navHist);
+  s('nav-lbl-stats',T.navStats); s('nav-lbl-set',T.navSet);
+  // sheet
+  s('lbl-edit-expense',T.editExpense); s('lbl-edit-amount',T.editAmount); s('lbl-edit-desc',T.editDesc);
+  s('lbl-delete',T.deleteBtn); s('lbl-save',T.saveBtn);
+  // tutorial text
+  s('tut-s1-title',T.tutS1Title); s('tut-s1-desc',T.tutS1Desc);
+  s('tut-s2-title',T.tutS2Title); s('tut-s2-desc',T.tutS2Desc);
+  s('tut-s3-title',T.tutS3Title); s('tut-s3-desc',T.tutS3Desc);
+  s('tut-s4-title',T.tutS4Title); s('tut-s4-desc',T.tutS4Desc);
+  s('tut-safari-tip',T.tutSafariTip);
+  s('tut-c1-title',T.tutC1Title); s('tut-c1-desc',T.tutC1Desc);
+  s('tut-c2-title',T.tutC2Title); s('tut-c2-desc',T.tutC2Desc);
+  s('tut-c3-title',T.tutC3Title); s('tut-c3-desc',T.tutC3Desc);
+  s('tut-c4-title',T.tutC4Title); s('tut-c4-desc',T.tutC4Desc);
+  s('tut-chrome-tip',T.tutChromeTip);
+  // SVG inline texts
+  s('svg-tap-here-1',T.tapHere); s('svg-tap-here-2',T.tapHere);
+  s('svg-messages',T.svgMessages); s('svg-add-home',T.svgAddHome);
+  s('svg-cancel-1',T.svgCancel); s('svg-add-to-home',T.svgAddToHome); s('svg-add-btn-1',T.svgAdd);
+  s('svg-new-tab',T.svgNewTab); s('svg-bookmarks',T.svgBookmarks);
+  s('svg-add-home-2',T.svgAddHome2); s('svg-print',T.svgPrint);
+  s('svg-cancel-2',T.svgCancel); s('svg-add-btn-2',T.svgAdd);
+  // filter chips
+  buildFilterChips();
+}
+
+function buildFilterChips(){
+  const fc=document.getElementById('filterChips');
+  if(!fc) return;
+  fc.innerHTML=`<div class="filter-chip active" data-cat="all" onclick="filterExp(this)">${T.allCats}</div>`
+    +T.catKeys.map(k=>`<div class="filter-chip" data-cat="${k}" onclick="filterExp(this)">${catIcons[k]} ${T.cats[k]}</div>`).join('');
+}
+
+/* ══════════════════════════════════════
+   STORAGE
+══════════════════════════════════════ */
 function getExp(key){return JSON.parse(localStorage.getItem('e_'+(key||curKey()))||'[]')}
 function saveExp(e,key){localStorage.setItem('e_'+(key||curKey()),JSON.stringify(e))}
 function getBudget(key){return +localStorage.getItem('b_'+(key||curKey()))||0}
@@ -808,454 +722,292 @@ function getThreshold(){return +localStorage.getItem('warnThreshold')||70}
 function fmtMoney(n){return '€\u00a0'+n.toFixed(2).replace('.',',')}
 function allKeys(){
   const keys=[];
-  for(let i=0;i<localStorage.length;i++){
-    const k=localStorage.key(i);
-    if(k&&k.startsWith('e_')) keys.push(k.replace('e_',''));
-  }
+  for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('e_'))keys.push(k.replace('e_',''));}
   return keys.sort();
 }
 
-/* ═══════════ NAV ═══════════ */
+/* ══════════════════════════════════════
+   NAV
+══════════════════════════════════════ */
 function show(id,navId){
   document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));
-  if(navId) document.getElementById(navId).classList.add('active');
+  if(navId)document.getElementById(navId).classList.add('active');
   if(id==='historyPage'){viewingKey=curKey();buildMonthTabs();renderHistory();}
-  if(id==='statsPage') renderStats();
-  if(id==='settingsPage') renderSettings();
+  if(id==='statsPage')renderStats();
+  if(id==='settingsPage')renderSettings();
 }
 
-/* ═══════════ CATEGORIA ═══════════ */
 function selectCat(el){
   document.querySelectorAll('.cat-btn').forEach(x=>x.classList.remove('selected'));
-  el.classList.add('selected');
-  selectedCat=el.dataset.cat;
+  el.classList.add('selected');selectedCat=el.dataset.cat;
   const wrap=document.getElementById('descWrap');
-  if(selectedCat==='Altro'){wrap.classList.add('open');}
+  if(selectedCat==='Other'){wrap.classList.add('open');}
   else{wrap.classList.remove('open');document.getElementById('desc').value='';}
 }
 
-/* ═══════════ HAPTIC ═══════════ */
-function haptic(pattern){if(navigator.vibrate) navigator.vibrate(pattern||10)}
-
-/* ═══════════ CONFIRM ANIM ═══════════ */
+function haptic(p){if(navigator.vibrate)navigator.vibrate(p||10)}
 function showConfirm(){
   haptic([10,30,10]);
-  const ov=document.getElementById('confirmOverlay');
-  const bb=document.getElementById('confirmBubble');
-  ov.style.display='flex';
-  bb.style.animation='none';
-  void bb.offsetWidth;
+  const ov=document.getElementById('confirmOverlay'),bb=document.getElementById('confirmBubble');
+  ov.style.display='flex';bb.style.animation='none';void bb.offsetWidth;
   bb.style.animation='pop-confirm .4s cubic-bezier(.4,0,.2,1) forwards';
   setTimeout(()=>ov.style.display='none',900);
 }
 
-/* ═══════════ HOME LOAD ═══════════ */
+/* ══════════════════════════════════════
+   HOME
+══════════════════════════════════════ */
 function load(){
-  const e=getExp();
-  const b=getBudget();
-  const t=e.reduce((a,x)=>a+x.amount,0);
-  const residuo=b-t;
-  const pct=b?Math.min(100,t/b*100):0;
-  const circ=2*Math.PI*68;
-  const arc=circ*pct/100;
-  const thr=getThreshold();
-
+  const e=getExp(),b=getBudget(),t=e.reduce((a,x)=>a+x.amount,0);
+  const residuo=b-t,pct=b?Math.min(100,t/b*100):0;
+  const circ=2*Math.PI*68,arc=circ*pct/100,thr=getThreshold();
   document.getElementById('perc').textContent=pct.toFixed(0)+'%';
   document.getElementById('spent').textContent=fmtMoney(t);
   document.getElementById('remaining').textContent=fmtMoney(residuo);
-
   const ring=document.getElementById('ringArc');
   ring.setAttribute('stroke-dasharray',arc+' '+circ);
   ring.setAttribute('stroke',pct>=90?'#FF453A':pct>=thr?'#FF9F0A':'#30D158');
-
   const chip=document.getElementById('statusChip');
   if(!b){chip.innerHTML='';}
-  else if(residuo<=0){chip.innerHTML='<span class="chip danger"><i class="fas fa-ban"></i> Budget esaurito</span>';}
-  else if(pct>=90){chip.innerHTML='<span class="chip danger"><i class="fas fa-circle-exclamation"></i> Stai esaurendo il budget!</span>';}
-  else if(pct>=thr){chip.innerHTML='<span class="chip warn"><i class="fas fa-triangle-exclamation"></i> Hai usato il '+pct.toFixed(0)+'% del budget</span>';}
-  else{chip.innerHTML='<span class="chip ok"><i class="fas fa-circle-check"></i> Tutto sotto controllo</span>';}
-
-  // proiezione fine mese
-  const now=new Date();
-  const dayOfMonth=now.getDate();
-  const daysInMonth=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
-  const projRow=document.getElementById('projRow');
-  if(b&&t>0&&dayOfMonth>1){
-    const dailyAvg=t/dayOfMonth;
-    const proj=dailyAvg*daysInMonth;
-    const projVal=document.getElementById('projVal');
-    projRow.style.display='flex';
-    projVal.textContent=fmtMoney(proj);
-    projVal.style.color=proj>b?'#FF453A':proj>b*thr/100?'#FF9F0A':'#30D158';
-  } else {
-    projRow.style.display='none';
-  }
-
-  // grafico barre
+  else if(residuo<=0){chip.innerHTML=`<span class="chip danger"><i class="fas fa-ban"></i> ${T.chipEmpty}</span>`;}
+  else if(pct>=90){chip.innerHTML=`<span class="chip danger"><i class="fas fa-circle-exclamation"></i> ${T.chipDanger}</span>`;}
+  else if(pct>=thr){chip.innerHTML=`<span class="chip warn"><i class="fas fa-triangle-exclamation"></i> ${T.chipWarn.replace('{pct}',pct.toFixed(0))}</span>`;}
+  else{chip.innerHTML=`<span class="chip ok"><i class="fas fa-circle-check"></i> ${T.chipOk}</span>`;}
+  const now=new Date(),day=now.getDate(),dim=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
+  const pr=document.getElementById('projRow');
+  if(b&&t>0&&day>1){
+    const proj=t/day*dim;
+    pr.style.display='flex';
+    const pv=document.getElementById('projVal');
+    pv.textContent=fmtMoney(proj);
+    pv.style.color=proj>b?'#FF453A':proj>b*thr/100?'#FF9F0A':'#30D158';
+  }else{pr.style.display='none';}
   renderCatChart(e,'catChart');
-
-  // ultime 3
-  const l3=document.getElementById('last3');
-  const last=e.slice().reverse().slice(0,3);
-  if(!last.length){l3.innerHTML='<div class="empty">Nessuna spesa ancora</div>';return;}
+  const l3=document.getElementById('last3'),last=e.slice().reverse().slice(0,3);
+  if(!last.length){l3.innerHTML=`<div class="empty">${T.noExpenses}</div>`;return;}
   l3.innerHTML=last.map(x=>txRow(x,false)).join('');
-
-  // budget input
-  if(b) document.getElementById('budget').value=b;
-
-  // applica ricorrenti del mese
+  if(b)document.getElementById('budget').value=b;
   applyRecurring();
 }
 
-/* ═══════════ GRAFICO BARRE ═══════════ */
 function renderCatChart(expenses,containerId){
   const container=document.getElementById(containerId);
-  if(!expenses.length){container.innerHTML='<div class="empty">Nessuna spesa ancora</div>';return;}
+  if(!expenses.length){container.innerHTML=`<div class="empty">${T.noExpenses}</div>`;return;}
   const totByCat={};
   expenses.forEach(x=>{totByCat[x.cat]=(totByCat[x.cat]||0)+x.amount});
   const maxVal=Math.max(...Object.values(totByCat));
-  container.innerHTML=Object.entries(totByCat)
-    .sort((a,b)=>b[1]-a[1])
-    .map(([cat,val])=>`
+  container.innerHTML=Object.entries(totByCat).sort((a,b)=>b[1]-a[1]).map(([cat,val])=>`
     <div class="bar-row">
-      <div class="bar-cat">${catIcons[cat]||'📦'} ${cat}</div>
+      <div class="bar-cat">${catIcons[cat]||'📦'} ${T.cats[cat]||cat}</div>
       <div class="bar-track"><div class="bar-fill" style="width:${(val/maxVal*100).toFixed(1)}%;background:${catColors[cat]||'#fff'}"></div></div>
       <div class="bar-val" style="color:${catColors[cat]||'#fff'}">${fmtMoney(val)}</div>
     </div>`).join('');
 }
 
-/* ═══════════ TX ROW ═══════════ */
-function txRow(x, editable){
-  const d = new Date(x.date);
-  const ds = d.getDate().toString().padStart(2,'0') + '/' +
-             (d.getMonth()+1).toString().padStart(2,'0');
-
-  const sub = x.desc ? x.desc : ds;
-
-  const recBadge = x.recurring
-    ? '<span class="recurring-badge">↻ ricorrente</span>'
-    : '';
-
-  const editBtn = editable
-    ? `<div class="tx-edit-btn" onclick="openSheet(${x.date})">
-         <i class="fas fa-pencil"></i>
-       </div>`
-    : '';
-
-  return `
-    <div class="tx-row" data-date="${x.date}">
-      <div class="tx-icon ${catClass[x.cat] || 'cat-other'}">
-        ${catIcons[x.cat] || '📦'}
-      </div>
-
-      <div class="tx-info">
-        <div class="tx-cat">
-          ${x.cat}${recBadge}
-        </div>
-        <div class="tx-sub">
-          ${sub}
-        </div>
-      </div>
-
-      <div class="tx-amount">
-        ${fmtMoney(x.amount)}
-      </div>
-
-      ${editBtn}
-    </div>
-  `;
-}
-/* ═══════════ SWIPE TO DELETE ═══════════ */
-let swipeStartX=0;
-function swipeStart(e,el){swipeStartX=e.touches[0].clientX}
-function swipeMove(e,el){
-  const dx=e.touches[0].clientX-swipeStartX;
-  if(dx<0) el.style.transform=`translateX(${Math.max(dx,-80)}px)`;
-}
-function swipeEnd(e,el,editable){
-  const dx=e.changedTouches[0].clientX-swipeStartX;
-  if(dx<-60 && editable){
-    el.style.transform='translateX(-80px)';
-    setTimeout(()=>{
-      const date=+el.dataset.date;
-      haptic([20,50,20]);
-      const exp=getExp().filter(x=>x.date!==date);
-      saveExp(exp);
-      renderHistory();load();
-    },200);
-  } else {
-    el.style.transform='translateX(0)';
-  }
+function txRow(x,editable){
+  const d=new Date(x.date);
+  const ds=d.getDate().toString().padStart(2,'0')+'/'+(d.getMonth()+1).toString().padStart(2,'0');
+  const sub=x.desc?x.desc:ds;
+  const recBadge=x.recurring?`<span class="recurring-badge">${T.recBadge}</span>`:'';
+  const editBtn=editable?`<div class="tx-edit-btn" onclick="openSheet(${x.date})"><i class="fas fa-pencil"></i></div>`:'';
+  return `<div class="tx-row" data-date="${x.date}">
+    <div class="tx-icon ${catClass[x.cat]||'cat-other'}">${catIcons[x.cat]||'📦'}</div>
+    <div class="tx-info"><div class="tx-cat">${T.cats[x.cat]||x.cat}${recBadge}</div><div class="tx-sub">${sub}</div></div>
+    <div class="tx-amount">${fmtMoney(x.amount)}</div>${editBtn}
+  </div>`;
 }
 
-/* ═══════════ HISTORY ═══════════ */
+/* ══════════════════════════════════════
+   HISTORY
+══════════════════════════════════════ */
 function buildMonthTabs(){
-  const keys=allKeys();
-  if(!keys.includes(curKey())) keys.push(curKey());
+  const keys=allKeys();if(!keys.includes(curKey()))keys.push(curKey());
   keys.sort().reverse();
-  const tabs=document.getElementById('monthsTabs');
-  tabs.innerHTML=keys.map(k=>{
+  document.getElementById('monthsTabs').innerHTML=keys.map(k=>{
     const [y,m]=k.split('-');
-    const label=MONTHS_IT[+m-1]+' '+y;
-    return `<div class="month-tab${k===viewingKey?' active':''}" onclick="switchViewMonth('${k}',this)">${label}</div>`;
+    return `<div class="month-tab${k===viewingKey?' active':''}" onclick="switchViewMonth('${k}',this)">${T.months[+m-1]} ${y}</div>`;
   }).join('');
 }
-
 function switchViewMonth(key,el){
   viewingKey=key;
-  document.querySelectorAll('.month-tab').forEach(x=>x.classList.remove('active'));
-  el.classList.add('active');
+  document.querySelectorAll('.month-tab').forEach(x=>x.classList.remove('active'));el.classList.add('active');
   currentFilter='all';
   document.querySelectorAll('.filter-chip').forEach(x=>x.classList.remove('active'));
   document.querySelector('.filter-chip[data-cat="all"]').classList.add('active');
   renderHistory();
 }
-
 function renderHistory(){
-  const all=getExp(viewingKey);
-  const e=currentFilter==='all'?all:all.filter(x=>x.cat===currentFilter);
+  const all=getExp(viewingKey),e=currentFilter==='all'?all:all.filter(x=>x.cat===currentFilter);
   const total=e.reduce((s,x)=>s+x.amount,0);
   document.getElementById('categoryTotal').textContent=fmtMoney(total);
-  document.getElementById('categoryLabel').textContent=currentFilter==='all'?'Tutte le categorie':currentFilter;
+  document.getElementById('categoryLabel').textContent=currentFilter==='all'?T.allCats:(T.cats[currentFilter]||currentFilter);
   const hl=document.getElementById('historyList');
-  if(!e.length){hl.innerHTML='<div class="empty">Nessuna spesa</div>';return;}
+  if(!e.length){hl.innerHTML=`<div class="empty">${T.noExpensesHist}</div>`;return;}
   hl.innerHTML=e.slice().reverse().map(x=>txRow(x,viewingKey===curKey())).join('');
 }
-
 function filterExp(el){
   document.querySelectorAll('.filter-chip').forEach(x=>x.classList.remove('active'));
-  el.classList.add('active');
-  currentFilter=el.dataset.cat;
-  renderHistory();
+  el.classList.add('active');currentFilter=el.dataset.cat;renderHistory();
 }
 
-/* ═══════════ ADD ═══════════ */
+/* ══════════════════════════════════════
+   ADD
+══════════════════════════════════════ */
 function addExpense(){
   const v=parseFloat(document.getElementById('amount').value);
-  if(isNaN(v)||v<=0) return;
-  const description=selectedCat==='Altro'?document.getElementById('desc').value.trim():'';
+  if(isNaN(v)||v<=0)return;
+  const description=selectedCat==='Other'?document.getElementById('desc').value.trim():'';
   const isRec=document.getElementById('recurring').checked;
   const e=getExp();
   e.push({amount:v,cat:selectedCat,date:Date.now(),desc:description,recurring:isRec});
   saveExp(e);
-  // se ricorrente salva anche nel registro
-  if(isRec){
-    const recs=JSON.parse(localStorage.getItem('recurring')||'[]');
-    recs.push({amount:v,cat:selectedCat,desc:description});
-    localStorage.setItem('recurring',JSON.stringify(recs));
-  }
-  document.getElementById('amount').value='';
-  document.getElementById('desc').value='';
+  if(isRec){const recs=JSON.parse(localStorage.getItem('recurring')||'[]');recs.push({amount:v,cat:selectedCat,desc:description});localStorage.setItem('recurring',JSON.stringify(recs));}
+  document.getElementById('amount').value='';document.getElementById('desc').value='';
   document.getElementById('recurring').checked=false;
   document.querySelectorAll('.cat-btn').forEach(x=>x.classList.remove('selected'));
-  document.querySelector('.cat-btn[data-cat="Alimentari"]').classList.add('selected');
-  selectedCat='Alimentari';
-  document.getElementById('descWrap').classList.remove('open');
-  showConfirm();
-  show('home','nav-home');
-  load();
+  document.querySelector('.cat-btn[data-cat="Groceries"]').classList.add('selected');
+  selectedCat='Groceries';document.getElementById('descWrap').classList.remove('open');
+  showConfirm();show('home','nav-home');load();
 }
 
-/* ═══════════ RICORRENTI ═══════════ */
 function applyRecurring(){
-  const applied=localStorage.getItem('rec_applied_'+curKey());
-  if(applied) return;
-  const recs=JSON.parse(localStorage.getItem('recurring')||'[]');
-  if(!recs.length) return;
+  if(localStorage.getItem('rec_applied_'+curKey()))return;
+  const recs=JSON.parse(localStorage.getItem('recurring')||'[]');if(!recs.length)return;
   const e=getExp();
-  recs.forEach(r=>{
-    e.push({amount:r.amount,cat:r.cat,date:Date.now(),desc:r.desc||'',recurring:true});
-  });
-  saveExp(e);
-  localStorage.setItem('rec_applied_'+curKey(),'1');
+  recs.forEach(r=>e.push({amount:r.amount,cat:r.cat,date:Date.now(),desc:r.desc||'',recurring:true}));
+  saveExp(e);localStorage.setItem('rec_applied_'+curKey(),'1');
 }
 
-/* ═══════════ BUDGET ═══════════ */
 function saveBudget(){
   const v=parseFloat(document.getElementById('budget').value);
-  if(!isNaN(v)){localStorage.setItem('b_'+curKey(),v);}
+  if(!isNaN(v))localStorage.setItem('b_'+curKey(),v);
   haptic(10);load();
   const saved=document.getElementById('budgetSaved');
   if(saved){saved.style.display='block';setTimeout(()=>saved.style.display='none',2000);}
 }
 
-/* ═══════════ RESET ═══════════ */
 function resetData(){
-  if(confirm('Eliminare le spese del mese corrente?')){
-    localStorage.removeItem('e_'+curKey());
-    localStorage.removeItem('rec_applied_'+curKey());
-    load();
-  }
+  if(confirm(T.confirmDeleteExp)){localStorage.removeItem('e_'+curKey());localStorage.removeItem('rec_applied_'+curKey());load();}
 }
 function resetAll(){
-  if(confirm('Eliminare TUTTI i dati? Questa azione è irreversibile.')){
-    localStorage.clear();
-    location.reload();
-  }
+  if(confirm(T.confirmDeleteAll)){localStorage.clear();location.reload();}
 }
 
-/* ═══════════ STATS ═══════════ */
+/* ══════════════════════════════════════
+   STATS
+══════════════════════════════════════ */
 function renderStats(){
-  const e=getExp();
-  // donut
-  const totByCat={};
+  const e=getExp(),totByCat={};
   e.forEach(x=>{totByCat[x.cat]=(totByCat[x.cat]||0)+x.amount});
   const total=Object.values(totByCat).reduce((a,b)=>a+b,0);
-  const svg=document.getElementById('donutSvg');
-  const legend=document.getElementById('donutLegend');
-  if(!total){svg.innerHTML='<text x="80" y="86" text-anchor="middle" fill="rgba(255,255,255,.3)" font-size="13">Nessun dato</text>';legend.innerHTML='';return;}
-  const r=58,cx=80,cy=80,strokeW=24;
-  const circ=2*Math.PI*r;
-  let offset=0;
-  let paths='';
-  let legendHTML='';
+  const svg=document.getElementById('donutSvg'),legend=document.getElementById('donutLegend');
+  if(!total){svg.innerHTML=`<text x="80" y="86" text-anchor="middle" fill="rgba(255,255,255,.3)" font-size="13">${T.noData}</text>`;legend.innerHTML='';return;}
+  const r=58,cx=80,cy=80,circ=2*Math.PI*r;let offset=0,paths='',legendHTML='';
   Object.entries(totByCat).sort((a,b)=>b[1]-a[1]).forEach(([cat,val])=>{
-    const pct=val/total;
-    const dash=pct*circ;
-    const gap=circ-dash;
-    const color=catColors[cat]||'#fff';
-    paths+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${color}" stroke-width="${strokeW}"
-      stroke-dasharray="${dash} ${gap}" stroke-dashoffset="${-offset+circ/4}" transform="rotate(-90 ${cx} ${cy})"/>`;
+    const pct=val/total,dash=pct*circ,color=catColors[cat]||'#fff';
+    paths+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${color}" stroke-width="24" stroke-dasharray="${dash} ${circ-dash}" stroke-dashoffset="${-offset+circ/4}" transform="rotate(-90 ${cx} ${cy})"/>`;
     offset+=dash;
-    legendHTML+=`<div class="legend-item">
-      <div class="legend-dot" style="background:${color}"></div>
-      <div class="legend-info"><div class="legend-name">${catIcons[cat]} ${cat}</div><div class="legend-pct">${(pct*100).toFixed(1)}%</div></div>
-      <div class="legend-amount">${fmtMoney(val)}</div>
-    </div>`;
+    legendHTML+=`<div class="legend-item"><div class="legend-dot" style="background:${color}"></div><div class="legend-info"><div class="legend-name">${catIcons[cat]} ${T.cats[cat]||cat}</div><div class="legend-pct">${(pct*100).toFixed(1)}%</div></div><div class="legend-amount">${fmtMoney(val)}</div></div>`;
   });
   svg.innerHTML=paths+`<text x="80" y="84" text-anchor="middle" fill="white" font-size="13" font-weight="600">${fmtMoney(total)}</text>`;
   legend.innerHTML=legendHTML;
-
-  // andamento mensile
-  const keys=allKeys();
-  const mb=document.getElementById('monthlyBars');
-  if(keys.length<1){mb.innerHTML='<div class="empty">Dati insufficienti</div>';return;}
+  const keys=allKeys(),mb=document.getElementById('monthlyBars');
+  if(!keys.length){mb.innerHTML=`<div class="empty">${T.insufficientData}</div>`;return;}
   const monthData=keys.slice(-6).map(k=>{
-    const exp=getExp(k);
-    const t=exp.reduce((a,x)=>a+x.amount,0);
-    const [y,m]=k.split('-');
-    return{label:MONTHS_IT[+m-1].slice(0,3),total:t};
+    const exp=getExp(k),t=exp.reduce((a,x)=>a+x.amount,0),[y,m]=k.split('-');
+    return{label:T.months[+m-1].slice(0,3),total:t};
   });
   const maxM=Math.max(...monthData.map(x=>x.total),1);
-  mb.innerHTML=monthData.map(m=>`
-    <div class="bar-row">
-      <div class="bar-cat" style="font-size:11px">${m.label}</div>
-      <div class="bar-track"><div class="bar-fill" style="width:${(m.total/maxM*100).toFixed(1)}%;background:var(--accent)"></div></div>
-      <div class="bar-val">${fmtMoney(m.total)}</div>
-    </div>`).join('');
+  mb.innerHTML=monthData.map(m=>`<div class="bar-row"><div class="bar-cat" style="font-size:11px">${m.label}</div><div class="bar-track"><div class="bar-fill" style="width:${(m.total/maxM*100).toFixed(1)}%;background:var(--accent)"></div></div><div class="bar-val">${fmtMoney(m.total)}</div></div>`).join('');
 }
 
-/* ═══════════ SETTINGS ═══════════ */
+/* ══════════════════════════════════════
+   SETTINGS
+══════════════════════════════════════ */
 function renderSettings(){
   const thr=getThreshold();
   document.getElementById('thresholdSlider').value=thr;
   document.getElementById('thresholdDisplay').textContent=thr+'%';
-  const b=getBudget();
-  if(b) document.getElementById('budget').value=b;
+  const b=getBudget();if(b)document.getElementById('budget').value=b;
+  // highlight current lang
+  document.querySelectorAll('.lang-btn').forEach(x=>{
+    x.classList.toggle('active',x.dataset.lang===currentLang);
+  });
   const recs=JSON.parse(localStorage.getItem('recurring')||'[]');
   const rl=document.getElementById('recurringList');
-  if(!recs.length){rl.innerHTML='<div class="empty">Nessuna spesa ricorrente</div>';}
+  if(!recs.length){rl.innerHTML=`<div class="empty">${T.noRecurring}</div>`;}
   else{rl.innerHTML=recs.map((r,i)=>`
     <div class="tx-row">
       <div class="tx-icon ${catClass[r.cat]||'cat-other'}">${catIcons[r.cat]||'📦'}</div>
-      <div class="tx-info"><div class="tx-cat">${r.cat}</div><div class="tx-sub">${r.desc||'Ricorrente'}</div></div>
+      <div class="tx-info"><div class="tx-cat">${T.cats[r.cat]||r.cat}</div><div class="tx-sub">${r.desc||T.recBadge}</div></div>
       <div class="tx-amount">${fmtMoney(r.amount)}</div>
       <div class="tx-edit-btn" style="background:rgba(255,69,58,.15);border-color:rgba(255,69,58,.3);color:#FF453A" onclick="deleteRecurring(${i})"><i class="fas fa-xmark"></i></div>
     </div>`).join('');}
-  // anima gli step safari al primo caricamento
   setTimeout(()=>animateTutSteps('tut-safari-steps'),100);
 }
 
-function updateThreshold(v){
-  localStorage.setItem('warnThreshold',v);
-  document.getElementById('thresholdDisplay').textContent=v+'%';
-  load();
-}
+function updateThreshold(v){localStorage.setItem('warnThreshold',v);document.getElementById('thresholdDisplay').textContent=v+'%';load();}
+function deleteRecurring(i){const recs=JSON.parse(localStorage.getItem('recurring')||'[]');recs.splice(i,1);localStorage.setItem('recurring',JSON.stringify(recs));renderSettings();}
 
-function deleteRecurring(i){
-  const recs=JSON.parse(localStorage.getItem('recurring')||'[]');
-  recs.splice(i,1);
-  localStorage.setItem('recurring',JSON.stringify(recs));
-  renderSettings();
-}
-
-/* ═══════════ BOTTOM SHEET EDIT ═══════════ */
+/* ══════════════════════════════════════
+   SHEET
+══════════════════════════════════════ */
 function openSheet(date){
-  const e=getExp(viewingKey);
-  const item=e.find(x=>x.date===date);
-  if(!item) return;
-  editingDate=date;
-  document.getElementById('editAmount').value=item.amount;
-  const dg=document.getElementById('editDescGroup');
-  const ed=document.getElementById('editDesc');
-  if(item.cat==='Altro'){dg.style.display='block';ed.value=item.desc||'';}
-  else{dg.style.display='none';ed.value='';}
-  document.getElementById('sheetOverlay').classList.add('open');
-  document.getElementById('sheet').classList.add('open');
-  haptic(8);
+  const e=getExp(viewingKey),item=e.find(x=>x.date===date);if(!item)return;
+  editingDate=date;document.getElementById('editAmount').value=item.amount;
+  const dg=document.getElementById('editDescGroup'),ed=document.getElementById('editDesc');
+  if(item.cat==='Other'){dg.style.display='block';ed.value=item.desc||'';}else{dg.style.display='none';ed.value='';}
+  document.getElementById('sheetOverlay').classList.add('open');document.getElementById('sheet').classList.add('open');haptic(8);
 }
-function closeSheet(){
-  document.getElementById('sheetOverlay').classList.remove('open');
-  document.getElementById('sheet').classList.remove('open');
-  editingDate=null;
-}
+function closeSheet(){document.getElementById('sheetOverlay').classList.remove('open');document.getElementById('sheet').classList.remove('open');editingDate=null;}
 function saveEdit(){
-  const v=parseFloat(document.getElementById('editAmount').value);
-  if(isNaN(v)||v<=0) return;
-  const e=getExp(viewingKey);
-  const idx=e.findIndex(x=>x.date===editingDate);
-  if(idx===-1) return;
-  e[idx].amount=v;
-  if(e[idx].cat==='Altro') e[idx].desc=document.getElementById('editDesc').value.trim();
-  saveExp(e,viewingKey);
-  closeSheet();haptic(10);
-  renderHistory();load();
+  const v=parseFloat(document.getElementById('editAmount').value);if(isNaN(v)||v<=0)return;
+  const e=getExp(viewingKey),idx=e.findIndex(x=>x.date===editingDate);if(idx===-1)return;
+  e[idx].amount=v;if(e[idx].cat==='Other')e[idx].desc=document.getElementById('editDesc').value.trim();
+  saveExp(e,viewingKey);closeSheet();haptic(10);renderHistory();load();
 }
 function deleteExpense(){
-  if(!confirm('Eliminare questa spesa?')) return;
-  const e=getExp(viewingKey).filter(x=>x.date!==editingDate);
-  saveExp(e,viewingKey);
-  closeSheet();haptic([20,50,20]);
-  renderHistory();load();
+  if(!confirm(T.confirmDeleteExp))return;
+  saveExp(getExp(viewingKey).filter(x=>x.date!==editingDate),viewingKey);
+  closeSheet();haptic([20,50,20]);renderHistory();load();
 }
 
-/* ═══════════ EXPORT CSV ═══════════ */
+/* ══════════════════════════════════════
+   EXPORT
+══════════════════════════════════════ */
 function exportCSV(){
-  const keys=allKeys();
-  if(!keys.length){alert('Nessuna spesa da esportare');return;}
-  let csv='Data,Categoria,Importo,Descrizione,Ricorrente\n';
-  keys.forEach(k=>{
-    getExp(k).forEach(x=>{
-      const d=new Date(x.date);
-      const ds=d.getDate().toString().padStart(2,'0')+'/'+(d.getMonth()+1).toString().padStart(2,'0')+'/'+d.getFullYear();
-      csv+=`${ds},${x.cat},${x.amount.toFixed(2)},"${x.desc||''}",${x.recurring?'Sì':'No'}\n`;
-    });
-  });
+  const keys=allKeys();if(!keys.length){alert(T.noExportData);return;}
+  let csv=T.csvHeaders+'\n';
+  keys.forEach(k=>{getExp(k).forEach(x=>{
+    const d=new Date(x.date),ds=d.getDate().toString().padStart(2,'0')+'/'+(d.getMonth()+1).toString().padStart(2,'0')+'/'+d.getFullYear();
+    csv+=`${ds},${T.cats[x.cat]||x.cat},${x.amount.toFixed(2)},"${x.desc||''}",${x.recurring?T.csvYes:T.csvNo}\n`;
+  });});
   const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url;a.download='moneyflow_export.csv';a.click();
-  URL.revokeObjectURL(url);
-  haptic(15);
+  const url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download='moneyflow_export.csv';a.click();URL.revokeObjectURL(url);haptic(15);
 }
 
-/* ═══════════ TUTORIAL ═══════════ */
+/* ══════════════════════════════════════
+   TUTORIAL
+══════════════════════════════════════ */
 function switchTutTab(tab,el){
   document.querySelectorAll('.tut-tab').forEach(x=>x.classList.remove('active'));
   document.querySelectorAll('.tut-panel').forEach(x=>x.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('tut-'+tab).classList.add('active');
+  el.classList.add('active');document.getElementById('tut-'+tab).classList.add('active');
   animateTutSteps('tut-'+tab+'-steps');
 }
-function animateTutSteps(containerId){
-  const steps=document.querySelectorAll('#'+containerId+' .tut-step');
+function animateTutSteps(id){
+  const steps=document.querySelectorAll('#'+id+' .tut-step');
   steps.forEach(s=>s.classList.remove('visible'));
   steps.forEach((s,i)=>setTimeout(()=>s.classList.add('visible'),i*130));
 }
 
-/* ═══════════ INIT ═══════════ */
+/* ══════════════════════════════════════
+   INIT
+══════════════════════════════════════ */
+applyLang();
 load();
 </script>
 </body>
