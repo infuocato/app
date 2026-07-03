@@ -10,6 +10,13 @@
 
 MoneyFlow is a lightweight progressive web app (PWA) built with pure HTML, CSS, and JavaScript. It runs entirely in your browser — all data is stored locally on your device using `localStorage`. Nothing is ever sent to a server.
 
+## 📸 Screenshot
+
+![Application Screenshot](https://r2.fivemanage.com/ehRt4ulXUwN7AUFmDTt0u/app1.png)
+![Application Screenshot](https://r2.fivemanage.com/ehRt4ulXUwN7AUFmDTt0u/APP2.png)
+![Application Screenshot](https://r2.fivemanage.com/ehRt4ulXUwN7AUFmDTt0u/SAPP3.png)
+![Application Screenshot](https://r2.fivemanage.com/ehRt4ulXUwN7AUFmDTt0u/APP4.png)
+
 ---
 
 ## Features
@@ -77,6 +84,19 @@ MoneyFlow works best when installed as an app on your device — no App Store re
 
 ---
 
+## 🌍 Supported Languages
+
+The application currently supports the following languages:
+
+- 🇬🇧 English (en)
+- 🇮🇹 Italian (it)
+- 🇪🇸 Spanish (es)
+- 🇫🇷 French (fr)
+- 🇩🇪 German (de)
+- 🇧🇷 Portuguese (pt)
+
+---
+
 ## Tech Stack
 
 | Layer | Technology |
@@ -87,7 +107,6 @@ MoneyFlow works best when installed as an app on your device — no App Store re
 | Storage | `localStorage` |
 | Icons | [Font Awesome 6](https://fontawesome.com/) |
 | Hosting | GitHub Pages |
-| Languages | IT - more soon |
 
 No frameworks. No dependencies. No build step.
 
