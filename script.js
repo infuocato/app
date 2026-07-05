@@ -61,7 +61,7 @@ const TRANSLATIONS = {
     projection:'Proiezione fine mese',
     catChart:'Spese per categoria',lastExpenses:'Ultime spese',
     noExpenses:'Nessuna spesa ancora',noData:'Nessun dato',
-    shoppingList:'Acquisti Futuri',noShopping:'Nessun articolo in lista',
+    shoppingList:'Lista della spesa',noShopping:'Nessun articolo in lista',
     shopDescPlaceholder:'Es. Scarpe nuove…',addItem:'Aggiungi articolo',
     addTitle:['Nuova ','Spesa'],
     amount:'Importo',category:'Categoria',description:'Descrizione',
@@ -260,7 +260,29 @@ const catIcons={Groceries:'🛒',Transport:'🚌',Home:'🏠',Fun:'🎮',Other:'
 const catClass={Groceries:'cat-food',Transport:'cat-transport',Home:'cat-house',Fun:'cat-fun',Other:'cat-other'};
 const catColors={Groceries:'#FF9F0A',Transport:'#5AC8FA',Home:'#30D158',Fun:'#BF5AF2',Other:'rgba(255,255,255,.6)'};
 
-function curKey(){const d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)}
+function curKey(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')}
+function migrateMonthKeys(){
+  // Converte le vecchie chiavi tipo "2026-7" nel nuovo formato "2026-07",
+  // così l'ordinamento alfabetico dei mesi torna cronologicamente corretto.
+  const oldKeyRe=/^(e_|b_|rec_applied_)(\d{4})-(\d{1,2})$/;
+  const toMove=[];
+  for(let i=0;i<localStorage.length;i++){
+    const k=localStorage.key(i);
+    const m=k&&k.match(oldKeyRe);
+    if(m&&m[3].length===1) toMove.push({oldKey:k,prefix:m[1],year:m[2],month:m[3]});
+  }
+  toMove.forEach(({oldKey,prefix,year,month})=>{
+    const newKey=prefix+year+'-'+month.padStart(2,'0');
+    if(localStorage.getItem(newKey)===null){
+      localStorage.setItem(newKey,localStorage.getItem(oldKey));
+    }else if(prefix==='e_'){
+      // unisce le spese se esiste già una chiave nel nuovo formato
+      const merged=JSON.parse(localStorage.getItem(newKey)||'[]').concat(JSON.parse(localStorage.getItem(oldKey)||'[]'));
+      localStorage.setItem(newKey,JSON.stringify(merged));
+    }
+    localStorage.removeItem(oldKey);
+  });
+}
 let currentFilter='all';
 let selectedCat='Groceries';
 let editingDate=null;
@@ -375,7 +397,7 @@ function show(id,navId){
   document.getElementById(id).classList.add('active');
   document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));
   if(navId)document.getElementById(navId).classList.add('active');
-  if(id==='historyPage'){viewingKey=curKey();buildMonthTabs();renderHistory();}
+  if(id==='historyPage'){buildMonthTabs();renderHistory();}
   if(id==='statsPage')renderStats();
   if(id==='settingsPage')renderSettings();
 }
@@ -549,7 +571,7 @@ function addExpense(){
   document.querySelectorAll('.cat-btn').forEach(x=>x.classList.remove('selected'));
   document.querySelector('.cat-btn[data-cat="Groceries"]').classList.add('selected');
   selectedCat='Groceries';document.getElementById('descWrap').classList.remove('open');
-  showConfirm();show('home','nav-home');load();
+  showConfirm();show('home','nav-home');load();refreshStatsIfVisible();
 }
 
 function applyRecurring(){
@@ -646,12 +668,16 @@ function saveEdit(){
   const v=parseFloat(document.getElementById('editAmount').value);if(isNaN(v)||v<=0)return;
   const e=getExp(viewingKey),idx=e.findIndex(x=>x.date===editingDate);if(idx===-1)return;
   e[idx].amount=v;if(e[idx].cat==='Other')e[idx].desc=document.getElementById('editDesc').value.trim();
-  saveExp(e,viewingKey);closeSheet();haptic(10);renderHistory();load();
+  saveExp(e,viewingKey);closeSheet();haptic(10);renderHistory();load();refreshStatsIfVisible();
 }
 function deleteExpense(){
   if(!confirm(T.confirmDeleteExp))return;
   saveExp(getExp(viewingKey).filter(x=>x.date!==editingDate),viewingKey);
-  closeSheet();haptic([20,50,20]);renderHistory();load();
+  closeSheet();haptic([20,50,20]);renderHistory();load();refreshStatsIfVisible();
+}
+function refreshStatsIfVisible(){
+  const statsEl=document.getElementById('statsPage');
+  if(statsEl&&statsEl.classList.contains('active'))renderStats();
 }
 
 /* ══════════════════════════════════════
@@ -687,5 +713,13 @@ function animateTutSteps(id){
 /* ══════════════════════════════════════
    INIT
 ══════════════════════════════════════ */
-applyLang();
-load();
+function initApp(){
+  migrateMonthKeys();
+  applyLang();
+  load();
+}
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded',initApp);
+}else{
+  initApp();
+}

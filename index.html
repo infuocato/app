@@ -11,7 +11,7 @@
 <title>MoneyFlow</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="style.css">
-<script src="script.js"></script>
+<script src="script.js" defer></script>
 </head>
 <body>
 
@@ -49,6 +49,10 @@
     </div>
   </div>
   <div class="glass-card">
+    <div class="section-title" id="lbl-last-expenses">Latest expenses</div>
+    <div id="last3"><div class="empty">No expenses yet</div></div>
+  </div>
+  <div class="glass-card">
     <div class="section-title" id="lbl-shopping-list">Shopping list</div>
     <div class="shop-add-row">
       <input id="shopDesc" type="text" class="glass-input" placeholder="e.g. New shoes…" maxlength="40">
@@ -63,10 +67,6 @@
     </div>
     <button class="btn-small shop-add-btn" onclick="addShoppingItem()" id="btn-add-shop-item"><i class="fas fa-plus"></i> <span id="lbl-add-item">Add item</span></button>
     <div id="shoppingList" style="margin-top:14px"><div class="empty" id="lbl-no-shopping">No items in your list</div></div>
-  </div>
-  <div class="glass-card">
-    <div class="section-title" id="lbl-last-expenses">Latest expenses</div>
-    <div id="last3"><div class="empty">No expenses yet</div></div>
   </div>
 </div>
 
