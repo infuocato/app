@@ -6,34 +6,32 @@
 }
 
 :root {
-    --glass: rgba(255, 255, 255, 0.08);
-    --glass-border: rgba(255, 255, 255, 0.18);
-    --accent: #0A84FF;
-    --danger: #FF453A;
-    --warn: #FF9F0A;
-    --ok: #30D158;
-    --purple: #BF5AF2;
-    --cyan: #5AC8FA;
-    --text: #fff;
-    --muted: rgba(255, 255, 255, 0.55);
-    --muted2: rgba(255, 255, 255, 0.30);
+    --glass: rgba(255, 255, 255, 0.055);
+    --glass-border: rgba(255, 255, 255, 0.13);
+    --accent: #8B5CF6;
+    --accent2: #6366F1;
+    --danger: #FB7185;
+    --warn: #FBBF24;
+    --ok: #34D399;
+    --purple: #E879F9;
+    --cyan: #38BDF8;
+    --text: #F5F3FF;
+    --muted: rgba(245, 243, 255, 0.58);
+    --muted2: rgba(245, 243, 255, 0.30);
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-    background: #0a0e1a;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+    background: #0a0818;
     min-height: 100vh;
     color: var(--text);
     padding-bottom: 110px;
     overflow-x: hidden;
     -webkit-user-select: none;
-    /* Safari */
     -moz-user-select: none;
-    /* Firefox */
     -ms-user-select: none;
-    /* IE/Edge */
     user-select: none;
-    /* Standard */
+    letter-spacing: -.1px;
 }
 
 body::before {
@@ -43,7 +41,11 @@ body::before {
     left: -100px;
     right: -100px;
     bottom: -200px;
-    background: radial-gradient(ellipse 60% 40% at 20% 20%, rgba(10, 132, 255, .18) 0%, transparent 60%), radial-gradient(ellipse 50% 35% at 80% 70%, rgba(48, 209, 88, .10) 0%, transparent 55%), radial-gradient(ellipse 40% 30% at 60% 10%, rgba(191, 90, 242, .12) 0%, transparent 50%);
+    background:
+        radial-gradient(ellipse 55% 38% at 15% 15%, rgba(139, 92, 246, .28) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 88% 12%, rgba(56, 189, 248, .16) 0%, transparent 55%),
+        radial-gradient(ellipse 55% 42% at 80% 78%, rgba(232, 121, 249, .16) 0%, transparent 58%),
+        radial-gradient(ellipse 45% 35% at 10% 85%, rgba(52, 211, 153, .10) 0%, transparent 55%);
     z-index: 0;
     pointer-events: none
 }
@@ -60,14 +62,15 @@ body::before {
 
 .glass-card {
     margin: 10px 14px;
-    background: var(--glass);
+    background: linear-gradient(160deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .025));
     border: 0.5px solid var(--glass-border);
-    border-radius: 28px;
+    border-radius: 26px;
     padding: 20px;
     position: relative;
     overflow: hidden;
-    -webkit-backdrop-filter: blur(20px);
-    backdrop-filter: blur(20px)
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
+    box-shadow: 0 8px 32px rgba(10, 6, 30, .35), inset 0 1px 0 rgba(255, 255, 255, .06)
 }
 
 .glass-card::before {
@@ -77,7 +80,7 @@ body::before {
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .25), transparent)
+    background: linear-gradient(90deg, transparent, rgba(139, 92, 246, .5), rgba(232, 121, 249, .35), transparent)
 }
 
 .header {
@@ -89,12 +92,15 @@ body::before {
 
 .logo {
     font-size: 30px;
-    font-weight: 700;
-    letter-spacing: -.5px
+    font-weight: 800;
+    letter-spacing: -.8px
 }
 
 .logo span {
-    color: var(--accent)
+    background: linear-gradient(135deg, var(--accent), var(--cyan));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent
 }
 
 .header-actions {
@@ -115,9 +121,9 @@ body::before {
 }
 
 .btn-icon.blue {
-    background: rgba(10, 132, 255, .18);
-    border: 0.5px solid rgba(10, 132, 255, .35);
-    color: #0A84FF
+    background: rgba(139, 92, 246, .18);
+    border: 0.5px solid rgba(139, 92, 246, .4);
+    color: #B794F6
 }
 
 .ring-wrap {
@@ -133,7 +139,8 @@ body::before {
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: center
+    justify-content: center;
+    filter: drop-shadow(0 0 18px rgba(139, 92, 246, .25))
 }
 
 .ring-svg {
@@ -146,7 +153,7 @@ body::before {
     width: 118px;
     height: 118px;
     border-radius: 50%;
-    background: rgba(10, 14, 26, .7);
+    background: rgba(14, 10, 30, .75);
     border: 0.5px solid var(--glass-border);
     display: flex;
     flex-direction: column;
@@ -158,7 +165,7 @@ body::before {
 
 .ring-perc {
     font-size: 26px;
-    font-weight: 700;
+    font-weight: 800;
     letter-spacing: -1px
 }
 
@@ -166,7 +173,7 @@ body::before {
     font-size: 11px;
     color: var(--muted);
     margin-top: 1px;
-    letter-spacing: .3px
+    letter-spacing: .5px
 }
 
 .ring-stats {
@@ -181,7 +188,7 @@ body::before {
 
 .stat-val {
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: -.3px
 }
 
@@ -198,25 +205,25 @@ body::before {
     padding: 4px 10px;
     border-radius: 20px;
     font-size: 12px;
-    font-weight: 500
+    font-weight: 600
 }
 
 .chip.ok {
-    background: rgba(48, 209, 88, .15);
-    color: #30D158;
-    border: 0.5px solid rgba(48, 209, 88, .3)
+    background: rgba(52, 211, 153, .15);
+    color: #34D399;
+    border: 0.5px solid rgba(52, 211, 153, .3)
 }
 
 .chip.warn {
-    background: rgba(255, 159, 10, .15);
-    color: #FF9F0A;
-    border: 0.5px solid rgba(255, 159, 10, .3)
+    background: rgba(251, 191, 36, .15);
+    color: #FBBF24;
+    border: 0.5px solid rgba(251, 191, 36, .3)
 }
 
 .chip.danger {
-    background: rgba(255, 69, 58, .15);
-    color: #FF453A;
-    border: 0.5px solid rgba(255, 69, 58, .3)
+    background: rgba(251, 113, 133, .15);
+    color: #FB7185;
+    border: 0.5px solid rgba(251, 113, 133, .3)
 }
 
 .proj-row {
@@ -235,7 +242,7 @@ body::before {
 
 .proj-val {
     font-size: 14px;
-    font-weight: 600
+    font-weight: 700
 }
 
 .tx-row {
@@ -268,7 +275,7 @@ body::before {
 
 .tx-cat {
     font-size: 14px;
-    font-weight: 500
+    font-weight: 600
 }
 
 .tx-sub {
@@ -282,7 +289,7 @@ body::before {
 
 .tx-amount {
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 700;
     flex-shrink: 0
 }
 
@@ -291,9 +298,9 @@ body::before {
     height: 28px;
     border-radius: 9px;
     flex-shrink: 0;
-    background: rgba(10, 132, 255, .15);
-    border: 0.5px solid rgba(10, 132, 255, .3);
-    color: #0A84FF;
+    background: rgba(139, 92, 246, .15);
+    border: 0.5px solid rgba(139, 92, 246, .35);
+    color: #B794F6;
     font-size: 12px;
     display: flex;
     align-items: center;
@@ -328,7 +335,7 @@ body::before {
     width: 40px;
     height: 40px;
     border-radius: 12px;
-    background: rgba(255, 255, 255, .06);
+    background: rgba(255, 255, 255, .05);
     border: 0.5px solid rgba(255, 255, 255, .12);
     display: flex;
     align-items: center;
@@ -343,8 +350,8 @@ body::before {
 }
 
 .shop-cat-btn.selected {
-    background: rgba(10, 132, 255, .2);
-    border-color: rgba(10, 132, 255, .5)
+    background: rgba(139, 92, 246, .22);
+    border-color: rgba(139, 92, 246, .55)
 }
 
 .shop-add-btn {
@@ -385,8 +392,8 @@ body::before {
 }
 
 .shop-checkbox.checked {
-    background: #30D158;
-    border-color: #30D158;
+    background: #34D399;
+    border-color: #34D399;
     color: #fff
 }
 
@@ -397,7 +404,7 @@ body::before {
 
 .shop-desc {
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis
@@ -411,7 +418,7 @@ body::before {
 
 .shop-price {
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 700;
     flex-shrink: 0
 }
 
@@ -420,9 +427,9 @@ body::before {
     height: 28px;
     border-radius: 9px;
     flex-shrink: 0;
-    background: rgba(255, 69, 58, .15);
-    border: 0.5px solid rgba(255, 69, 58, .3);
-    color: #FF453A;
+    background: rgba(251, 113, 133, .15);
+    border: 0.5px solid rgba(251, 113, 133, .3);
+    color: #FB7185;
     font-size: 12px;
     display: flex;
     align-items: center;
@@ -432,17 +439,17 @@ body::before {
 
 .section-title {
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--muted);
     text-transform: uppercase;
-    letter-spacing: .8px;
+    letter-spacing: 1px;
     margin-bottom: 12px
 }
 
 .field-label {
     font-size: 12px;
     color: var(--muted);
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: .3px;
     margin-bottom: 6px
 }
@@ -450,12 +457,12 @@ body::before {
 .glass-input {
     width: 100%;
     padding: 14px 16px;
-    background: rgba(255, 255, 255, .06);
+    background: rgba(255, 255, 255, .05);
     border: 0.5px solid rgba(255, 255, 255, .14);
     border-radius: 16px;
     color: #fff;
     font-size: 16px;
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     outline: none;
     margin-bottom: 14px;
     transition: border-color .2s, background .2s;
@@ -463,8 +470,8 @@ body::before {
 }
 
 .glass-input:focus {
-    background: rgba(255, 255, 255, .10);
-    border-color: rgba(10, 132, 255, .5)
+    background: rgba(139, 92, 246, .08);
+    border-color: rgba(139, 92, 246, .55)
 }
 
 .glass-input::placeholder {
@@ -491,14 +498,14 @@ body::before {
     justify-content: space-between;
     margin-bottom: 14px;
     padding: 12px 16px;
-    background: rgba(255, 255, 255, .05);
+    background: rgba(255, 255, 255, .04);
     border-radius: 14px;
     border: 0.5px solid rgba(255, 255, 255, .10)
 }
 
 .toggle-label {
     font-size: 14px;
-    font-weight: 500
+    font-weight: 600
 }
 
 .toggle-sub {
@@ -543,7 +550,7 @@ body::before {
 }
 
 .toggle input:checked+.toggle-slider {
-    background: #30D158
+    background: linear-gradient(135deg, var(--accent), var(--accent2))
 }
 
 .toggle input:checked+.toggle-slider::before {
@@ -560,11 +567,11 @@ body::before {
 .cat-btn {
     padding: 10px 6px;
     border-radius: 14px;
-    background: rgba(255, 255, 255, .06);
+    background: rgba(255, 255, 255, .05);
     border: 0.5px solid rgba(255, 255, 255, .12);
     color: var(--muted);
     font-size: 12px;
-    font-weight: 500;
+    font-weight: 600;
     text-align: center;
     cursor: pointer;
     transition: all .15s
@@ -575,8 +582,8 @@ body::before {
 }
 
 .cat-btn.selected {
-    background: rgba(10, 132, 255, .2);
-    border-color: rgba(10, 132, 255, .5);
+    background: rgba(139, 92, 246, .22);
+    border-color: rgba(139, 92, 246, .55);
     color: #fff
 }
 
@@ -590,20 +597,21 @@ body::before {
     width: 100%;
     padding: 16px;
     border-radius: 20px;
-    background: var(--accent);
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
     border: none;
     color: #fff;
     font-size: 16px;
-    font-weight: 600;
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 700;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     cursor: pointer;
     letter-spacing: .2px;
     transition: opacity .15s, transform .1s;
-    -webkit-appearance: none
+    -webkit-appearance: none;
+    box-shadow: 0 6px 20px rgba(139, 92, 246, .4)
 }
 
 .btn-primary:active {
-    opacity: .85;
+    opacity: .88;
     transform: scale(.98)
 }
 
@@ -621,14 +629,15 @@ body::before {
 .btn-small {
     padding: 14px 18px;
     border-radius: 16px;
-    background: var(--accent);
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
     border: none;
     color: #fff;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
     white-space: nowrap;
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    box-shadow: 0 4px 14px rgba(139, 92, 246, .35)
 }
 
 .filter-wrap {
@@ -648,33 +657,33 @@ body::before {
     padding: 6px 14px;
     border-radius: 20px;
     white-space: nowrap;
-    background: rgba(255, 255, 255, .06);
+    background: rgba(255, 255, 255, .05);
     border: 0.5px solid rgba(255, 255, 255, .12);
     color: var(--muted);
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
     flex-shrink: 0
 }
 
 .filter-chip.active {
-    background: rgba(10, 132, 255, .2);
-    border-color: rgba(10, 132, 255, .4);
+    background: rgba(139, 92, 246, .22);
+    border-color: rgba(139, 92, 246, .5);
     color: #fff
 }
 
 .total-banner {
     text-align: center;
     padding: 14px;
-    background: rgba(10, 132, 255, .08);
-    border: 0.5px solid rgba(10, 132, 255, .2);
+    background: linear-gradient(135deg, rgba(139, 92, 246, .12), rgba(56, 189, 248, .08));
+    border: 0.5px solid rgba(139, 92, 246, .25);
     border-radius: 18px;
     margin-bottom: 14px
 }
 
 .total-banner .big {
     font-size: 28px;
-    font-weight: 700;
+    font-weight: 800;
     letter-spacing: -1px
 }
 
@@ -700,18 +709,18 @@ body::before {
     padding: 6px 16px;
     border-radius: 20px;
     white-space: nowrap;
-    background: rgba(255, 255, 255, .06);
+    background: rgba(255, 255, 255, .05);
     border: 0.5px solid rgba(255, 255, 255, .12);
     color: var(--muted);
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
     flex-shrink: 0
 }
 
 .month-tab.active {
-    background: rgba(10, 132, 255, .2);
-    border-color: rgba(10, 132, 255, .4);
+    background: rgba(139, 92, 246, .22);
+    border-color: rgba(139, 92, 246, .5);
     color: #fff
 }
 
@@ -752,7 +761,7 @@ body::before {
 
 .bar-val {
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 700;
     width: 52px;
     text-align: right;
     flex-shrink: 0
@@ -778,7 +787,7 @@ body::before {
     align-items: center;
     gap: 8px;
     padding: 8px 10px;
-    background: rgba(255, 255, 255, .05);
+    background: rgba(255, 255, 255, .04);
     border-radius: 12px
 }
 
@@ -796,7 +805,7 @@ body::before {
 
 .legend-name {
     font-size: 12px;
-    font-weight: 500
+    font-weight: 600
 }
 
 .legend-pct {
@@ -806,7 +815,7 @@ body::before {
 
 .legend-amount {
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 700;
     flex-shrink: 0
 }
 
@@ -824,7 +833,7 @@ body::before {
 
 .settings-label {
     font-size: 14px;
-    font-weight: 500
+    font-weight: 600
 }
 
 .settings-sub {
@@ -835,7 +844,7 @@ body::before {
 
 .threshold-val {
     font-size: 18px;
-    font-weight: 700;
+    font-weight: 800;
     color: var(--warn);
     min-width: 40px;
     text-align: right
@@ -858,7 +867,7 @@ input[type=range]::-webkit-slider-thumb {
     border-radius: 50%;
     background: var(--warn);
     cursor: pointer;
-    box-shadow: 0 2px 8px rgba(255, 159, 10, .4)
+    box-shadow: 0 2px 10px rgba(251, 191, 36, .5)
 }
 
 /* LANGUAGE SELECTOR */
@@ -872,19 +881,19 @@ input[type=range]::-webkit-slider-thumb {
 .lang-btn {
     padding: 10px 6px;
     border-radius: 14px;
-    background: rgba(255, 255, 255, .06);
+    background: rgba(255, 255, 255, .05);
     border: 0.5px solid rgba(255, 255, 255, .12);
     color: var(--muted);
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 600;
     text-align: center;
     cursor: pointer;
     transition: all .15s
 }
 
 .lang-btn.active {
-    background: rgba(10, 132, 255, .2);
-    border-color: rgba(10, 132, 255, .5);
+    background: rgba(139, 92, 246, .22);
+    border-color: rgba(139, 92, 246, .55);
     color: #fff
 }
 
@@ -907,17 +916,17 @@ input[type=range]::-webkit-slider-thumb {
     border-radius: 14px;
     text-align: center;
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
-    background: rgba(255, 255, 255, .06);
+    background: rgba(255, 255, 255, .05);
     border: 0.5px solid rgba(255, 255, 255, .12);
     color: var(--muted);
     transition: all .2s
 }
 
 .tut-tab.active {
-    background: rgba(10, 132, 255, .2);
-    border-color: rgba(10, 132, 255, .45);
+    background: rgba(139, 92, 246, .22);
+    border-color: rgba(139, 92, 246, .5);
     color: #fff
 }
 
@@ -970,20 +979,20 @@ input[type=range]::-webkit-slider-thumb {
     align-items: center;
     justify-content: center;
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 800;
     margin-top: 2px
 }
 
 .tut-step-num.safari {
-    background: rgba(10, 132, 255, .2);
-    border: 0.5px solid rgba(10, 132, 255, .4);
-    color: #0A84FF
+    background: rgba(139, 92, 246, .22);
+    border: 0.5px solid rgba(139, 92, 246, .45);
+    color: #B794F6
 }
 
 .tut-step-num.chrome {
-    background: rgba(48, 209, 88, .2);
-    border: 0.5px solid rgba(48, 209, 88, .4);
-    color: #30D158
+    background: rgba(52, 211, 153, .2);
+    border: 0.5px solid rgba(52, 211, 153, .45);
+    color: #34D399
 }
 
 .tut-step-body {
@@ -993,7 +1002,7 @@ input[type=range]::-webkit-slider-thumb {
 
 .tut-step-title {
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 700;
     margin-bottom: 3px
 }
 
@@ -1022,8 +1031,8 @@ input[type=range]::-webkit-slider-thumb {
     gap: 8px;
     margin-top: 14px;
     padding: 12px 14px;
-    background: rgba(10, 132, 255, .08);
-    border: 0.5px solid rgba(10, 132, 255, .2);
+    background: rgba(139, 92, 246, .10);
+    border: 0.5px solid rgba(139, 92, 246, .25);
     border-radius: 14px;
     font-size: 12px;
     color: var(--muted);
@@ -1031,7 +1040,7 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 .tut-tip i {
-    color: #0A84FF;
+    color: #B794F6;
     margin-top: 1px;
     flex-shrink: 0
 }
@@ -1043,15 +1052,16 @@ input[type=range]::-webkit-slider-thumb {
     left: 16px;
     right: 16px;
     height: 68px;
-    background: rgba(20, 24, 40, .85);
-    -webkit-backdrop-filter: blur(24px);
-    backdrop-filter: blur(24px);
-    border: 0.5px solid rgba(255, 255, 255, .15);
+    background: rgba(24, 18, 42, .85);
+    -webkit-backdrop-filter: blur(26px);
+    backdrop-filter: blur(26px);
+    border: 0.5px solid rgba(255, 255, 255, .14);
     border-radius: 28px;
     display: flex;
     align-items: center;
     justify-content: space-around;
-    z-index: 100
+    z-index: 100;
+    box-shadow: 0 10px 40px rgba(10, 6, 30, .5)
 }
 
 .nav-bar::before {
@@ -1061,7 +1071,7 @@ input[type=range]::-webkit-slider-thumb {
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .2), transparent);
+    background: linear-gradient(90deg, transparent, rgba(139, 92, 246, .4), rgba(232, 121, 249, .3), transparent);
     border-radius: 28px 28px 0 0
 }
 
@@ -1074,7 +1084,7 @@ input[type=range]::-webkit-slider-thumb {
     cursor: pointer;
     color: var(--muted2);
     font-size: 10px;
-    font-weight: 500;
+    font-weight: 600;
     transition: color .15s;
     background: none;
     border: none
@@ -1092,10 +1102,10 @@ input[type=range]::-webkit-slider-thumb {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background: var(--accent);
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
     color: #fff;
     font-size: 22px;
-    box-shadow: 0 4px 20px rgba(10, 132, 255, .45);
+    box-shadow: 0 4px 20px rgba(139, 92, 246, .55);
     flex-direction: row;
     gap: 0;
     padding: 0;
@@ -1107,23 +1117,23 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 .cat-food {
-    background: rgba(255, 159, 10, .18);
-    color: #FF9F0A
+    background: rgba(251, 191, 36, .18);
+    color: #FBBF24
 }
 
 .cat-transport {
-    background: rgba(10, 132, 255, .18);
-    color: #5AC8FA
+    background: rgba(56, 189, 248, .18);
+    color: #38BDF8
 }
 
 .cat-house {
-    background: rgba(48, 209, 88, .18);
-    color: #30D158
+    background: rgba(52, 211, 153, .18);
+    color: #34D399
 }
 
 .cat-fun {
-    background: rgba(191, 90, 242, .18);
-    color: #BF5AF2
+    background: rgba(232, 121, 249, .18);
+    color: #E879F9
 }
 
 .cat-other {
@@ -1140,9 +1150,9 @@ input[type=range]::-webkit-slider-thumb {
 
 .recurring-badge {
     font-size: 10px;
-    background: rgba(48, 209, 88, .15);
-    color: #30D158;
-    border: 0.5px solid rgba(48, 209, 88, .3);
+    background: rgba(52, 211, 153, .15);
+    color: #34D399;
+    border: 0.5px solid rgba(52, 211, 153, .3);
     padding: 1px 6px;
     border-radius: 8px;
     margin-left: 6px;
@@ -1152,7 +1162,7 @@ input[type=range]::-webkit-slider-thumb {
 .sheet-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, .55);
+    background: rgba(6, 4, 16, .6);
     z-index: 200;
     opacity: 0;
     pointer-events: none;
@@ -1169,13 +1179,14 @@ input[type=range]::-webkit-slider-thumb {
     left: 0;
     right: 0;
     bottom: 0;
-    background: #161c2e;
-    border: 0.5px solid rgba(255, 255, 255, .15);
+    background: #191532;
+    border: 0.5px solid rgba(255, 255, 255, .14);
     border-radius: 28px 28px 0 0;
     padding: 20px 20px 44px;
     z-index: 201;
     transform: translateY(100%);
-    transition: transform .35s cubic-bezier(.4, 0, .2, 1)
+    transition: transform .35s cubic-bezier(.4, 0, .2, 1);
+    box-shadow: 0 -10px 40px rgba(10, 6, 30, .5)
 }
 
 .sheet.open {
@@ -1192,7 +1203,7 @@ input[type=range]::-webkit-slider-thumb {
 
 .sheet-title {
     font-size: 18px;
-    font-weight: 700;
+    font-weight: 800;
     margin-bottom: 18px
 }
 
@@ -1206,26 +1217,27 @@ input[type=range]::-webkit-slider-thumb {
     flex: 1;
     padding: 15px;
     border-radius: 18px;
-    background: rgba(255, 69, 58, .18);
-    border: 0.5px solid rgba(255, 69, 58, .35);
-    color: #FF453A;
+    background: rgba(251, 113, 133, .18);
+    border: 0.5px solid rgba(251, 113, 133, .4);
+    color: #FB7185;
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif
 }
 
 .btn-save {
     flex: 2;
     padding: 15px;
     border-radius: 18px;
-    background: var(--accent);
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
     border: none;
     color: #fff;
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    box-shadow: 0 4px 14px rgba(139, 92, 246, .4)
 }
 
 @keyframes pop-confirm {
@@ -1258,8 +1270,8 @@ input[type=range]::-webkit-slider-thumb {
     width: 90px;
     height: 90px;
     border-radius: 50%;
-    background: rgba(48, 209, 88, .25);
-    border: 2px solid #30D158;
+    background: rgba(52, 211, 153, .25);
+    border: 2px solid #34D399;
     display: flex;
     align-items: center;
     justify-content: center;
