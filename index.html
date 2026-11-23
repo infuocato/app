@@ -2,12 +2,20 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#0a0818">
+<meta name="theme-color" content="#8B5CF6">
+<meta name="color-scheme" content="light dark">
+<script>
+/* applica il tema prima del primo paint (evita il lampo bianco in modalità scura) */
+(function(){var p='auto';try{p=localStorage.getItem('theme')||'auto'}catch(e){}
+var d=p==='dark'||(p!=='light'&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches);
+document.documentElement.setAttribute('data-theme',d?'dark':'light');
+var m=document.querySelector('meta[name="theme-color"]');if(m&&d)m.setAttribute('content','#4A27A8');})();
+</script>
 <link rel="icon" type="image/png" href="favicon.png">
-<link rel="apple-touch-icon" href="/favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
 <title>MoneyFlow</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,240 +26,273 @@
 </head>
 <body>
 
-<!-- HOME -->
+<!-- ═════════ HOME ═════════ -->
 <div id="home" class="page active">
-  <div class="header">
-    <div class="logo">Money<span>Flow</span></div>
-    <div class="header-actions">
-      <button class="btn-icon blue" onclick="exportCSV()" id="btn-export-title" title="Export CSV"><i class="fas fa-download"></i></button>
+  <header class="top">
+    <div class="top-bar">
+      <div class="brand"><span class="brand-mark"><i class="fas fa-wallet"></i></span>MoneyFlow</div>
+      <div class="top-actions">
+        <span class="pill-month" id="homeMonth"></span>
+        <button class="icon-btn" onclick="exportCSV()" aria-label="Export CSV"><i class="fas fa-download"></i></button>
+      </div>
     </div>
-  </div>
-  <div class="glass-card">
-    <div class="ring-wrap">
-      <div class="ring-outer">
-        <svg class="ring-svg" width="160" height="160" viewBox="0 0 160 160">
-          <circle cx="80" cy="80" r="68" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="14"/>
-          <circle id="ringArc" cx="80" cy="80" r="68" fill="none" stroke="#34D399" stroke-width="14" stroke-linecap="round" stroke-dasharray="0 427" stroke-dashoffset="107" transform="rotate(-90 80 80)" style="transition:stroke-dasharray .6s cubic-bezier(.4,0,.2,1),stroke .4s"/>
-        </svg>
-        <div class="ring-inner">
-          <div class="ring-perc" id="perc">0%</div>
-          <div class="ring-label" id="lbl-used">USED</div>
+    <div class="hero-balance">
+      <div class="hero-label" id="lbl-remaining">Remaining</div>
+      <div class="hero-amount" id="remaining">€ 0,00</div>
+      <div class="hero-pill"><i class="fas fa-bolt"></i><span id="perc">0%</span><span id="lbl-used">USED</span></div>
+      <div class="hero-bar"><i id="heroBar"></i></div>
+    </div>
+  </header>
+
+  <main class="body">
+    <div class="section">
+      <div class="section-head"><div class="section-title" id="lbl-your-money">Your money</div></div>
+      <div class="money-grid">
+        <button class="money-card" onclick="show('settingsPage','nav-settings')">
+          <div class="money-ico blue"><i class="fas fa-bullseye"></i></div>
+          <div class="money-lbl" id="lbl-budget">Monthly budget</div>
+          <div class="money-val" id="budgetVal">—</div>
+        </button>
+        <div class="money-card">
+          <div class="money-ico red"><i class="fas fa-arrow-trend-up"></i></div>
+          <div class="money-lbl" id="lbl-spent">Spent</div>
+          <div class="money-val" id="spent">€ 0,00</div>
         </div>
       </div>
-      <div class="ring-stats">
-        <div class="stat-item"><div class="stat-val" id="spent">€ 0</div><div class="stat-key" id="lbl-spent">Spent</div></div>
-        <div class="stat-item" style="border-left:0.5px solid rgba(255,255,255,0.1);padding-left:28px">
-          <div class="stat-val" id="remaining">€ 0</div><div class="stat-key" id="lbl-remaining">Remaining</div>
+      <button class="insight idle" id="insight" onclick="show('settingsPage','nav-settings')">
+        <div class="insight-ico"><i class="fas fa-wand-magic-sparkles" id="insightIcon"></i></div>
+        <div class="insight-txt">
+          <div class="insight-title" id="insightTitle"></div>
+          <div class="insight-sub" id="insightSub" style="display:none"></div>
         </div>
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title" id="lbl-last-expenses">Latest expenses</div>
+        <button class="link-pill" id="lnk-view-all" onclick="show('historyPage','nav-hist')">View all</button>
       </div>
-      <div style="margin-top:10px" id="statusChip"></div>
+      <div class="card flush"><div id="last3"><div class="empty">No expenses yet</div></div></div>
     </div>
-    <div class="proj-row" id="projRow" style="display:none">
-      <span class="proj-label"><i class="fas fa-chart-line" style="margin-right:4px"></i><span id="lbl-projection">End-of-month projection</span></span>
-      <span class="proj-val" id="projVal">—</span>
+
+    <div class="section">
+      <div class="section-head"><div class="section-title" id="lbl-shopping-list">Shopping list</div></div>
+      <div class="card">
+        <div class="shop-add-row">
+          <input id="shopDesc" type="text" class="input" placeholder="e.g. New shoes…" maxlength="40">
+          <input id="shopPrice" type="number" class="input" placeholder="€ 0.00" inputmode="decimal" step="0.01">
+        </div>
+        <div class="shop-cat-row" id="shopCatRow">
+          <div class="shop-cat-btn selected" data-cat="Groceries" onclick="selectShopCat(this)" role="button" tabindex="0">🛒</div>
+          <div class="shop-cat-btn" data-cat="Transport" onclick="selectShopCat(this)" role="button" tabindex="0">🚌</div>
+          <div class="shop-cat-btn" data-cat="Home" onclick="selectShopCat(this)" role="button" tabindex="0">🏠</div>
+          <div class="shop-cat-btn" data-cat="Fun" onclick="selectShopCat(this)" role="button" tabindex="0">🎮</div>
+          <div class="shop-cat-btn" data-cat="Other" onclick="selectShopCat(this)" role="button" tabindex="0">📦</div>
+        </div>
+        <button class="btn-soft" onclick="addShoppingItem()"><i class="fas fa-plus"></i><span id="lbl-add-item">Add item</span></button>
+        <div id="shoppingList" style="margin-top:8px"></div>
+      </div>
     </div>
-  </div>
-  <div class="glass-card">
-    <div class="section-title" id="lbl-last-expenses">Latest expenses</div>
-    <div id="last3"><div class="empty">No expenses yet</div></div>
-  </div>
-  <div class="glass-card">
-    <div class="section-title" id="lbl-shopping-list">Shopping list</div>
-    <div class="shop-add-row">
-      <input id="shopDesc" type="text" class="glass-input" placeholder="e.g. New shoes…" maxlength="40">
-      <input id="shopPrice" type="number" class="glass-input shop-price-input" placeholder="€ 0.00" inputmode="decimal">
-    </div>
-    <div class="shop-cat-row" id="shopCatRow">
-      <div class="shop-cat-btn selected" data-cat="Groceries" onclick="selectShopCat(this)" title="Groceries">🛒</div>
-      <div class="shop-cat-btn" data-cat="Transport" onclick="selectShopCat(this)" title="Transport">🚌</div>
-      <div class="shop-cat-btn" data-cat="Home" onclick="selectShopCat(this)" title="Home">🏠</div>
-      <div class="shop-cat-btn" data-cat="Fun" onclick="selectShopCat(this)" title="Fun">🎮</div>
-      <div class="shop-cat-btn" data-cat="Other" onclick="selectShopCat(this)" title="Other">📦</div>
-    </div>
-    <button class="btn-small shop-add-btn" onclick="addShoppingItem()" id="btn-add-shop-item"><i class="fas fa-plus"></i> <span id="lbl-add-item">Add item</span></button>
-    <div id="shoppingList" style="margin-top:14px"><div class="empty" id="lbl-no-shopping">No items in your list</div></div>
-  </div>
+  </main>
 </div>
 
-<!-- ADD -->
+<!-- ═════════ ADD ═════════ -->
 <div id="add" class="page">
-  <div class="header"><div class="logo" id="lbl-add-title">New <span>Expense</span></div></div>
-  <div class="glass-card">
-    <div class="field-label" id="lbl-amount">Amount</div>
-    <input id="amount" type="number" class="glass-input" placeholder="€ 0.00" inputmode="decimal">
-    <div class="field-label" id="lbl-category">Category</div>
-    <div class="cat-grid" id="catGrid">
-      <div class="cat-btn selected" data-cat="Groceries" onclick="selectCat(this)"><span class="cat-icon">🛒</span><span class="cat-lbl">Groceries</span></div>
-      <div class="cat-btn" data-cat="Transport" onclick="selectCat(this)"><span class="cat-icon">🚌</span><span class="cat-lbl">Transport</span></div>
-      <div class="cat-btn" data-cat="Home" onclick="selectCat(this)"><span class="cat-icon">🏠</span><span class="cat-lbl">Home</span></div>
-      <div class="cat-btn" data-cat="Fun" onclick="selectCat(this)"><span class="cat-icon">🎮</span><span class="cat-lbl">Fun</span></div>
-      <div class="cat-btn" data-cat="Other" onclick="selectCat(this)"><span class="cat-icon">📦</span><span class="cat-lbl">Other</span></div>
+  <header class="top compact">
+    <div class="top-bar"><div class="page-title" id="lbl-add-title">New Expense</div></div>
+  </header>
+  <main class="body tight">
+    <div class="card amount-card">
+      <div class="field-label" id="lbl-amount">Amount</div>
+      <div class="amount-wrap">
+        <span class="amount-cur">€</span>
+        <input id="amount" type="number" class="amount-input" placeholder="0.00" inputmode="decimal" step="0.01">
+      </div>
     </div>
-    <div class="desc-wrap" id="descWrap">
-      <div class="field-label" id="lbl-description">Description</div>
-      <input id="desc" type="text" class="glass-input" id="inp-desc-placeholder" placeholder="e.g. Birthday gift…" maxlength="40">
+    <div class="card">
+      <div class="field-label" id="lbl-category">Category</div>
+      <div class="cat-grid" id="catGrid">
+        <div class="cat-btn selected" data-cat="Groceries" onclick="selectCat(this)" role="button" tabindex="0"><span class="cat-icon">🛒</span><span class="cat-lbl">Groceries</span></div>
+        <div class="cat-btn" data-cat="Transport" onclick="selectCat(this)" role="button" tabindex="0"><span class="cat-icon">🚌</span><span class="cat-lbl">Transport</span></div>
+        <div class="cat-btn" data-cat="Home" onclick="selectCat(this)" role="button" tabindex="0"><span class="cat-icon">🏠</span><span class="cat-lbl">Home</span></div>
+        <div class="cat-btn" data-cat="Fun" onclick="selectCat(this)" role="button" tabindex="0"><span class="cat-icon">🎮</span><span class="cat-lbl">Fun</span></div>
+        <div class="cat-btn" data-cat="Other" onclick="selectCat(this)" role="button" tabindex="0"><span class="cat-icon">📦</span><span class="cat-lbl">Other</span></div>
+      </div>
+      <div class="desc-wrap" id="descWrap">
+        <div class="field-label" id="lbl-description">Description</div>
+        <input id="desc" type="text" class="input" placeholder="e.g. Birthday gift…" maxlength="40" style="margin-bottom:0">
+      </div>
+      <div class="toggle-row">
+        <div><div class="toggle-label" id="lbl-recurring">Recurring expense</div><div class="toggle-sub" id="lbl-recurring-sub">Repeats every month</div></div>
+        <label class="toggle"><input type="checkbox" id="recurring"><span class="toggle-slider"></span></label>
+      </div>
+      <button class="btn-primary" onclick="addExpense()" id="btn-add-expense">Add Expense</button>
     </div>
-    <div class="toggle-row">
-      <div><div class="toggle-label" id="lbl-recurring">Recurring expense</div><div class="toggle-sub" id="lbl-recurring-sub">Repeats every month</div></div>
-      <label class="toggle"><input type="checkbox" id="recurring"><span class="toggle-slider"></span></label>
-    </div>
-    <button class="btn-primary" onclick="addExpense()" id="btn-add-expense">Add Expense</button>
-  </div>
+  </main>
 </div>
 
-<!-- HISTORY -->
+<!-- ═════════ HISTORY ═════════ -->
 <div id="historyPage" class="page">
-  <div class="header">
-    <div class="logo" id="lbl-history-title">Histo<span>ry</span></div>
-    <button class="btn-icon blue" onclick="exportCSV()"><i class="fas fa-download"></i></button>
-  </div>
-  <div class="glass-card" style="padding:14px 20px">
+  <header class="top compact">
+    <div class="top-bar">
+      <div class="page-title" id="lbl-history-title">History</div>
+      <button class="icon-btn" onclick="exportCSV()" aria-label="Export CSV"><i class="fas fa-download"></i></button>
+    </div>
     <div class="months-scroll" id="monthsTabs"></div>
-    <div class="total-banner">
-      <div class="big" id="categoryTotal">€ 0.00</div>
+  </header>
+  <main class="body tight">
+    <div class="card total-card">
+      <div class="big" id="categoryTotal">€ 0,00</div>
       <div class="sub" id="categoryLabel">All categories</div>
+      <div class="filter-wrap" id="filterChips"></div>
     </div>
-    <div class="filter-wrap" id="filterChips"></div>
-  </div>
-  <div class="glass-card">
-    <div id="historyList"><div class="empty">No expenses yet</div></div>
-  </div>
+    <div class="card flush"><div id="historyList"><div class="empty">No expenses</div></div></div>
+  </main>
 </div>
 
-<!-- STATS -->
+<!-- ═════════ STATS ═════════ -->
 <div id="statsPage" class="page">
-  <div class="header"><div class="logo" id="lbl-stats-title">Statis<span>tics</span></div></div>
-  <div class="glass-card">
-    <div class="section-title" id="lbl-cat-dist">Category distribution</div>
-    <div class="donut-wrap">
-      <svg id="donutSvg" width="160" height="160" viewBox="0 0 160 160"></svg>
-      <div class="legend-grid" id="donutLegend"></div>
+  <header class="top compact">
+    <div class="top-bar">
+      <div class="page-title" id="lbl-stats-title">Statistics</div>
+      <span class="pill-month" id="statsMonth"></span>
     </div>
-  </div>
-  <div class="glass-card">
-    <div class="section-title" id="lbl-monthly-trend">Monthly trend</div>
-    <div id="monthlyBars"><div class="empty" id="lbl-insufficient-data">Insufficient data</div></div>
-  </div>
+  </header>
+  <main class="body tight">
+    <div class="card">
+      <div class="section-title" id="lbl-cat-dist" style="margin-bottom:8px">Category distribution</div>
+      <div class="donut">
+        <svg id="donutSvg" viewBox="0 0 200 200"></svg>
+        <div class="donut-center">
+          <div class="dc-label" id="lbl-total-exp">Total expenses</div>
+          <div class="dc-value" id="donutTotal">€ 0,00</div>
+        </div>
+      </div>
+    </div>
+    <div class="card" id="catCard">
+      <div id="catList"></div>
+    </div>
+    <div class="card">
+      <div class="section-title" id="lbl-monthly-trend" style="margin-bottom:14px">Monthly trend</div>
+      <div id="monthlyBars"></div>
+    </div>
+  </main>
 </div>
 
-<!-- SETTINGS -->
+<!-- ═════════ SETTINGS ═════════ -->
 <div id="settingsPage" class="page">
-  <div class="header"><div class="logo" id="lbl-settings-title">Sett<span>ings</span></div></div>
+  <header class="top compact">
+    <div class="top-bar"><div class="page-title" id="lbl-settings-title">Settings</div></div>
+  </header>
+  <main class="body tight">
 
-  <!-- LANGUAGE -->
-  <div class="glass-card">
-    <div class="section-title" id="lbl-language">Language</div>
-    <div class="lang-grid">
-      <div class="lang-btn active" data-lang="en" onclick="setLang('en',this)"><span class="lang-flag">🇬🇧</span>English</div>
-      <div class="lang-btn" data-lang="it" onclick="setLang('it',this)"><span class="lang-flag">🇮🇹</span>Italiano</div>
-      <div class="lang-btn" data-lang="es" onclick="setLang('es',this)"><span class="lang-flag">🇪🇸</span>Español</div>
-      <div class="lang-btn" data-lang="fr" onclick="setLang('fr',this)"><span class="lang-flag">🇫🇷</span>Français</div>
-      <div class="lang-btn" data-lang="de" onclick="setLang('de',this)"><span class="lang-flag">🇩🇪</span>Deutsch</div>
-      <div class="lang-btn" data-lang="pt" onclick="setLang('pt',this)"><span class="lang-flag">🇧🇷</span>Português</div>
-    </div>
-  </div>
-
-  <!-- BUDGET -->
-  <div class="glass-card">
-    <div class="section-title" id="lbl-monthly-budget">Monthly budget</div>
-    <div class="budget-row">
-      <input id="budget" type="number" class="glass-input" placeholder="€ 0.00" inputmode="decimal">
-      <button class="btn-small" onclick="saveBudget()" id="btn-save-budget">Save</button>
-    </div>
-    <div id="budgetSaved" style="display:none;font-size:12px;color:#34D399;margin-top:-8px"><i class="fas fa-circle-check"></i> <span id="lbl-budget-saved">Budget saved</span></div>
-  </div>
-
-  <!-- THRESHOLD -->
-  <div class="glass-card">
-    <div class="settings-row">
-      <div><div class="settings-label" id="lbl-warn-threshold">Orange warning threshold</div><div class="settings-sub" id="lbl-warn-sub">Alert when you exceed this % of budget</div></div>
-      <div class="threshold-val" id="thresholdDisplay">70%</div>
-    </div>
-    <input type="range" id="thresholdSlider" min="40" max="95" step="5" value="70" oninput="updateThreshold(this.value)">
-    <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted2);margin-top:-4px"><span>40%</span><span>95%</span></div>
-  </div>
-
-  <!-- RECURRING -->
-  <div class="glass-card">
-    <div class="section-title" id="lbl-recurring-expenses">Recurring expenses</div>
-    <div id="recurringList"><div class="empty" id="lbl-no-recurring">No recurring expenses</div></div>
-  </div>
-
-  <!-- TUTORIAL -->
-  <div class="glass-card">
-    <div class="section-title" id="lbl-tutorial-title">📲 Add to Home Screen</div>
-    <div class="tut-tabs">
-      <div class="tut-tab active" onclick="switchTutTab('safari',this)"><span class="tut-tab-icon">🧭</span>Safari</div>
-      <div class="tut-tab" onclick="switchTutTab('chrome',this)"><span class="tut-tab-icon">🌐</span>Chrome</div>
-    </div>
-    <div class="tut-panel active" id="tut-safari">
-      <div class="tut-steps" id="tut-safari-steps">
-        <div class="tut-step"><div class="tut-step-num safari">1</div><div class="tut-step-body"><div class="tut-step-title" id="tut-s1-title">Open MoneyFlow in Safari</div><div class="tut-step-desc" id="tut-s1-desc">Make sure you are using Safari. Chrome and other browsers do not support installation as an app on iPhone.</div></div></div>
-        <div class="tut-step"><div class="tut-step-num safari">2</div><div class="tut-step-body"><div class="tut-step-title" id="tut-s2-title">Tap the Share button</div><div class="tut-step-desc" id="tut-s2-desc">At the bottom center you'll find the icon with an arrow pointing up. Tap it to open the share menu.</div>
-          <div class="tut-mockup"><svg viewBox="0 0 320 90" xmlns="http://www.w3.org/2000/svg"><rect width="320" height="90" fill="#1a1f35"/><rect x="10" y="12" width="300" height="36" rx="12" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.12)" stroke-width="0.5"/><text x="160" y="35" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="11" font-family="-apple-system,sans-serif">moneyflow.app</text><text x="30" y="72" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="18">‹</text><text x="80" y="72" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="18">›</text><rect x="140" y="56" width="40" height="30" rx="8" fill="rgba(10,132,255,0.25)" stroke="rgba(10,132,255,0.6)" stroke-width="1"/><text x="160" y="76" text-anchor="middle" fill="#8B5CF6" font-size="16">⬆</text><text x="230" y="72" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="16">⧉</text><text x="280" y="72" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="16">≡</text><text x="160" y="50" text-anchor="middle" fill="#8B5CF6" font-size="9" font-weight="600" id="svg-tap-here-1">TAP HERE</text><line x1="160" y1="52" x2="160" y2="56" stroke="#8B5CF6" stroke-width="1" stroke-dasharray="2,1"/></svg></div>
-        </div></div>
-        <div class="tut-step"><div class="tut-step-num safari">3</div><div class="tut-step-body"><div class="tut-step-title" id="tut-s3-title">Scroll and tap "Add to Home Screen"</div><div class="tut-step-desc" id="tut-s3-desc">In the menu that appears from the bottom, scroll the options to find this item with the square "+" icon. Tap it.</div>
-          <div class="tut-mockup"><svg viewBox="0 0 320 130" xmlns="http://www.w3.org/2000/svg"><rect width="320" height="130" fill="#1a1f35"/><rect x="0" y="20" width="320" height="110" fill="#252d45"/><rect x="125" y="26" width="70" height="4" rx="2" fill="rgba(255,255,255,0.2)"/><rect x="14" y="42" width="292" height="40" rx="13" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/><text x="42" y="57" fill="rgba(255,255,255,0.5)" font-size="11">✈️</text><text x="62" y="57" fill="rgba(255,255,255,0.5)" font-size="11">AirDrop</text><text x="42" y="73" fill="rgba(255,255,255,0.5)" font-size="11">💬</text><text x="62" y="73" fill="rgba(255,255,255,0.5)" font-size="11" id="svg-messages">Messages</text><rect x="14" y="88" width="292" height="36" rx="13" fill="rgba(10,132,255,0.18)" stroke="rgba(10,132,255,0.5)" stroke-width="0.8"/><rect x="26" y="96" width="20" height="20" rx="6" fill="rgba(10,132,255,0.3)"/><text x="36" y="110" text-anchor="middle" fill="#8B5CF6" font-size="13">+</text><text x="56" y="110" fill="#fff" font-size="12" font-weight="600" id="svg-add-home">Add to Home Screen</text></svg></div>
-        </div></div>
-        <div class="tut-step"><div class="tut-step-num safari">4</div><div class="tut-step-body"><div class="tut-step-title" id="tut-s4-title">Confirm with "Add"</div><div class="tut-step-desc" id="tut-s4-desc">A preview will appear with the app name. Tap "Add" in the top right corner to complete the installation.</div>
-          <div class="tut-mockup"><svg viewBox="0 0 320 100" xmlns="http://www.w3.org/2000/svg"><rect width="320" height="100" fill="#252d45"/><text x="20" y="28" fill="rgba(255,255,255,0.45)" font-size="13" id="svg-cancel-1">Cancel</text><text x="160" y="28" text-anchor="middle" fill="#fff" font-size="14" font-weight="600" id="svg-add-to-home">Add to Home</text><rect x="254" y="12" width="56" height="24" rx="12" fill="rgba(10,132,255,0.25)" stroke="rgba(10,132,255,0.5)" stroke-width="0.8"/><text x="282" y="28" text-anchor="middle" fill="#8B5CF6" font-size="13" font-weight="700" id="svg-add-btn-1">Add</text><rect x="120" y="44" width="48" height="48" rx="14" fill="#8B5CF6"/><text x="144" y="74" text-anchor="middle" fill="#fff" font-size="22">💰</text><text x="144" y="96" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="10">MoneyFlow</text></svg></div>
-        </div></div>
+    <div class="card">
+      <div class="section-title" id="lbl-language" style="margin-bottom:14px">Language</div>
+      <div class="lang-grid">
+        <div class="lang-btn active" data-lang="en" onclick="setLang('en',this)" role="button" tabindex="0"><span class="lang-flag">🇬🇧</span>English</div>
+        <div class="lang-btn" data-lang="it" onclick="setLang('it',this)" role="button" tabindex="0"><span class="lang-flag">🇮🇹</span>Italiano</div>
+        <div class="lang-btn" data-lang="es" onclick="setLang('es',this)" role="button" tabindex="0"><span class="lang-flag">🇪🇸</span>Español</div>
+        <div class="lang-btn" data-lang="fr" onclick="setLang('fr',this)" role="button" tabindex="0"><span class="lang-flag">🇫🇷</span>Français</div>
+        <div class="lang-btn" data-lang="de" onclick="setLang('de',this)" role="button" tabindex="0"><span class="lang-flag">🇩🇪</span>Deutsch</div>
+        <div class="lang-btn" data-lang="pt" onclick="setLang('pt',this)" role="button" tabindex="0"><span class="lang-flag">🇧🇷</span>Português</div>
       </div>
-      <div class="tut-tip"><i class="fas fa-circle-info"></i><span id="tut-safari-tip">On iOS, apps added via Safari run full screen without the browser bar, just like a native app.</span></div>
     </div>
-    <div class="tut-panel" id="tut-chrome">
-      <div class="tut-steps" id="tut-chrome-steps">
-        <div class="tut-step"><div class="tut-step-num chrome">1</div><div class="tut-step-body"><div class="tut-step-title" id="tut-c1-title">Open MoneyFlow in Chrome</div><div class="tut-step-desc" id="tut-c1-desc">On Android, use Chrome for the best experience. On iPhone, Safari is preferred, but Chrome works too.</div></div></div>
-        <div class="tut-step"><div class="tut-step-num chrome">2</div><div class="tut-step-body"><div class="tut-step-title" id="tut-c2-title">Tap the three dots in the top right</div><div class="tut-step-desc" id="tut-c2-desc">Chrome's main menu opens by tapping "⋮" in the top right corner of the screen.</div>
-          <div class="tut-mockup"><svg viewBox="0 0 320 80" xmlns="http://www.w3.org/2000/svg"><rect width="320" height="80" fill="#1a1f35"/><rect x="10" y="18" width="260" height="34" rx="10" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/><text x="140" y="40" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="11">moneyflow.app</text><rect x="278" y="18" width="34" height="34" rx="10" fill="rgba(48,209,88,0.2)" stroke="rgba(48,209,88,0.5)" stroke-width="0.8"/><text x="295" y="38" text-anchor="middle" fill="#34D399" font-size="16">⋮</text><text x="295" y="14" text-anchor="middle" fill="#34D399" font-size="9" font-weight="600" id="svg-tap-here-2">TAP HERE</text></svg></div>
-        </div></div>
-        <div class="tut-step"><div class="tut-step-num chrome">3</div><div class="tut-step-body"><div class="tut-step-title" id="tut-c3-title">Select "Add to Home Screen"</div><div class="tut-step-desc" id="tut-c3-desc">In the dropdown menu, look for "Add to Home Screen" or "Install app". On Android a banner may also appear automatically at the bottom.</div>
-          <div class="tut-mockup"><svg viewBox="0 0 320 150" xmlns="http://www.w3.org/2000/svg"><rect width="320" height="150" fill="#1a1f35"/><rect x="160" y="10" width="148" height="140" rx="14" fill="#2a3350" stroke="rgba(255,255,255,0.12)" stroke-width="0.5"/><text x="178" y="38" fill="rgba(255,255,255,0.5)" font-size="11" id="svg-new-tab">🔖  New tab</text><line x1="170" y1="48" x2="300" y2="48" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/><text x="178" y="66" fill="rgba(255,255,255,0.5)" font-size="11" id="svg-bookmarks">⭐  Bookmarks</text><line x1="170" y1="76" x2="300" y2="76" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/><rect x="162" y="82" width="144" height="30" rx="8" fill="rgba(48,209,88,0.15)" stroke="rgba(48,209,88,0.4)" stroke-width="0.7"/><text x="178" y="101" fill="#34D399" font-size="11" font-weight="600" id="svg-add-home-2">📲  Add to Home</text><line x1="170" y1="118" x2="300" y2="118" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/><text x="178" y="136" fill="rgba(255,255,255,0.5)" font-size="11" id="svg-print">🖨️  Print</text></svg></div>
-        </div></div>
-        <div class="tut-step"><div class="tut-step-num chrome">4</div><div class="tut-step-body"><div class="tut-step-title" id="tut-c4-title">Tap "Add" to confirm</div><div class="tut-step-desc" id="tut-c4-desc">A confirmation popup will appear. Tap "Add" and the MoneyFlow icon will appear on your Home Screen.</div>
-          <div class="tut-mockup"><svg viewBox="0 0 320 100" xmlns="http://www.w3.org/2000/svg"><rect width="320" height="100" fill="#1a1f35"/><rect x="30" y="10" width="260" height="80" rx="16" fill="#2a3350" stroke="rgba(255,255,255,0.12)" stroke-width="0.5"/><rect x="46" y="24" width="42" height="42" rx="12" fill="#8B5CF6"/><text x="67" y="51" text-anchor="middle" fill="#fff" font-size="20">💰</text><text x="100" y="38" fill="#fff" font-size="13" font-weight="600">MoneyFlow</text><text x="100" y="54" fill="rgba(255,255,255,0.45)" font-size="10">moneyflow.app</text><rect x="46" y="74" width="100" height="26" rx="13" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.15)" stroke-width="0.5"/><text x="96" y="91" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="12" id="svg-cancel-2">Cancel</text><rect x="158" y="74" width="116" height="26" rx="13" fill="rgba(48,209,88,0.2)" stroke="rgba(48,209,88,0.5)" stroke-width="0.8"/><text x="216" y="91" text-anchor="middle" fill="#34D399" font-size="12" font-weight="700" id="svg-add-btn-2">Add</text></svg></div>
-        </div></div>
-      </div>
-      <div class="tut-tip"><i class="fas fa-circle-info"></i><span id="tut-chrome-tip">On Android with Chrome, the app is installed as a PWA and appears in your app list with its own icon and splash screen.</span></div>
-    </div>
-  </div>
 
-  <!-- DELETE ALL -->
-  <div class="glass-card">
-    <div class="settings-sub" id="lbl-delete-sub">Delete all expenses and budgets from every month</div>
-    <button class="btn-primary" style="background:rgba(255,69,58,.7);margin-top:8px" onclick="resetAll()" id="btn-delete-all"><i class="fas fa-trash-can"></i> Delete all data</button>
-  </div>
+    <div class="card">
+      <div class="section-title" id="lbl-appearance" style="margin-bottom:14px">Appearance</div>
+      <div class="theme-grid" role="group" aria-labelledby="lbl-appearance">
+        <div class="theme-btn" data-theme="light" role="button" tabindex="0" aria-pressed="false" onclick="setTheme('light')"><span class="lang-flag"><i class="fas fa-sun"></i></span><span id="theme-lbl-light">Light</span></div>
+        <div class="theme-btn" data-theme="dark" role="button" tabindex="0" aria-pressed="false" onclick="setTheme('dark')"><span class="lang-flag"><i class="fas fa-moon"></i></span><span id="theme-lbl-dark">Dark</span></div>
+        <div class="theme-btn" data-theme="auto" role="button" tabindex="0" aria-pressed="false" onclick="setTheme('auto')"><span class="lang-flag"><i class="fas fa-circle-half-stroke"></i></span><span id="theme-lbl-auto">Auto</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title" id="lbl-monthly-budget" style="margin-bottom:14px">Monthly budget</div>
+      <div class="budget-row">
+        <input id="budget" type="number" class="input" placeholder="€ 0.00" inputmode="decimal" step="0.01">
+        <button class="btn-soft" onclick="saveBudget()" id="btn-save-budget">Save</button>
+      </div>
+      <div class="saved-note" id="budgetSaved"><i class="fas fa-circle-check"></i> <span id="lbl-budget-saved">Budget saved</span></div>
+    </div>
+
+    <div class="card">
+      <div class="settings-row">
+        <div><div class="settings-label" id="lbl-warn-threshold">Orange warning threshold</div><div class="settings-sub" id="lbl-warn-sub">Alert when you exceed this % of budget</div></div>
+        <div class="threshold-val" id="thresholdDisplay">70%</div>
+      </div>
+      <input type="range" id="thresholdSlider" min="40" max="95" step="5" value="70" oninput="updateThreshold(this.value)">
+      <div class="range-ends"><span>40%</span><span>95%</span></div>
+    </div>
+
+    <div class="card">
+      <div class="section-title" id="lbl-recurring-expenses" style="margin-bottom:6px">Recurring expenses</div>
+      <div id="recurringList"></div>
+    </div>
+
+    <div class="card">
+      <div class="section-title" id="lbl-tutorial-title">📲 Add to Home Screen</div>
+      <div class="tut-tabs">
+        <div class="tut-tab active" onclick="switchTutTab('safari',this)" role="button" tabindex="0">🧭 Safari</div>
+        <div class="tut-tab" onclick="switchTutTab('chrome',this)" role="button" tabindex="0">🌐 Chrome</div>
+      </div>
+      <div class="tut-panel active" id="tut-safari">
+        <div id="tut-safari-steps">
+          <div class="tut-step"><div class="tut-step-num">1</div><div><div class="tut-step-title" id="tut-s1-title"></div><div class="tut-step-desc" id="tut-s1-desc"></div></div></div>
+          <div class="tut-step"><div class="tut-step-num">2</div><div><div class="tut-step-title" id="tut-s2-title"></div><div class="tut-step-desc" id="tut-s2-desc"></div></div></div>
+          <div class="tut-step"><div class="tut-step-num">3</div><div><div class="tut-step-title" id="tut-s3-title"></div><div class="tut-step-desc" id="tut-s3-desc"></div></div></div>
+          <div class="tut-step"><div class="tut-step-num">4</div><div><div class="tut-step-title" id="tut-s4-title"></div><div class="tut-step-desc" id="tut-s4-desc"></div></div></div>
+        </div>
+        <div class="tut-tip"><i class="fas fa-circle-info"></i><span id="tut-safari-tip"></span></div>
+      </div>
+      <div class="tut-panel" id="tut-chrome">
+        <div id="tut-chrome-steps">
+          <div class="tut-step"><div class="tut-step-num chrome">1</div><div><div class="tut-step-title" id="tut-c1-title"></div><div class="tut-step-desc" id="tut-c1-desc"></div></div></div>
+          <div class="tut-step"><div class="tut-step-num chrome">2</div><div><div class="tut-step-title" id="tut-c2-title"></div><div class="tut-step-desc" id="tut-c2-desc"></div></div></div>
+          <div class="tut-step"><div class="tut-step-num chrome">3</div><div><div class="tut-step-title" id="tut-c3-title"></div><div class="tut-step-desc" id="tut-c3-desc"></div></div></div>
+          <div class="tut-step"><div class="tut-step-num chrome">4</div><div><div class="tut-step-title" id="tut-c4-title"></div><div class="tut-step-desc" id="tut-c4-desc"></div></div></div>
+        </div>
+        <div class="tut-tip"><i class="fas fa-circle-info"></i><span id="tut-chrome-tip"></span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="settings-sub" id="lbl-delete-sub">Delete all expenses and budgets from every month</div>
+      <button class="btn-primary danger" onclick="resetAll()" id="btn-delete-all" style="margin-top:12px"><i class="fas fa-trash-can"></i> Delete all data</button>
+    </div>
+  </main>
 </div>
 
-<!-- NAV -->
-<div class="nav-bar">
+<!-- ═════════ NAV ═════════ -->
+<nav class="nav">
   <button class="nav-item active" id="nav-home" onclick="show('home','nav-home')"><i class="fas fa-house"></i><span id="nav-lbl-home">Home</span></button>
   <button class="nav-item" id="nav-hist" onclick="show('historyPage','nav-hist')"><i class="fas fa-clock-rotate-left"></i><span id="nav-lbl-hist">History</span></button>
-  <button class="nav-item nav-add" id="nav-add" onclick="show('add','nav-add')"><i class="fas fa-plus"></i></button>
+  <span></span>
   <button class="nav-item" id="nav-stats" onclick="show('statsPage','nav-stats')"><i class="fas fa-chart-pie"></i><span id="nav-lbl-stats">Stats</span></button>
   <button class="nav-item" id="nav-settings" onclick="show('settingsPage','nav-settings')"><i class="fas fa-sliders"></i><span id="nav-lbl-set">Settings</span></button>
-</div>
+  <button class="fab" id="nav-add" onclick="show('add',null)" aria-label="Add"><i class="fas fa-plus"></i></button>
+</nav>
 
-<!-- BOTTOM SHEET EDIT -->
-<div class="sheet-overlay" id="sheetOverlay" onclick="closeSheet()"></div>
+<!-- ═════════ EDIT SHEET ═════════ -->
+<div class="sheet-overlay" id="sheetOverlay" onclick="closeSheet()" role="button" tabindex="0"></div>
 <div class="sheet" id="sheet">
   <div class="sheet-handle"></div>
   <div class="sheet-title" id="lbl-edit-expense">Edit expense</div>
   <div class="field-label" id="lbl-edit-amount">Amount</div>
-  <input id="editAmount" type="number" class="glass-input" placeholder="€ 0.00" inputmode="decimal">
+  <input id="editAmount" type="number" class="input" placeholder="€ 0.00" inputmode="decimal" step="0.01">
   <div id="editDescGroup" style="display:none">
     <div class="field-label" id="lbl-edit-desc">Description</div>
-    <input id="editDesc" type="text" class="glass-input" placeholder="Description…" maxlength="40">
+    <input id="editDesc" type="text" class="input" placeholder="…" maxlength="40">
   </div>
   <div class="sheet-row">
-    <button class="btn-danger" onclick="deleteExpense()" id="btn-delete"><i class="fas fa-trash-can"></i> <span id="lbl-delete">Delete</span></button>
-    <button class="btn-save" onclick="saveEdit()" id="btn-save-edit"><span id="lbl-save">Save</span></button>
+    <button class="btn-danger" onclick="deleteExpense()"><i class="fas fa-trash-can"></i> <span id="lbl-delete">Delete</span></button>
+    <button class="btn-save" onclick="saveEdit()"><span id="lbl-save">Save</span></button>
   </div>
 </div>
 
-<div class="confirm-overlay" id="confirmOverlay" style="display:none">
-  <div class="confirm-bubble" id="confirmBubble">✓</div>
-</div>
+<div class="confirm-overlay" id="confirmOverlay"><div class="confirm-bubble" id="confirmBubble">✓</div></div>
 
 </body>
 </html>
