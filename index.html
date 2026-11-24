@@ -2,8 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="MoneyFlow">
+<link rel="manifest" href="manifest.webmanifest">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#8B5CF6">
 <meta name="color-scheme" content="light dark">
@@ -12,10 +15,12 @@
 (function(){var p='auto';try{p=localStorage.getItem('theme')||'auto'}catch(e){}
 var d=p==='dark'||(p!=='light'&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches);
 document.documentElement.setAttribute('data-theme',d?'dark':'light');
-var m=document.querySelector('meta[name="theme-color"]');if(m&&d)m.setAttribute('content','#4A27A8');})();
+var m=document.querySelector('meta[name="theme-color"]');if(m&&d)m.setAttribute('content','#4A27A8');
+try{var a=JSON.parse(localStorage.getItem('accentVars')||'null');if(a){var x=a[d?'dark':'light'];
+for(var k in x.v)document.documentElement.style.setProperty(k,x.v[k]);if(m)m.setAttribute('content',x.tc);}}catch(e){}})();
 </script>
-<link rel="icon" type="image/png" href="favicon.png">
-<link rel="apple-touch-icon" href="favicon.png">
+<link rel="icon" type="image/png" sizes="48x48" href="icons/favicon-48.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <title>MoneyFlow</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,7 +38,7 @@ var m=document.querySelector('meta[name="theme-color"]');if(m&&d)m.setAttribute(
       <div class="brand"><span class="brand-mark"><i class="fas fa-wallet"></i></span>MoneyFlow</div>
       <div class="top-actions">
         <span class="pill-month" id="homeMonth"></span>
-        <button class="icon-btn" onclick="exportCSV()" aria-label="Export CSV"><i class="fas fa-download"></i></button>
+        <button class="icon-btn" onclick="show('settingsPage',null)" aria-label="Settings"><i class="fas fa-gear"></i></button>
       </div>
     </div>
     <div class="hero-balance">
@@ -48,7 +53,7 @@ var m=document.querySelector('meta[name="theme-color"]');if(m&&d)m.setAttribute(
     <div class="section">
       <div class="section-head"><div class="section-title" id="lbl-your-money">Your money</div></div>
       <div class="money-grid">
-        <button class="money-card" onclick="show('settingsPage','nav-settings')">
+        <button class="money-card" onclick="show('settingsPage',null)">
           <div class="money-ico blue"><i class="fas fa-bullseye"></i></div>
           <div class="money-lbl" id="lbl-budget">Monthly budget</div>
           <div class="money-val" id="budgetVal">—</div>
@@ -58,8 +63,18 @@ var m=document.querySelector('meta[name="theme-color"]');if(m&&d)m.setAttribute(
           <div class="money-lbl" id="lbl-spent">Spent</div>
           <div class="money-val" id="spent">€ 0,00</div>
         </div>
+        <div class="money-card">
+          <div class="money-ico green"><i class="fas fa-arrow-down"></i></div>
+          <div class="money-lbl" id="lbl-income">Income</div>
+          <div class="money-val" id="income">€ 0,00</div>
+        </div>
+        <div class="money-card">
+          <div class="money-ico purple"><i class="fas fa-scale-balanced"></i></div>
+          <div class="money-lbl" id="lbl-balance">Balance</div>
+          <div class="money-val" id="balance">€ 0,00</div>
+        </div>
       </div>
-      <button class="insight idle" id="insight" onclick="show('settingsPage','nav-settings')">
+      <button class="insight idle" id="insight" onclick="show('settingsPage',null)">
         <div class="insight-ico"><i class="fas fa-wand-magic-sparkles" id="insightIcon"></i></div>
         <div class="insight-txt">
           <div class="insight-title" id="insightTitle"></div>
@@ -71,10 +86,10 @@ var m=document.querySelector('meta[name="theme-color"]');if(m&&d)m.setAttribute(
 
     <div class="section">
       <div class="section-head">
-        <div class="section-title" id="lbl-last-expenses">Latest expenses</div>
-        <button class="link-pill" id="lnk-view-all" onclick="show('historyPage','nav-hist')">View all</button>
+        <div class="section-title" id="lbl-last-expenses">Latest transactions</div>
+        <button class="link-pill" id="lnk-view-all" onclick="show('activityPage','nav-act')">View all</button>
       </div>
-      <div class="card flush"><div id="last3"><div class="empty">No expenses yet</div></div></div>
+      <div class="card flush"><div id="last3"><div class="empty">No transactions yet</div></div></div>
     </div>
 
     <div class="section">
@@ -104,6 +119,10 @@ var m=document.querySelector('meta[name="theme-color"]');if(m&&d)m.setAttribute(
     <div class="top-bar"><div class="page-title" id="lbl-add-title">New Expense</div></div>
   </header>
   <main class="body tight">
+    <div class="type-seg" role="group">
+      <button class="type-btn out active" data-type="out" aria-pressed="true" onclick="setAddType('out')"><i class="fas fa-arrow-up"></i><span id="lbl-type-out">Expense</span></button>
+      <button class="type-btn in" data-type="in" aria-pressed="false" onclick="setAddType('in')"><i class="fas fa-arrow-down"></i><span id="lbl-type-in">Income</span></button>
+    </div>
     <div class="card amount-card">
       <div class="field-label" id="lbl-amount">Amount</div>
       <div class="amount-wrap">
@@ -113,13 +132,7 @@ var m=document.querySelector('meta[name="theme-color"]');if(m&&d)m.setAttribute(
     </div>
     <div class="card">
       <div class="field-label" id="lbl-category">Category</div>
-      <div class="cat-grid" id="catGrid">
-        <div class="cat-btn selected" data-cat="Groceries" onclick="selectCat(this)" role="button" tabindex="0"><span class="cat-icon">🛒</span><span class="cat-lbl">Groceries</span></div>
-        <div class="cat-btn" data-cat="Transport" onclick="selectCat(this)" role="button" tabindex="0"><span class="cat-icon">🚌</span><span class="cat-lbl">Transport</span></div>
-        <div class="cat-btn" data-cat="Home" onclick="selectCat(this)" role="button" tabindex="0"><span class="cat-icon">🏠</span><span class="cat-lbl">Home</span></div>
-        <div class="cat-btn" data-cat="Fun" onclick="selectCat(this)" role="button" tabindex="0"><span class="cat-icon">🎮</span><span class="cat-lbl">Fun</span></div>
-        <div class="cat-btn" data-cat="Other" onclick="selectCat(this)" role="button" tabindex="0"><span class="cat-icon">📦</span><span class="cat-lbl">Other</span></div>
-      </div>
+      <div class="cat-grid" id="catGrid"></div>
       <div class="desc-wrap" id="descWrap">
         <div class="field-label" id="lbl-description">Description</div>
         <input id="desc" type="text" class="input" placeholder="e.g. Birthday gift…" maxlength="40" style="margin-bottom:0">
@@ -128,54 +141,60 @@ var m=document.querySelector('meta[name="theme-color"]');if(m&&d)m.setAttribute(
         <div><div class="toggle-label" id="lbl-recurring">Recurring expense</div><div class="toggle-sub" id="lbl-recurring-sub">Repeats every month</div></div>
         <label class="toggle"><input type="checkbox" id="recurring"><span class="toggle-slider"></span></label>
       </div>
-      <button class="btn-primary" onclick="addExpense()" id="btn-add-expense">Add Expense</button>
+      <button class="btn-primary" onclick="addTransaction()" id="btn-add-expense">Add Expense</button>
     </div>
   </main>
 </div>
 
-<!-- ═════════ HISTORY ═════════ -->
-<div id="historyPage" class="page">
+<!-- ═════════ MOVIMENTI (storico + statistiche) ═════════ -->
+<div id="activityPage" class="page">
   <header class="top compact">
     <div class="top-bar">
-      <div class="page-title" id="lbl-history-title">History</div>
+      <div class="page-title" id="lbl-activity-title">Activ<span>ity</span></div>
       <button class="icon-btn" onclick="exportCSV()" aria-label="Export CSV"><i class="fas fa-download"></i></button>
     </div>
     <div class="months-scroll" id="monthsTabs"></div>
   </header>
   <main class="body tight">
-    <div class="card total-card">
-      <div class="big" id="categoryTotal">€ 0,00</div>
-      <div class="sub" id="categoryLabel">All categories</div>
-      <div class="filter-wrap" id="filterChips"></div>
+    <div class="stat-tabs" role="group">
+      <button class="stat-tab all active" data-type="all" aria-pressed="true" onclick="setTypeFilter('all')">
+        <div class="st-lbl"><i class="st-dot"></i><span id="lbl-st-all">Balance</span></div>
+        <div class="st-val" id="stNet">€ 0,00</div>
+      </button>
+      <button class="stat-tab in" data-type="in" aria-pressed="false" onclick="setTypeFilter('in')">
+        <div class="st-lbl"><i class="st-dot"></i><span id="lbl-st-in">Income</span></div>
+        <div class="st-val" id="stIn">€ 0,00</div>
+      </button>
+      <button class="stat-tab out" data-type="out" aria-pressed="false" onclick="setTypeFilter('out')">
+        <div class="st-lbl"><i class="st-dot"></i><span id="lbl-st-out">Expenses</span></div>
+        <div class="st-val" id="stOut">€ 0,00</div>
+      </button>
     </div>
-    <div class="card flush"><div id="historyList"><div class="empty">No expenses</div></div></div>
-  </main>
-</div>
 
-<!-- ═════════ STATS ═════════ -->
-<div id="statsPage" class="page">
-  <header class="top compact">
-    <div class="top-bar">
-      <div class="page-title" id="lbl-stats-title">Statistics</div>
-      <span class="pill-month" id="statsMonth"></span>
-    </div>
-  </header>
-  <main class="body tight">
     <div class="card">
-      <div class="section-title" id="lbl-cat-dist" style="margin-bottom:8px">Category distribution</div>
+      <div class="section-title" id="breakTitle" style="margin-bottom:8px"></div>
       <div class="donut">
         <svg id="donutSvg" viewBox="0 0 200 200"></svg>
         <div class="donut-center">
-          <div class="dc-label" id="lbl-total-exp">Total expenses</div>
+          <div class="dc-label" id="donutLabel"></div>
           <div class="dc-value" id="donutTotal">€ 0,00</div>
         </div>
       </div>
-    </div>
-    <div class="card" id="catCard">
       <div id="catList"></div>
     </div>
+
+    <div class="section-head" style="margin-top:6px">
+      <div class="section-title" id="lbl-tx-title">Transactions</div>
+      <button class="link-pill" id="clearCat" style="display:none" onclick="clearCatFilter()"></button>
+    </div>
+    <div class="card flush"><div id="historyList"></div></div>
+
     <div class="card">
-      <div class="section-title" id="lbl-monthly-trend" style="margin-bottom:14px">Monthly trend</div>
+      <div class="section-title" id="lbl-monthly-trend" style="margin-bottom:6px">Monthly trend</div>
+      <div class="trend-legend">
+        <span><i class="lg in"></i><span id="lg-in">Income</span></span>
+        <span><i class="lg out"></i><span id="lg-out">Expenses</span></span>
+      </div>
       <div id="monthlyBars"></div>
     </div>
   </main>
@@ -206,6 +225,19 @@ var m=document.querySelector('meta[name="theme-color"]');if(m&&d)m.setAttribute(
         <div class="theme-btn" data-theme="light" role="button" tabindex="0" aria-pressed="false" onclick="setTheme('light')"><span class="lang-flag"><i class="fas fa-sun"></i></span><span id="theme-lbl-light">Light</span></div>
         <div class="theme-btn" data-theme="dark" role="button" tabindex="0" aria-pressed="false" onclick="setTheme('dark')"><span class="lang-flag"><i class="fas fa-moon"></i></span><span id="theme-lbl-dark">Dark</span></div>
         <div class="theme-btn" data-theme="auto" role="button" tabindex="0" aria-pressed="false" onclick="setTheme('auto')"><span class="lang-flag"><i class="fas fa-circle-half-stroke"></i></span><span id="theme-lbl-auto">Auto</span></div>
+      </div>
+      <div class="field-label" id="lbl-accent" style="margin:20px 2px 12px">Accent color</div>
+      <div class="swatches" role="group" aria-labelledby="lbl-accent">
+        <button type="button" class="swatch" data-color="#8B5CF6" style="--sw:#8B5CF6" aria-label="#8B5CF6" aria-pressed="false" onclick="setAccent('#8B5CF6')"><i class="fas fa-check"></i></button><button type="button" class="swatch" data-color="#2563EB" style="--sw:#2563EB" aria-label="#2563EB" aria-pressed="false" onclick="setAccent('#2563EB')"><i class="fas fa-check"></i></button><button type="button" class="swatch" data-color="#0D9488" style="--sw:#0D9488" aria-label="#0D9488" aria-pressed="false" onclick="setAccent('#0D9488')"><i class="fas fa-check"></i></button><button type="button" class="swatch" data-color="#16A34A" style="--sw:#16A34A" aria-label="#16A34A" aria-pressed="false" onclick="setAccent('#16A34A')"><i class="fas fa-check"></i></button><button type="button" class="swatch" data-color="#EA580C" style="--sw:#EA580C" aria-label="#EA580C" aria-pressed="false" onclick="setAccent('#EA580C')"><i class="fas fa-check"></i></button><button type="button" class="swatch" data-color="#DB2777" style="--sw:#DB2777" aria-label="#DB2777" aria-pressed="false" onclick="setAccent('#DB2777')"><i class="fas fa-check"></i></button><button type="button" class="swatch" data-color="#DC2626" style="--sw:#DC2626" aria-label="#DC2626" aria-pressed="false" onclick="setAccent('#DC2626')"><i class="fas fa-check"></i></button>
+        <label class="swatch custom" id="swCustom" style="--sw:#8B5CF6" title="Custom"><input type="color" id="accentCustom" value="#8b5cf6" aria-label="Custom color" oninput="setAccent(this.value)"></label>
+      </div>
+      <div class="accent-hint" id="accent-hint">Pick the main color of the app</div>
+    </div>
+
+    <div class="card" id="installCard" style="display:none">
+      <div class="settings-row" style="margin-bottom:0">
+        <div><div class="settings-label" id="lbl-install-title">Install the app</div><div class="settings-sub" id="lbl-install-sub">Add MoneyFlow to your home screen</div></div>
+        <button class="btn-soft" style="width:auto;padding:12px 20px;background:var(--p);color:#fff" onclick="installApp()" id="btn-install">Install</button>
       </div>
     </div>
 
@@ -268,10 +300,8 @@ var m=document.querySelector('meta[name="theme-color"]');if(m&&d)m.setAttribute(
 <!-- ═════════ NAV ═════════ -->
 <nav class="nav">
   <button class="nav-item active" id="nav-home" onclick="show('home','nav-home')"><i class="fas fa-house"></i><span id="nav-lbl-home">Home</span></button>
-  <button class="nav-item" id="nav-hist" onclick="show('historyPage','nav-hist')"><i class="fas fa-clock-rotate-left"></i><span id="nav-lbl-hist">History</span></button>
   <span></span>
-  <button class="nav-item" id="nav-stats" onclick="show('statsPage','nav-stats')"><i class="fas fa-chart-pie"></i><span id="nav-lbl-stats">Stats</span></button>
-  <button class="nav-item" id="nav-settings" onclick="show('settingsPage','nav-settings')"><i class="fas fa-sliders"></i><span id="nav-lbl-set">Settings</span></button>
+  <button class="nav-item" id="nav-act" onclick="show('activityPage','nav-act')"><i class="fas fa-arrow-right-arrow-left"></i><span id="nav-lbl-act">Activity</span></button>
   <button class="fab" id="nav-add" onclick="show('add',null)" aria-label="Add"><i class="fas fa-plus"></i></button>
 </nav>
 
@@ -279,7 +309,7 @@ var m=document.querySelector('meta[name="theme-color"]');if(m&&d)m.setAttribute(
 <div class="sheet-overlay" id="sheetOverlay" onclick="closeSheet()" role="button" tabindex="0"></div>
 <div class="sheet" id="sheet">
   <div class="sheet-handle"></div>
-  <div class="sheet-title" id="lbl-edit-expense">Edit expense</div>
+  <div class="sheet-title" id="lbl-edit-expense">Edit transaction</div>
   <div class="field-label" id="lbl-edit-amount">Amount</div>
   <input id="editAmount" type="number" class="input" placeholder="€ 0.00" inputmode="decimal" step="0.01">
   <div id="editDescGroup" style="display:none">
